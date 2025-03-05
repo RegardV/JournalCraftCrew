@@ -1,0 +1,27 @@
+# Session 3 - March 5, 2025
+
+## What I Did
+
+- **Crew Structure Finalized (P1. Step 2)**:
+  - Reviewed and confirmed the multi-crew structure (Option 2) with three phase-based crews:
+    - Phase 1 Crew: Research Agent, Content Curator Agent, Editor Agent (`crews/phase1_crew.py`).
+    - Phase 2 Crew: Media Production Agent, Platform Setup Agent (`crews/phase2_crew.py`).
+    - Phase 3 Crew: Media Production Agent, Platform Setup Agent, Iteration Agent (`crews/phase3_crew.py`).
+  - Updated `README.md` to document this structure, aligning with the modular design goal.
+-
+ **Manager Agent Role Defined (P2. Step 1)**:
+  - Defined early (originally scheduled for March 7):
+    - Task Delegation: Assigns jobs across phase crews.
+    - Progress Monitoring: Tracks completion.
+    - Phase Transitions: Manages handoffs (e.g., text to audio).
+    - Tool Coordination: Oversees DuckDB, Apache Airflow.
+  - Documented in `README.md` under "Manager Agent Role" with reference to `agents/manager_agent.py`.
+
+- **Folder Structure Setup**:
+  - Created blank `.py` files for all agents (`agents/`), tasks (`tasks/`), crews (`crews/`), tools (`tools/`), and config (`config/`), plus `main.py`, using `scripts/create_py_files.sh`.
+  - Removed outdated `src/` (including `crew_config.md`) and `.env`, moving config to `settings.py`.
+  - Replaced `scripts/SetupDirAndTemplatefiles.py` with `scripts/create_py_files.sh`.
+- **Git Management**:
+  - Synced all folder files (except `.gitignore` items like `venv/`) to `https://github.com/RegardV/CourseCraftCrew`.
+  - Updated `.gitignore` to exclude `.env`.
+  - Staged, committed, and pushed changes with detailed workflow:
