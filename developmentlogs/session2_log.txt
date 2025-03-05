@@ -1,0 +1,10 @@
+Session 2 - March 5, 2025
+What I Did: Reviewed and finalized crew structure—opted for 2-3 smaller crews 
+Phase 1: text/images, 
+Phase 2: audio, 
+Phase 3: video) 
+with a Manager Agent. 
+
+Updated README and added src/crew_config.md.
+Challenges: None today—Git flow smoother with PAT!
+Next Steps: Define Manager Agent role (P2. Step 1) on March 7.

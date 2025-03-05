@@ -1,0 +1,20 @@
+[INTRO - upbeat tone]
+Hey there, CourseCraft fans! Welcome to Day 1 of my CourseCraft Crew journey! I’m diving into building an AI-powered course creation system, and today was all about setting the stage. Buckle up—I’ve got a wild ride to share!
+
+[SECTION 1 - excited tone]
+First up, I got Python 3.12 running smoothly—essential for Crew AI, which I installed at version 0.102.0. Then, I used the Crew AI CLI to scaffold my project—bam, instant structure! My goal? Sync this bad boy to my GitHub repo at RegardV/CourseCraftCrew. Sounds simple, right? Oh, not quite!
+
+[SECTION 2 - dramatic tone]
+Challenge number one hit fast: the CLI nested my files in a temp folder—ugh, not what I wanted for my clean coursecraft_crew directory! I wrestled it down by moving everything with a quick ‘mv’ command—crisis averted, files in place!
+
+[SECTION 3 - surprised tone]
+Next, GitHub threw me a curveball. I tried pushing with my password—rejected! Turns out, passwords are ancient history since 2021. I pivoted hard, generated a Personal Access Token—PAT for short—and bam, I’m back in the game, authenticated like a pro!
+
+[SECTION 4 - determined tone]
+But wait—my remote repo had its own ideas, with stuff I didn’t have locally. Push denied! No problem—I staged my full structure, committed it, and force-pushed with ‘git push --force’. Overwrote that remote like a boss—my local setup reigns supreme!
+
+[SECTION 5 - reflective tone]
+Oh, and I forgot a commit message once—rookie move! Fixed it with a proper ‘git commit -m’, then staged my whole project—knowledge, src, you name it. One more hiccup: a pull error about divergent branches. I skipped the merge drama and stuck with force—simplicity wins!
+
+[OUTRO - enthusiastic tone]
+By the end of four hours, my repo’s live, my environment’s set, and I’ve got a developmentlogs folder for these tales—excluded from Git, of course! Next up on March 5: reviewing the crew structure. Stick with me on #CourseCraftJourney—we’re crafting something epic together! Catch you in the next one!

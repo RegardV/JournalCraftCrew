@@ -4,7 +4,7 @@ import warnings
 
 from datetime import datetime
 
-from temp_course_craft.crew import TempCourseCraft
+from coursecraft_crew.crew import TempCourseCraft
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 

@@ -1,7 +1,7 @@
 [project]
-name = "temp_course_craft"
+name = "coursecraft_crew"
 version = "0.1.0"
-description = "temp_course_craft using crewAI"
+description = "coursecraft_crew using crewAI"
 authors = [{ name = "Your Name", email = "you@example.com" }]
 requires-python = ">=3.10,<3.13"
 dependencies = [
@@ -9,11 +9,11 @@ dependencies = [
 ]
 
 [project.scripts]
-temp_course_craft = "temp_course_craft.main:run"
-run_crew = "temp_course_craft.main:run"
-train = "temp_course_craft.main:train"
-replay = "temp_course_craft.main:replay"
-test = "temp_course_craft.main:test"
+coursecraft_crew = "coursecraft_crew.main:run"
+run_crew = "coursecraft_crew.main:run"
+train = "coursecraft_crew.main:train"
+replay = "coursecraft_crew.main:replay"
+test = "coursecraft_crew.main:test"
 
 [build-system]
 requires = ["hatchling"]
