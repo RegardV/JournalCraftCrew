@@ -30,7 +30,7 @@ I’m building this project in 4-hour sessions, every other day, starting March 
 P1. Step 1: Setting up the project environment (Crew AI, tools) - March 3, 2025
 Follow my journey on X with #CourseCraftJourney for real-time updates!
 
-# TempCourseCraft Crew
+# CourseCraft Crew
 
 Welcome to the CourseCraft Crew project, powered by [crewAI](https://crewai.com). This template is designed to help you set up a multi-agent AI system with ease, leveraging the powerful and flexible framework provided by crewAI. Our goal is to enable your agents to collaborate effectively on complex tasks, maximizing their collective intelligence and capabilities.
 
@@ -58,6 +58,17 @@ crewai install
 - Modify `src/temp_course_craft/config/tasks.yaml` to define your tasks
 - Modify `src/temp_course_craft/crew.py` to add your own logic, tools and specific args
 - Modify `src/temp_course_craft/main.py` to add custom inputs for your agents and tasks
+
+
+## Approach 
+## Crew Structure
+After reviewing Crew AI docs, I’m going with 2-3 smaller crews:
+- **Phase 1 Crew**: Research Agent, Content Curator Agent, Editor Agent (text/images).
+- **Phase 2 Crew**: Media Production Agent (audio as a phase 2), Platform Setup Agent.
+- **Phase 3 Crew**: Media Production Agent (video as a phase 3), Platform Setup Agent, Iteration Agent.
+A Manager Agent will coordinate across phases for simplicity and adaptability.
+
+
 
 ## Running the Project
 
