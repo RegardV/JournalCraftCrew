@@ -1,4 +1,4 @@
-from crewai import Agent
+from crewai import Agent, Tool
 from tools.tools import analyze_sentiment
 from models import FinalContent, CourseModule
 from config.settings import TESTING_MODE, MAX_MODULES
@@ -13,7 +13,13 @@ def create_editor_agent(llm):
         My specialty is maintaining a clear, approachable voice while ensuring content is accurate, 
         engaging, and structured effectively for learning. I have a keen eye for detail and am 
         skilled at improving flow, readability, and emotional resonance in self-help materials.""",
-        tools=[analyze_sentiment],
+        tools=[
+            Tool(
+                name="analyze_sentiment",
+                func=analyze_sentiment,
+                description="Analyze the sentiment of text to ensure content maintains a clear, positive, and supportive tone"
+            )
+        ],
         verbose=True,
         memory=True,
         llm=llm,

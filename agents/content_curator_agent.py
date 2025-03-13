@@ -1,4 +1,4 @@
-from crewai import Agent
+from crewai import Agent, Tool
 from tools.tools import analyze_sentiment
 from models import DraftContent, CourseModule
 from config.settings import MAX_MODULES, TESTING_MODE
@@ -12,7 +12,13 @@ def create_content_curator_agent(llm):
         complex information into clear, engaging learning modules. My background in instructional
         design helps me create logical flows that maximize learner engagement and retention.
         I excel at maintaining a consistent, supportive tone throughout educational materials.""",
-        tools=[analyze_sentiment],
+        tools=[
+            Tool(
+                name="analyze_sentiment",
+                func=analyze_sentiment,
+                description="Analyze the sentiment of text to ensure content maintains a positive, supportive tone"
+            )
+        ],
         verbose=True,
         memory=True,
         llm=llm,

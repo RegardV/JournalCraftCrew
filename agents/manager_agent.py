@@ -1,4 +1,4 @@
-from crewai import Agent
+from crewai import Agent, Tool
 from tools.tools import duckdb_tool
 from pydantic import BaseModel, Field
 from typing import Dict, Any, Optional
@@ -17,7 +17,13 @@ def create_manager_agent(llm):
         backstory="""As the backbone of the CourseCraft Crew, I'm designed to coordinate three phase-specific crews, 
         ensuring seamless task delegation, progress tracking, and phase transitions. With a keen eye on operational tools 
         like DuckDB and Apache Airflow, I keep the project on track from research to deployment.""",
-        tools=[duckdb_tool],  # Tools for data coordination
+        tools=[
+            Tool(
+                name="duckdb_tool",
+                func=duckdb_tool,
+                description="Execute DuckDB queries for data coordination and management"
+            )
+        ],  # Tools for data coordination
         verbose=True,  # Enables detailed logging for monitoring
         memory=True,  # Allows the agent to retain context across interactions
         llm=llm,  # Use the LLM passed from main.py

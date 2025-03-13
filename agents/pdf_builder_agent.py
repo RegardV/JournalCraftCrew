@@ -1,4 +1,4 @@
-from crewai import Agent
+from crewai import Agent, Tool
 from tools.tools import create_pdf
 from models import PDFContent, CourseModule
 from config.settings import TESTING_MODE
@@ -15,7 +15,13 @@ def create_pdf_builder_agent(llm):
         beautifully formatted educational materials. My background in typography, layout 
         design, and technical documentation helps me transform raw content into polished, 
         professional PDFs that enhance readability and learning retention.""",
-        tools=[create_pdf],
+        tools=[
+            Tool(
+                name="create_pdf",
+                func=create_pdf,
+                description="Generate professionally formatted PDF documents from course content"
+            )
+        ],
         verbose=True,
         memory=False,  # PDF creation doesn't need memory between runs
         llm=llm,

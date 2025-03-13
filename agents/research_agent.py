@@ -1,4 +1,4 @@
-from crewai import Agent
+from crewai import Agent, Tool
 from tools.tools import pubmed_research, mock_image_references
 from models import ResearchData, ResearchFinding, ImageReference
 from config.settings import PUBMED_API_KEY, MAX_FINDINGS, MAX_IMAGES, TESTING_MODE
@@ -14,8 +14,16 @@ def create_research_agent(llm):
         various topics and distilling it into actionable insights. For self-help courses, 
         I focus on evidence-based findings that can truly help people improve their lives.""",
         tools=[
-            pubmed_research,
-            mock_image_references
+            Tool(
+                name="pubmed_research",
+                func=pubmed_research,
+                description="Research scientific literature on PubMed for evidence-based information on a topic"
+            ),
+            Tool(
+                name="mock_image_references",
+                func=mock_image_references,
+                description="Generate relevant image references for course content on a given topic"
+            )
         ],
         verbose=True,
         memory=True,

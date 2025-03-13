@@ -1,7 +1,7 @@
 import os
 import nltk
 from dotenv import load_dotenv
-from langchain_community.llms import Grok  # Import Grok LLM
+from langchain_xai import ChatXAI  # Import ChatXAI from langchain_xai
 from agents.manager_agent import create_manager_agent, coordinate_phases
 from agents.research_agent import create_research_agent
 from agents.content_curator_agent import create_content_curator_agent
@@ -26,8 +26,13 @@ load_dotenv()
 # Retrieve the xAI API key
 xai_api_key = os.getenv("XAI_API_KEY")
 
-# Create the Grok LLM instance
-llm = Grok(api_key=xai_api_key, model="grok-3")  # Adjust model name if needed
+# Create the ChatXAI LLM instance
+llm = ChatXAI(
+    api_key=xai_api_key,
+    model="grok-beta",  # Using grok-beta as specified in the example
+    temperature=0,
+    max_tokens=None
+)
 
 def run_with_manager():
     """Run the course creation process with the Manager Agent coordinating"""

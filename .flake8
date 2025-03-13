@@ -1,0 +1,18 @@
+[flake8]
+exclude =
+    venv,
+    .venv,
+    test.md,
+    knowledge,
+    developmentlogs,
+    config,
+    *.md,
+    *.txt,
+    *.code-workspace,
+    pyproject.toml,
+    project_files.txt
+max-line-length = 120
+ignore =
+    E203,
+    W503,
+    F401
