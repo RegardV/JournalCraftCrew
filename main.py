@@ -25,14 +25,20 @@ load_dotenv()
 
 # Retrieve the xAI API key
 xai_api_key = os.getenv("XAI_API_KEY")
+if not xai_api_key:
+    raise ValueError("XAI_API_KEY not found. Please set it in the .env file.")
 
 # Create the ChatXAI LLM instance
-llm = ChatXAI(
-    api_key=xai_api_key,
-    model="grok-beta",  # Using grok-beta as specified in the example
-    temperature=0,
-    max_tokens=None
-)
+try:
+    llm = ChatXAI(
+        api_key=xai_api_key,
+        model="grok-beta",  # Using grok-beta as specified in the example
+        temperature=0,
+        max_tokens=None
+    )
+except Exception as e:
+    print(f"Error initializing LLM: {e}")
+    exit(1)
 
 def run_with_manager():
     """Run the course creation process with the Manager Agent coordinating"""
@@ -69,7 +75,7 @@ def run_with_crew():
         print(f"Process complete! PDF available at: {results}")
         return results
     else:
-        print("Process completed but no PDF was generated.")
+        print("Process completed but no PDF was generated. Check the crew configuration or logs.")
         return None
 
 if __name__ == "__main__":

@@ -1,4 +1,5 @@
-from crewai import Agent, Tool
+from crewai import Agent
+from crewai_tools.tools import Tool
 from tools.tools import create_pdf
 from models import PDFContent, CourseModule
 from config.settings import TESTING_MODE

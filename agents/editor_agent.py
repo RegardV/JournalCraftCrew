@@ -1,4 +1,5 @@
-from crewai import Agent, Tool
+from crewai import Agent
+from crewai_tools.tools import Tool
 from tools.tools import analyze_sentiment
 from models import FinalContent, CourseModule
 from config.settings import TESTING_MODE, MAX_MODULES

@@ -1,4 +1,5 @@
-from crewai import Agent, Tool
+from crewai import Agent
+from langchain.tools import Tool
 from tools.tools import pubmed_research, mock_image_references
 from models import ResearchData, ResearchFinding, ImageReference
 from config.settings import PUBMED_API_KEY, MAX_FINDINGS, MAX_IMAGES, TESTING_MODE

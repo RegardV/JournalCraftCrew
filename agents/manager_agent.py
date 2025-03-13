@@ -1,5 +1,6 @@
-from crewai import Agent, Tool
-from tools.tools import duckdb_tool
+from crewai import Agent
+from langchain.tools import Tool  # Updated import path
+from tools.tools import duckdb_tool  # Custom tool import
 from pydantic import BaseModel, Field
 from typing import Dict, Any, Optional
 import os
