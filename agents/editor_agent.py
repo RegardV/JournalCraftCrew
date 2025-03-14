@@ -1,108 +1,95 @@
+#editor_agent.py
 from crewai import Agent
-from crewai_tools.tools import Tool
-from tools.tools import analyze_sentiment
-from models import FinalContent, CourseModule
-from config.settings import TESTING_MODE, MAX_MODULES
-from typing import List, Dict, Any
+from tools.tools import SentimentAnalysisTool  # Updated to use new tool name
+import json  # For JSON handling
+import os  # For file operations
 
 def create_editor_agent(llm):
-    """Creates an Editor Agent to refine and polish course content"""
+    """
+    Creates an Editor Agent to polish themed journaling guide content.
+
+    Args:
+        llm: The language model instance (e.g., xai/grok-2-1212) to power the agent.
+
+    Returns:
+        Agent: A configured CrewAI Agent instance for editing journaling guides.
+    """
     return Agent(
         role="Content Editor",
-        goal="Polish and refine course content to ensure clarity, engagement, and pedagogical effectiveness",
-        backstory="""I am a seasoned editor with years of experience refining educational materials. 
-        My specialty is maintaining a clear, approachable voice while ensuring content is accurate, 
-        engaging, and structured effectively for learning. I have a keen eye for detail and am 
-        skilled at improving flow, readability, and emotional resonance in self-help materials.""",
-        tools=[
-            Tool(
-                name="analyze_sentiment",
-                func=analyze_sentiment,
-                description="Analyze the sentiment of text to ensure content maintains a clear, positive, and supportive tone"
-            )
-        ],
-        verbose=True,
-        memory=True,
-        llm=llm,
-        output_parser=parse_editor_output
+        goal="Polish journaling guide content for tone, clarity, and engagement, ensuring a supportive journaling experience",
+        backstory="""I’m a seasoned editor with a knack for refining text to make it clear, engaging, and uplifting. My job is to take 
+        raw journaling guide content and polish it—using sentiment analysis to keep the tone positive and supportive—ensuring every 
+        pre-writeup, prompt, and note motivates users through their 4-week journey.""",
+        tools=[SentimentAnalysisTool()],  # Tool to ensure positive tone
+        verbose=True,  # Enable detailed logging
+        memory=True,  # Retain context across tasks
+        llm=llm,  # Use provided LLM
+        allow_delegation=False  # Handle tasks directly for simplicity
     )
 
-def parse_editor_output(output):
-    """Parses the editor's output into a structured FinalContent object"""
-    # For simplicity, we expect the agent to provide a JSON or formatted output
-    # In a real implementation, this would use more robust parsing
-    
-    if isinstance(output, FinalContent):
-        return output
-    
-    if TESTING_MODE:
-        # In testing mode, we'll create a simplified example if parsing fails
-        try:
-            # Try to extract title, modules, and notes from the output
-            # This is a placeholder for more sophisticated parsing
-            title = output.get("title", "Journaling for Anxiety: Calming Your Mind Through Writing")
-            notes = output.get("notes", "Content has been edited for clarity and engagement.")
-            
-            modules_raw = output.get("modules", [])
-            modules = []
-            for m in modules_raw[:MAX_MODULES]:
-                if isinstance(m, dict):
-                    modules.append(CourseModule(
-                        title=m.get("title", "Untitled Module"),
-                        content=m.get("content", ""),
-                        image_placement=m.get("image_placement", None)
-                    ))
-                else:
-                    # Handle string or other format
-                    modules.append(CourseModule(
-                        title="Untitled Module",
-                        content=str(m),
-                        image_placement=None
-                    ))
-            
-            return FinalContent(
-                title=title,
-                modules=modules,
-                notes=notes
-            )
-            
-        except Exception as e:
-            print(f"Error parsing editor output: {e}")
-            # Fall back to mock data
-            return create_mock_final_content()
-    else:
-        # In full mode, we'd implement more sophisticated parsing
-        # This is a placeholder for that implementation
-        # For now, we'll just use the testing mode logic
-        return create_mock_final_content()
+def save_json(data, filepath):
+    """Utility to save data as JSON."""
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
+    with open(filepath, "w") as f:
+        json.dump(data, f, indent=2)
 
-def create_mock_final_content():
-    """Creates mock final content when parsing fails"""
-    print("[MOCK] Creating mock final content")
+def edit_content(self, journal_json_path: str, lead_magnet_json_path: str, output_folder: str = "output"):
+    """
+    Edits content for the main offer and lead magnet, ensuring tone and clarity.
+
+    Args:
+        journal_json_path (str): Path to journal JSON from Content Curator.
+        lead_magnet_json_path (str): Path to lead magnet JSON from Content Curator.
+        output_folder (str): Directory to save edited files.
+
+    Returns:
+        dict: Paths to edited JSON files.
+    """
+    today = datetime.now().strftime("%Y-%m-%d")
+    journal_edited_path = os.path.join(output_folder, today, f"journal_edited_{today}.json")
+    lead_magnet_edited_path = os.path.join(output_folder, today, f"lead_magnet_edited_{today}.json")
+    log_path = os.path.join(output_folder, today, f"automation_log_{today}.txt")
+
+    # Load and edit journal content
+    with open(journal_json_path, "r") as f:
+        journal_data = json.load(f)
     
-    modules = [
-        CourseModule(
-            title="Understanding Anxiety and the Power of Journaling",
-            content="""Anxiety affects millions worldwide, manifesting as persistent worry, fear, and physical symptoms that disrupt daily life. Research shows that regular journaling can reduce anxiety symptoms by up to 23% within just six weeks. This powerful practice works by providing a safe outlet for processing negative emotions and breaking cycles of rumination that fuel anxiety. In this module, we'll explore the science behind anxiety and how the simple act of writing can activate your body's relaxation response.""",
-            image_placement="Image of a person journaling in a peaceful setting"
-        ),
-        CourseModule(
-            title="Getting Started: Effective Journaling Techniques",
-            content="""The most effective journaling practice involves writing for 15 minutes at least three times per week. You don't need fancy equipment—a simple notebook and pen will do. This module explores practical techniques including free writing, prompt-based journaling, and gratitude entries. We'll also cover when to journal (morning vs. evening), how to create a comfortable journaling environment, and ways to overcome common obstacles like "I don't know what to write about." The goal is to establish a sustainable practice that fits your lifestyle.""",
-            image_placement="Image of journal and pen with example prompts visible"
-        )
-    ]
+    # Polish intro, commitment, certificate
+    journal_data["intro"] = f"{journal_data['intro']} - Edited for warmth and encouragement."
+    journal_data["commitment"] = f"{journal_data['commitment']} - Refined to inspire your journey."
+    journal_data["certificate"]["text"] = f"{journal_data['certificate']['text']} - Polished to celebrate your growth."
     
-    if not TESTING_MODE:
-        # Add more modules for full mode
-        modules.append(CourseModule(
-            title="Advanced Techniques for Anxiety Management",
-            content="""Once you've established a basic journaling practice, you can incorporate specialized techniques specifically designed for anxiety management. This module covers thought records to identify and challenge anxious thinking, worry time to contain rumination, and body scan journaling to recognize physical manifestations of anxiety. You'll learn how to track anxiety triggers and patterns over time, creating your personal anxiety management toolkit through consistent documentation.""",
-            image_placement="Infographic showing journaling techniques and their benefits"
-        ))
+    # Edit daily content
+    for day_entry in journal_data["days"]:
+        # Use sentiment tool to ensure positive tone
+        sentiment = self.tools[0]._run(day_entry["pre_writeup"])
+        if sentiment.get("compound", 0) < 0.3:  # Adjust threshold as needed
+            day_entry["pre_writeup"] = f"{day_entry['pre_writeup']} - Rewritten to uplift: You’ve got this!"
+        day_entry["prompt"] = f"{day_entry['prompt']} - Clarified for your reflection."
     
-    return FinalContent(
-        title="Journaling for Anxiety: Calming Your Mind Through Writing",
-        modules=modules[:MAX_MODULES],
-        notes="Content has been edited for clarity, engagement, and emotional resonance. All modules maintain a supportive, encouraging tone."
-    )
+    save_json(journal_data, journal_edited_path)
+    with open(log_path, "a") as log:
+        log.write(f"Journal edited: {journal_edited_path}\n")
+
+    # Load and edit lead magnet content
+    with open(lead_magnet_json_path, "r") as f:
+        lead_magnet_data = json.load(f)
+    
+    lead_magnet_data["intro"] = f"{lead_magnet_data['intro']} - Edited to spark your start."
+    lead_magnet_data["commitment"] = f"{lead_magnet_data['commitment']} - Refined to encourage exploration."
+    lead_magnet_data["how_to"] = f"{lead_magnet_data['how_to']} - Polished for clear guidance."
+    lead_magnet_data["certificate"]["text"] = f"{lead_magnet_data['certificate']['text']} - Enhanced to mark your beginning."
+    
+    for day_entry in lead_magnet_data["days"]:
+        sentiment = self.tools[0]._run(day_entry["pre_writeup"])
+        if sentiment.get("compound", 0) < 0.3:
+            day_entry["pre_writeup"] = f"{day_entry['pre_writeup']} - Rewritten to inspire: Take this step!"
+        day_entry["prompt"] = f"{day_entry['prompt']} - Clarified for your ease."
+    
+    save_json(lead_magnet_data, lead_magnet_edited_path)
+    with open(log_path, "a") as log:
+        log.write(f"Lead magnet edited: {lead_magnet_edited_path}\n")
+
+    return {"journal": journal_edited_path, "lead_magnet": lead_magnet_edited_path}
+
+# Note: edit_content is a placeholder; Manager Agent will integrate this into task execution

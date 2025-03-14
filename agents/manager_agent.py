@@ -1,99 +1,64 @@
-from crewai import Agent
-from langchain.tools import Tool  # Updated import path
-from tools.tools import duckdb_tool  # Custom tool import
-from pydantic import BaseModel, Field
-from typing import Dict, Any, Optional
-import os
+#manager_agent.py
+from crewai import Agent, Task
+from tools.tools import DuckDBTool
+from config.settings import TESTING_MODE, OUTPUT_DIR
 from datetime import datetime
-from config.settings import (
-    TESTING_MODE, COURSE_TOPIC, COURSE_SUBJECT,
-    OUTPUT_DIR, PDF_FILENAME_FORMAT, COURSE_PDF_FILENAME_FORMAT
-)
+import os
+from agents.research_agent import create_research_agent, research_content
+from agents.content_curator_agent import create_content_curator_agent, curate_content
+from agents.editor_agent import create_editor_agent, edit_content
 
-# Function to create the Manager Agent, accepting an LLM parameter
 def create_manager_agent(llm):
     return Agent(
         role="Manager",
-        goal="Orchestrate CourseCraft Crew operations across all phases to create engaging self-help courses",
-        backstory="""As the backbone of the CourseCraft Crew, I'm designed to coordinate three phase-specific crews, 
-        ensuring seamless task delegation, progress tracking, and phase transitions. With a keen eye on operational tools 
-        like DuckDB and Apache Airflow, I keep the project on track from research to deployment.""",
-        tools=[
-            Tool(
-                name="duckdb_tool",
-                func=duckdb_tool,
-                description="Execute DuckDB queries for data coordination and management"
-            )
-        ],  # Tools for data coordination
-        verbose=True,  # Enables detailed logging for monitoring
-        memory=True,  # Allows the agent to retain context across interactions
-        llm=llm,  # Use the LLM passed from main.py
-        allow_delegation=True  # Enable delegation to other agents
+        goal="Orchestrate the creation of themed journaling guides with lead magnet, main offer, and edited content",
+        backstory="""I’m the coordinator of the CourseCraft Content Crew, ensuring each agent produces a piece of the journaling guide package.
+        I manage research, content curation, and editing, keeping everything on track for a practical, interactive guide.""",
+        tools=[DuckDBTool()],
+        verbose=True,
+        memory=True,
+        llm=llm,
+        allow_delegation=True
     )
 
-# Coordinate phases function with enhanced data handling
-def coordinate_phases(manager_agent, research_agent, content_curator_agent, editor_agent, pdf_builder_agent):
-    """Coordinates the work of Phase 1 agents"""
-    print("Manager Agent: Coordinating tasks across Phase 1 crew...")
+def coordinate_phases(manager_agent, research_agent, content_curator_agent, editor_agent, theme="Journaling for Anxiety"):
+    print("Manager Agent: Coordinating Content Creation Crew...")
     
-    # Output path setup
     today = datetime.now().strftime("%Y-%m-%d")
-    
-    if TESTING_MODE:
-        # Testing mode: simpler output structure
-        output_folder = os.path.join(OUTPUT_DIR, today)
-        # Find the next available paper number
-        paper_num = 1
-        while os.path.exists(os.path.join(
-            output_folder, 
-            PDF_FILENAME_FORMAT.format(paper_num, COURSE_TOPIC.lower().replace(" ", "_"), today)
-        )):
-            paper_num += 1
-        
-        output_path = os.path.join(
-            output_folder, 
-            PDF_FILENAME_FORMAT.format(paper_num, COURSE_TOPIC.lower().replace(" ", "_"), today)
-        )
-    else:
-        # Full mode: more structured output
-        output_folder = os.path.join(OUTPUT_DIR, COURSE_SUBJECT, COURSE_TOPIC.replace(" ", ""), today)
-        output_path = os.path.join(
-            output_folder,
-            COURSE_PDF_FILENAME_FORMAT.format(COURSE_TOPIC.lower().replace(" ", "_"), today)
-        )
-    
-    # Ensure output directory exists
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    
+    output_folder = os.path.join(OUTPUT_DIR, today)
+    os.makedirs(output_folder, exist_ok=True)
+    research_data_path = os.path.join(output_folder, f"research_data_{today}.json")
+    log_path = os.path.join(output_folder, f"automation_log_{today}.txt")
+
     # Step 1: Research phase
     print("Manager Agent: Delegating research task to Research Agent...")
-    research_data = research_agent.run(
-        task_description=f"Research the topic '{COURSE_TOPIC}' and gather key findings",
-        stream=not TESTING_MODE  # Stream only for full courses to handle large outputs
+    research_task = Task(
+        description=f"""Gather journaling insights for '{theme}' from blog posts and books, reformulating to avoid plagiarism.
+        Support a 4-week guide with Day 0, daily spreads (book: image placeholder + pre-writeup + prompt with lines; self-print: pre-writeup + prompt with lines),
+        intro, commitment, and certificate. Save full data to {research_data_path}.""",
+        agent=research_agent,
+        expected_output="Summary of 3-5 journaling insights",
+        output_file=research_data_path
     )
-    
+    research_summary = research_content(research_agent, theme, research_data_path)
+    with open(log_path, "a") as log:
+        log.write(f"Research completed: {research_data_path} | Summary: {research_summary}\n")
+
     # Step 2: Content curation phase
     print("Manager Agent: Delegating content curation to Content Curator Agent...")
-    draft_content = content_curator_agent.run(
-        task_description=f"Create structured course content from research findings",
-        context={"research_data": research_data},
-        stream=not TESTING_MODE
-    )
-    
+    curation_result = curate_content(content_curator_agent, research_summary, research_data_path, theme, output_folder)
+    journal_json_path = curation_result["journal"]
+    lead_magnet_json_path = curation_result["lead_magnet"]
+    with open(log_path, "a") as log:
+        log.write(f"Content curation completed: {journal_json_path}, {lead_magnet_json_path}\n")
+
     # Step 3: Editing phase
     print("Manager Agent: Delegating editing to Editor Agent...")
-    final_content = editor_agent.run(
-        task_description="Polish and finalize the course content",
-        context={"draft_content": draft_content},
-        stream=not TESTING_MODE
-    )
-    
-    # Step 4: PDF generation phase
-    print("Manager Agent: Delegating PDF generation to PDF Builder Agent...")
-    pdf_path = pdf_builder_agent.run(
-        task_description="Create a PDF document from the final content",
-        context={"final_content": final_content, "output_path": output_path}
-    )
-    
-    print(f"Manager Agent: Phase 1 complete! PDF saved at: {pdf_path}")
-    return pdf_path
+    edited_result = edit_content(editor_agent, journal_json_path, lead_magnet_json_path, output_folder)
+    journal_edited_path = edited_result["journal"]
+    lead_magnet_edited_path = edited_result["lead_magnet"]
+    with open(log_path, "a") as log:
+        log.write(f"Editing completed: {journal_edited_path}, {lead_magnet_edited_path}\n")
+
+    print(f"Manager Agent: Content Creation complete! Edited files: {journal_edited_path}, {lead_magnet_edited_path}")
+    return {"journal": journal_edited_path, "lead_magnet": lead_magnet_edited_path}
