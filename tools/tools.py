@@ -79,20 +79,16 @@ class BlogSummarySearchTool(BaseTool):
         if TESTING_MODE:
             full_data = [
                 {"original": f"Blog says {query} books suggest starting anytime builds habit", 
-                 "reformulated": "Kicking off {query} journaling anytime sets the pace, blogs note"},
+                 "reformulated": f"Kicking off {query.split(' for ')[1] if ' for ' in query else query} journaling anytime sets the pace, blogs note"},
                 {"original": f"Blog notes {query} guides use weekday prompts for stress", 
-                 "reformulated": "Weekday {query} writing lightens your load, per blogs"},
+                 "reformulated": f"Weekday {query.split(' for ')[1] if ' for ' in query else query} writing lightens your load, per blogs"},
                 {"original": f"Blog highlights {query} weekend reflection for calm", 
-                 "reformulated": "Weekend {query} prompts bring peace, blogs suggest"},
-                {"original": f"Blog emphasizes {query} commitment boosts success", 
-                 "reformulated": "Committing to {query} journaling fuels growth, per blogs"}
+                 "reformulated": f"Weekend {query.split(' for ')[1] if ' for ' in query else query} prompts bring peace, blogs suggest"}
             ]
         else:
             full_data = [
-                {"original": f"Blog X on {query}", "reformulated": f"Start {query} anytime for focus"},
-                {"original": f"Blog Y on {query}", "reformulated": f"Weekday {query} eases tension"},
-                {"original": f"Blog Z on {query}", "reformulated": f"Weekend {query} refreshes"},
-                {"original": f"Blog W on {query}", "reformulated": f"Commitment to {query} empowers"}
+                {"original": f"Blog X on {query}", "reformulated": f"Start {query.split(' for ')[1] if ' for ' in query else query} anytime for focus"},
+                {"original": f"Blog Y on {query}", "reformulated": f"Weekday {query.split(' for ')[1] if ' for ' in query else query} eases tension"},
+                {"original": f"Blog Z on {query}", "reformulated": f"Weekend {query.split(' for ')[1] if ' for ' in query else query} refreshes"}
             ]
-        # Save full data outside tool (agent responsibility)
         return "Summary: " + "; ".join([item["reformulated"] for item in full_data[:3]])
