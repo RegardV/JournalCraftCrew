@@ -1,7 +1,5 @@
-#main.py
 import os
 import nltk
-import warnings
 from dotenv import load_dotenv
 from crewai import LLM
 from agents.manager_agent import create_manager_agent, coordinate_phases
@@ -10,10 +8,10 @@ from agents.discovery_agent import create_discovery_agent
 from agents.research_agent import create_research_agent
 from agents.content_curator_agent import create_content_curator_agent
 from agents.editor_agent import create_editor_agent
-from config.settings import TESTING_MODE, OUTPUT_DIR
-
-warnings.filterwarnings("ignore", category=SyntaxWarning)
-warnings.filterwarnings("ignore", category=DeprecationWarning)
+from agents.media_agent import create_media_agent
+from agents.pdf_builder_agent import create_pdf_builder_agent
+from config.settings import OUTPUT_DIR
+from utils import log_debug
 
 try:
     nltk.data.find('vader_lexicon')
@@ -36,23 +34,34 @@ try:
         max_tokens=None
     )
 except Exception as e:
-    print(f"Error initializing LLM: {e}")
+    log_debug(f"Error initializing LLM: {e}")
     exit(1)
 
 def run_with_manager():
-    print(f"Starting CourseCraft Crew in {'TESTING' if TESTING_MODE else 'FULL'} mode")
+    log_debug("Starting CourseCraft Crew in FULL mode")
     manager_agent = create_manager_agent(llm)
     onboarding_agent = create_onboarding_agent(llm)
     discovery_agent = create_discovery_agent(llm)
     research_agent = create_research_agent(llm)
     content_curator_agent = create_content_curator_agent(llm)
     editor_agent = create_editor_agent(llm)
-    result = coordinate_phases(manager_agent, onboarding_agent, discovery_agent, research_agent, content_curator_agent, editor_agent)
-    print(f"Process complete! Edited files: {result}")
+    media_agent = create_media_agent(llm)
+    pdf_builder_agent = create_pdf_builder_agent(llm)
+    
+    result = coordinate_phases(
+        manager_agent, onboarding_agent, discovery_agent, research_agent, 
+        content_curator_agent, editor_agent, media_agent, pdf_builder_agent
+    )
+    log_debug(f"Process complete! Edited files: {result}")
     return result
 
 if __name__ == "__main__":
     from tools.tools import analyze_sentiment
     test_text = "This is a great course!"
-    print(f"Sentiment test: {analyze_sentiment(test_text)}")
-    run_with_manager()
+    sentiment_result = analyze_sentiment(test_text)
+    log_debug(f"Sentiment test: {sentiment_result}")
+    try:
+        run_with_manager()
+    except Exception as e:
+        log_debug(f"Error in run_with_manager: {e}")
+        raise

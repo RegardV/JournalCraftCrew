@@ -6,19 +6,32 @@ load_dotenv()
 
 # API Keys
 XAI_API_KEY = os.getenv("XAI_API_KEY", "")
-PUBMED_API_KEY = os.getenv("PUBMED_API_KEY", "")
+MEDIA_LLM_API_KEY = os.getenv("MEDIA_LLM_API_KEY", "")
 
-# Course Configuration
-TESTING_MODE = True  # Set to False for full course generation
-COURSE_TOPIC = "Journaling for Anxiety"
-COURSE_SUBJECT = "SelfHelp"
+# Debugging Configuration
+DEBUG = True
 
-# Output Configuration
-OUTPUT_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "output")
-PDF_FILENAME_FORMAT = "paper{}_{}_{}.pdf"  # paper1_2025-03-10.pdf in testing mode
-COURSE_PDF_FILENAME_FORMAT = "course_{}_{}.pdf"  # course_journaling_2025-03-10.pdf in full mode
+# Media Generation Toggle
+ENABLE_MEDIA_LLM = False  # Set to True to enable real media LLM calls, False for dry run with placeholders
 
-# Testing Mode Limits
-MAX_FINDINGS = 3 if TESTING_MODE else 100
-MAX_MODULES = 3 if TESTING_MODE else 100
-MAX_IMAGES = 2 if TESTING_MODE else 100
+# Base Output Configuration
+OUTPUT_DIR = "Projects_Derived"
+LLM_SUBDIR = "LLM_output"
+JSON_SUBDIR = "Json_output"
+MEDIA_SUBDIR = "media"
+PDF_SUBDIR = "PDF_output"
+DATE_FORMAT = "%Y-%m-%d"
+
+# Onboarding Style Configurations
+TITLE_STYLES = [
+    "motivational", "actionable", "insightful", "inspirational", "practical",
+    "thought-provoking", "encouraging", "implementable", "illuminating", "empowering"
+]
+AUTHOR_FORMAT = "Author: {name}\nRole: Bestselling Author\nBio: {style}"
+
+# Research Depth Configurations
+VALID_RESEARCH_DEPTHS = {
+    "light": 5,
+    "medium": 15,
+    "deep": 25
+}

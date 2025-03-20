@@ -1,11 +1,8 @@
-#tools/tools.py
 from crewai.tools import BaseTool
-from config.settings import TESTING_MODE
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import nltk
-from typing import Dict, List
-import os
-from fpdf import FPDF
+from typing import Dict
+from utils import log_debug
 
 try:
     nltk.data.find('vader_lexicon')
@@ -14,39 +11,20 @@ except LookupError:
 
 def duckdb_tool(query: str) -> str:
     """Execute a DuckDB query (placeholder implementation)."""
-    return f"DuckDB result for {query}"
+    result = f"DuckDB result for {query}"
+    log_debug(f"DuckDB query executed: {query}, result: {result}")
+    return result
 
 def analyze_sentiment(text: str) -> Dict[str, float]:
     """Analyze sentiment of text using NLTK VADER."""
     try:
         sid = SentimentIntensityAnalyzer()
-        return sid.polarity_scores(text)
+        result = sid.polarity_scores(text)
+        log_debug(f"Sentiment analyzed for text: {text[:50]}..., result: {result}")
+        return result
     except Exception as e:
-        print(f"Error in analyze_sentiment: {e}")
+        log_debug(f"Error in analyze_sentiment: {e}")
         return {"neg": 0.0, "neu": 1.0, "pos": 0.0, "compound": 0.0}
-
-def mock_image_references(topic: str) -> List[str]:
-    """Generate mock image references for a topic."""
-    if TESTING_MODE:
-        return [f"Image of {topic} in a calm setting", f"Infographic about {topic}"]
-    return [f"Detailed image of {topic} with annotations", f"Professional chart on {topic} benefits"]
-
-def create_pdf(content: Dict[str, any], output_path: str) -> str:
-    """Generate a PDF from content and save it to output_path."""
-    pdf = FPDF()
-    pdf.add_page()
-    pdf.set_font("Arial", size=12)
-    pdf.cell(200, 10, txt=content.get("title", "Untitled Course"), ln=True, align="C")
-    pdf.multi_cell(0, 10, txt=content.get("intro", ""))
-    for day in content.get("days", []):
-        pdf.add_page()
-        pdf.multi_cell(0, 10, txt=day.get("pre_writeup", ""))
-        pdf.add_page()
-        pdf.cell(0, 10, txt=day.get("prompt", ""), ln=True)
-        for _ in range(day.get("lines", 25)):
-            pdf.cell(0, 5, txt="____________________", ln=True)
-    pdf.output(output_path)
-    return output_path
 
 class DuckDBTool(BaseTool):
     name: str = "duckdb_tool"
@@ -60,35 +38,15 @@ class SentimentAnalysisTool(BaseTool):
     def _run(self, text: str) -> Dict[str, float]:
         return analyze_sentiment(text)
 
-class ImageReferencesTool(BaseTool):
-    name: str = "mock_image_references"
-    description: str = "Generate relevant image references for course content"
-    def _run(self, topic: str) -> List[str]:
-        return mock_image_references(topic)
-
-class PDFCreatorTool(BaseTool):
-    name: str = "create_pdf"
-    description: str = "Generate professionally formatted PDF documents from course content"
-    def _run(self, content: Dict[str, any], output_path: str = "output/course.pdf") -> str:
-        return create_pdf(content, output_path)
-
 class BlogSummarySearchTool(BaseTool):
     name: str = "blog_summary_search"
-    description: str = "Find and reformulate blog post summaries for a 4-week themed guide with two-page spreads"
+    description: str = "Find and reformulate blog post summaries for a themed guide"
     def _run(self, query: str) -> str:
-        if TESTING_MODE:
-            full_data = [
-                {"original": f"Blog says {query} books suggest starting anytime builds habit", 
-                 "reformulated": f"Kicking off {query.split(' for ')[1] if ' for ' in query else query} journaling anytime sets the pace, blogs note"},
-                {"original": f"Blog notes {query} guides use weekday prompts for stress", 
-                 "reformulated": f"Weekday {query.split(' for ')[1] if ' for ' in query else query} writing lightens your load, per blogs"},
-                {"original": f"Blog highlights {query} weekend reflection for calm", 
-                 "reformulated": f"Weekend {query.split(' for ')[1] if ' for ' in query else query} prompts bring peace, blogs suggest"}
-            ]
-        else:
-            full_data = [
-                {"original": f"Blog X on {query}", "reformulated": f"Start {query.split(' for ')[1] if ' for ' in query else query} anytime for focus"},
-                {"original": f"Blog Y on {query}", "reformulated": f"Weekday {query.split(' for ')[1] if ' for ' in query else query} eases tension"},
-                {"original": f"Blog Z on {query}", "reformulated": f"Weekend {query.split(' for ')[1] if ' for ' in query else query} refreshes"}
-            ]
-        return "Summary: " + "; ".join([item["reformulated"] for item in full_data[:3]])
+        full_data = [
+            {"original": f"Blog X on {query}", "reformulated": f"Start {query.split(' for ')[1] if ' for ' in query else query} anytime for focus"},
+            {"original": f"Blog Y on {query}", "reformulated": f"Weekday {query.split(' for ')[1] if ' for ' in query else query} eases tension"},
+            {"original": f"Blog Z on {query}", "reformulated": f"Weekend {query.split(' for ')[1] if ' for ' in query else query} refreshes"}
+        ]
+        result = "Summary: " + "; ".join([item["reformulated"] for item in full_data[:3]])
+        log_debug(f"Blog summary search for {query}: {result}")
+        return result
