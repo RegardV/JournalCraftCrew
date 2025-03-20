@@ -1,0 +1,272 @@
+1. Project Brief
+
+Project Name: CourseCraft CrewPurpose: CourseCraft Crew is an AI-driven automation platform designed to streamline the creation of self-help and self-improvement courses, with a focus on adaptability to various topics. It leverages CrewAI’s agent-based framework to research, curate, edit, and generate professional course materials, starting with a proof-of-concept course titled "Journaling for Anxiety: Journaling to Calm Your Mind". The system aims to reduce manual effort in course development, producing high-quality, evidence-based content in multiple formats (currently text and PDF, with plans for audio and video).
+
+Objective:
+
+- Automate the end-to-end process of course creation, from topic selection and research to content generation and final output.
+- Deliver a modular, extensible system capable of adapting to any self-improvement topic with minimal configuration changes.
+- Produce a tangible output (e.g., a 30-day journaling guide and a 6-day lead magnet) that demonstrates the system’s potential for broader application.
+- Lay the groundwork for future enhancements, including multimedia integration and platform deployment.
+
+Scope:
+
+- Current Phase (Phase 1): Text-based course creation with PDF output, including research, content curation, editing, media placeholder generation, and PDF assembly.
+- Future Phases: Audio content (Phase 2), video content (Phase 3), and platform integration (e.g., Teachable).
+- Target Output: A 30-day journaling guide (full course) and a 6-day lead magnet (teaser), both as PDFs, with placeholder images and structured text content.
+- Timeline: Beta release targeted for April 25, 2025, with iterative development and testing ongoing.
+
+Key Features:
+
+- Dynamic Research: Gathers theme-specific insights using mock tools (e.g., BlogSummarySearchTool), with plans for real APIs (e.g., PubMed).
+- Content Structuring: Organizes research into a 30-day journal and 6-day lead magnet, with sections like covers, intros, daily entries, and certificates.
+- Tone Adjustment: Applies sentiment analysis (VADER) to ensure content is uplifting and supportive.
+- Media Support: Generates image placeholders with prompts, skippable via configuration, for external image generation.
+- PDF Output: Produces formatted PDFs with optional media inclusion, supporting Epub/KDP formats.
+- User Interaction: Offers CLI-based onboarding and pauses for user decisions (e.g., proceed to PDF generation).
+
+Status as of March 20, 2025:
+
+- Phase 1 is functional, producing JSON files (raw and edited content) and PDFs with placeholders.
+- Minor edits remain (e.g., refining error handling, ensuring edited file generation).
+- Ready for testing and refinement before expanding to Phases 2 and 3.
+
+---
+
+2. Agents Involved and Their Roles
+
+Onboarding Agent
+
+- Role: Gathers user preferences to initialize the course creation process.
+- Responsibilities:
+    - Prompts user for course theme (e.g., "Journaling for Anxiety"), title (e.g., "Calm Reflections"), title style (e.g., "inspirational"), research depth (e.g., "medium"), and author style (e.g., "inspirational narrative").
+    - Checks for existing projects in Projects_Derived/ and offers options: create new journal, generate media, generate PDFs (with/without images), generate Epub/KDP, or quit.
+    - Sets up a run directory (e.g., Projects_Derived/Calm_Reflections_2025-03-20) and returns preferences as a dictionary.
+
+Discovery Agent
+
+- Role: Generates creative title ideas based on user preferences.
+- Responsibilities:
+    - Takes theme and title style, crafts a prompt for the LLM to produce 10 titles (5 SEO-optimized, 5 style-influenced).
+    - Ensures output is a nested JSON structure (e.g., {"titles": [...], "styled_titles": [...]}).
+    - Saves raw LLM output to LLM_output/ and returns the parsed result for user selection.
+
+Research Agent
+
+- Role: Collects theme-specific insights to inform content creation.
+- Responsibilities:
+    - Uses a mock BlogSummarySearchTool to simulate research (plans for PubMed integration).
+    - Generates up to 25 insights (limited by user-selected depth: light=5, medium=15, deep=25), each with a technique and description.
+    - Saves raw output to LLM_output/ and parsed JSON to Json_output/.
+
+Content Curator Agent
+
+- Role: Crafts structured course content from research insights.
+- Responsibilities:
+    - Produces a 30-day journal (cover, intro spread, commitment page, 30 daily entries, certificate) and a 6-day lead magnet (similar structure).
+    - Each section includes text (180–220 words) and image placeholders, styled per the chosen author style.
+    - Generates an image_requirements.json file listing image prompts and paths.
+    - Saves raw LLM outputs to LLM_output/ and final JSON to Json_output/.
+
+Editor Agent
+
+- Role: Refines content for tone, clarity, and engagement.
+- Responsibilities:
+    - Loads curated JSON files, applies sentiment analysis (VADER) to adjust text (e.g., rewriting if compound score < 0.3).
+    - Adds style-specific modifiers (e.g., "with an uplifting twist" for inspirational style).
+    - Saves edited versions (e.g., journal_edited_2025-03-20.json) to Json_output/ with an automation log.
+
+Media Agent
+
+- Role: Handles image placeholder generation for course content.
+- Responsibilities:
+    - Reads image_requirements.json, generates placeholder files in media/ (skippable via ENABLE_MEDIA_LLM = False).
+    - Supports a separate media LLM (future implementation) for real image generation, configurable via settings.
+    - Ensures prompts are preserved in JSON for external use.
+
+PDF Builder Agent
+
+- Role: Assembles final course PDFs from JSON content.
+- Responsibilities:
+    - Loads latest JSON files (preferring "edited" versions), generates PDFs with text and optional media (placeholders if present).
+    - Supports Epub/KDP formats (text-only, no lines).
+    - Saves outputs to PDF_output/ with descriptive filenames (e.g., 30day_journal_...pdf).
+
+Manager Agent
+
+- Role: Orchestrates the entire workflow, coordinating all agents.
+- Responsibilities:
+    - Initiates onboarding, delegates tasks to agents in sequence (discovery, research, curation, editing, media, PDF).
+    - Manages user interaction (e.g., title selection, PDF generation pause).
+    - Ensures data flow (e.g., passing preferences, research summaries) and saves intermediate results.
+    - Uses a DuckDBTool (placeholder) for potential data management.
+
+---
+
+3. How Agents Work Together
+
+The agents collaborate in a sequential, manager-driven workflow, with data passing through each phase:
+
+- Onboarding → Manager:
+    - The onboarding agent collects user preferences (theme, title, styles, depth) via CLI prompts and checks for existing runs. It returns a preferences dictionary to the manager agent, which sets the run_dir and decides the next step (new journal or existing project action).
+- Manager → Discovery:
+    - For a new journal, the manager delegates to the discovery agent, passing theme and title style. The discovery agent generates title options, returning a nested JSON to the manager.
+- Discovery → Manager:
+    - The manager presents titles to the user, updates the run_dir with the selected title (e.g., From_Chaos_to_Clarity_...), and saves preferences and ideas to Json_output/.
+- Manager → Research:
+    - The manager passes the theme and research depth to the research agent, which returns a list of insights (e.g., 15 for "medium"). These are saved and forwarded to the content curator.
+- Research → Manager → Content Curator:
+    - The manager delegates to the content curator with research insights, theme, title, and author style. The curator crafts the 30-day journal and 6-day lead magnet, producing JSON files and an image requirements list, saved to Json_output/.
+- Content Curator → Manager → Editor:
+    - The manager passes the curated JSON file paths to the editor agent, which refines the content using sentiment analysis and saves edited versions to Json_output/. The manager logs this as "JSON generation complete."
+- Editor → Manager:
+    - After editing, the manager prompts the user to continue to PDF generation. If "Yes," it proceeds; if "No," it returns the edited file paths.
+- Manager → Media:
+    - For PDF generation, the manager calls the media agent with the run_dir. The media agent generates placeholders (or skips if configured), saving them to media/.
+- Media → Manager → PDF Builder:
+    - The manager delegates to the PDF builder with the run_dir and use_media=True (or other options). The PDF builder loads the latest JSON files, assembles PDFs with text and placeholders, and saves them to PDF_output/.
+- PDF Builder → Manager:
+    - The manager collects the PDF paths, logs completion, and returns a final result dictionary with edited JSON and PDF locations.
+
+Data Flow:
+
+- Preferences (dict) → Title ideas (JSON) → Research insights (list) → Curated JSON → Edited JSON → Image placeholders → PDFs.
+- Each agent saves intermediate outputs to LLM_output/ (raw) or Json_output/ (processed), with logs in app.txt.
+
+---
+
+4. Things Still to Be Implemented
+
+- Real Research APIs:
+    - Replace mock BlogSummarySearchTool with actual APIs (e.g., PubMed) for evidence-based insights, requiring API key validation and response parsing.
+- Media LLM Integration:
+    - Implement a real media LLM (e.g., DALL-E or Stable Diffusion) for image generation, replacing placeholder logic. Requires configuring MEDIA_LLM_API_KEY and adjusting media_agent.py.
+- Phase 2: Audio Components:
+    - Add an audio agent to generate narration or audio summaries from text content, saving as MP3 files in a new audio/ subdirectory.
+    - Integrate text-to-speech tools (e.g., Google Text-to-Speech).
+- Phase 3: Video Components:
+    - Develop a video agent to create video lessons from text and images, using tools like ffmpeg or video synthesis APIs.
+    - Save outputs in a video/ subdirectory.
+- Platform Integration:
+    - Build a deployment agent to upload courses to platforms like Teachable, handling API authentication, file formatting, and metadata.
+- Advanced Error Handling:
+    - Enhance logging to capture detailed stack traces for all exceptions.
+    - Add retry mechanisms for failed file operations or LLM calls beyond current retries.
+- User Interface:
+    - Replace CLI prompts with a graphical or web-based interface for onboarding and title selection.
+- Testing Framework:
+    - Implement unit tests for each agent using a framework like pytest, validating outputs against expected formats.
+- Performance Optimization:
+    - Optimize LLM calls for larger courses (e.g., batching daily entries), potentially using async execution.
+
+---
+
+5. Project Handover Write-Up
+
+Overview: This handover provides a step-by-step guide to understanding, running, and extending the CourseCraft Crew project as of March 20, 2025. It details every method, implementation, output, tool, task, and format involved, ensuring a new developer can take over seamlessly.
+
+Step-by-Step Process:
+
+1. Setup Environment:
+    - Clone the repository from GitHub to ~/crewprojects/coursecraft_crew/.
+    - Create a Python 3.12 virtual environment (python -m venv venv) and activate it (source venv/bin/activate).
+    - Install dependencies from requirements.txt (pip install -r requirements.txt), including crewai, nltk, fpdf, timeout_decorator, and dotenv.
+    - Create a .env file in the root with XAI_API_KEY (required) and MEDIA_LLM_API_KEY (optional, currently unused).
+2. Configuration:
+    - Open config/settings.py:
+        - OUTPUT_DIR = "Projects_Derived": Root for all run outputs.
+        - LLM_SUBDIR = "LLM_output": Raw LLM responses.
+        - JSON_SUBDIR = "Json_output": Processed JSON files.
+        - MEDIA_SUBDIR = "media": Image placeholders.
+        - PDF_SUBDIR = "PDF_output": Final PDFs.
+        - DEBUG = True: Enables logging to app.txt.
+        - ENABLE_MEDIA_LLM = False: Uses placeholders instead of real image generation.
+        - TITLE_STYLES: List of 10 styles (e.g., "motivational", "inspirational").
+        - VALID_RESEARCH_DEPTHS: Dictionary mapping "light" (5), "medium" (15), "deep" (25) insights.
+3. Running the Project:
+    - Execute python main.py from the root directory.
+    - Initial Steps:
+        - Checks NLTK vader_lexicon (downloads if missing).
+        - Creates Projects_Derived/ if absent.
+        - Runs a sentiment test on "This is a great course!" using VADER, logging results to app.txt.
+    - Manager-Driven Workflow:
+        - Initializes all agents with an xAI Grok LLM instance.
+4. Onboarding Phase:
+    - CLI prompts user for:
+        - Theme (e.g., "Anxiety" → "Journaling for Anxiety").
+        - Title (e.g., "From Chaos to Clarity").
+        - Title style (select from 10 options).
+        - Research depth (light, medium, deep).
+        - Author style (fetched from LLM or defaults like "inspirational narrative").
+    - If existing runs exist (e.g., Projects_Derived/...), offers 6 options; otherwise, defaults to new journal.
+    - Creates run_dir (e.g., Projects_Derived/From_Chaos_to_Clarity_2025-03-20).
+5. Discovery Phase:
+    - Generates 10 title ideas (5 SEO, 5 styled) via LLM, saved as discovery_titles.txt in LLM_output/.
+    - User selects a title (e.g., "From Chaos to Clarity: A Tactical Journey"), updating run_dir.
+    - Saves preferences and ideas as JSON in Json_output/.
+6. Research Phase:
+    - Fetches up to 25 insights (limited by depth) using a mock tool, saved as research_output_2025-03-20.txt in LLM_output/.
+    - Parsed insights saved as research_data_...json in Json_output/.
+7. Content Curation Phase:
+    - Creates a 30-day journal and 6-day lead magnet:
+        - Journal: Cover, intro spread (quote + writeup), commitment page, 30 daily entries (pre-writeup, prompt, 25 lines), certificate.
+        - Lead Magnet: Similar, but 6 days.
+    - Each section’s text is 180–220 words, styled per author choice.
+    - Raw LLM outputs (e.g., journal_cover.txt) saved in LLM_output/.
+    - Final JSON files (e.g., 30day_journal_...json) saved in Json_output/.
+    - Generates image_requirements.json with image IDs, placements, prompts, and paths (e.g., media/cover_30dayjournal.png).
+8. Editing Phase:
+    - Loads curated JSON, adjusts text based on VADER sentiment (e.g., rewrites if score < 0.3).
+    - Applies style modifiers (e.g., "Edited with an uplifting twist").
+    - Saves edited files (e.g., journal_edited_2025-03-20.json) in Json_output/, logs actions in automation_log_2025-03-20.txt.
+9. Media Phase:
+    - Reads image_requirements.json, generates placeholder PNGs in media/ (e.g., cover_30dayjournal.png with text "Placeholder image...").
+    - Skips real generation if ENABLE_MEDIA_LLM = False, preserving prompts for external use.
+10. PDF Generation Phase:
+    - Loads latest JSON (edited if available, else latest curated), assembles PDFs with text and placeholders (if use_media=True).
+    - Supports Epub/KDP (text-only, no lines).
+    - Saves to PDF_output/ (e.g., 30day_journal_...pdf).
+    - Logs success or errors in app.txt.
+11. Completion:
+    - Returns a dictionary with edited JSON and PDF paths, logged as "Process complete!" in app.txt.
+
+Outputs:
+
+- LLM_output/: Raw LLM responses (e.g., journal_cover.txt).
+- Json_output/: Curated (30day_journal_...json), edited (journal_edited_...json), and image requirements JSON.
+- media/: Placeholder PNGs.
+- PDF_output/: Final PDFs.
+- app.txt: Debug log of all operations.
+
+Tools:
+
+- CrewAI: Agent framework for workflow orchestration.
+- xAI Grok: LLM for text generation (configurable via .env).
+- NLTK/VADER: Sentiment analysis for editing.
+- FPDF: PDF generation with text and image support.
+- BlogSummarySearchTool: Mock research tool (future PubMed replacement).
+- DuckDBTool: Placeholder for data management.
+
+Tasks:
+
+- Onboarding: Collect preferences, set up run.
+- Discovery: Generate titles.
+- Research: Fetch insights.
+- Curation: Structure content.
+- Editing: Refine tone.
+- Media: Generate placeholders.
+- PDF: Assemble final output.
+
+Formats:
+
+- JSON: Nested structures for content (e.g., {"cover": {"title": ..., "image": ...}}).
+- TXT: Raw LLM outputs and logs.
+- PNG: Placeholder images.
+- PDF: Final course documents.
+
+Handover Notes:
+
+- Review app.txt for debugging (e.g., file save failures).
+- Test with ENABLE_MEDIA_LLM = True once a media LLM is integrated.
+- Extend by adding new agents in agents/ and tasks in tasks/.
+- Update settings.py for new topics or configurations.

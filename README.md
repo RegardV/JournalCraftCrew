@@ -1,8 +1,10 @@
 # CourseCraft Crew
 
 ## Overview
+
 **CourseCraft Crew** is an AI-powered platform designed to automate the creation of self-help and self-improvement courses. Using [Crew AI](https://docs.crewai.com/), it simplifies researching, developing, and generating course content. The first course, *"Journaling for Anxiety: Journaling to Calm Your Mind"*, demonstrates its capabilities as a proof-of-concept for a system that can adapt to any course topic.
 
+[ProjectBrief](https://github.com/RegardV/CourseCraftCrew/blob/main/Project_Brief)
 ## Current Status
 - **Phase 1**: Complete and ready for testing. This phase focuses on text and image-based course creation, with a testing mode that generates a 2-3 page PDF for validation.
 - **Phase 2 & 3**: Planned for future implementation (audio and video components).
