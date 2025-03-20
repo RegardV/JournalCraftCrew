@@ -1,0 +1,50 @@
+[
+    {
+        "day": 1,
+        "image_full_page": "placeholder_image_1.jpg",
+        "image_bottom": "placeholder_bottom_1.jpg",
+        "pre_writeup": "Today, let's dive into the power of setting intentions. Start your day by writing down three goals you want to achieve this week. Be specific and visualize how accomplishing these goals will feel. Next, take a moment to identify any obstacles that might stand in your way and brainstorm solutions to overcome them. This proactive approach will set a positive tone for your week. Now, grab your journal and let's get started on turning your aspirations into reality!",
+        "prompt": "What are three goals you want to achieve this week, and how will you feel once you accomplish them?",
+        "lines": 25
+    },
+    {
+        "day": 2,
+        "image_full_page": "placeholder_image_2.jpg",
+        "image_bottom": "placeholder_bottom_2.jpg",
+        "pre_writeup": "Today, we're focusing on gratitude. Take a few minutes to reflect on three things you're grateful for in your life right now. It could be anything from a supportive friend to a beautiful sunset you witnessed. Write them down and explore why they bring you joy. Next, consider how you can express this gratitude to others. Maybe send a thank-you note or perform a small act of kindness. Let's fill our journals with positivity and appreciation!",
+        "prompt": "What are three things you're grateful for, and how can you express this gratitude to others?",
+        "lines": 25
+    },
+    {
+        "day": 3,
+        "image_full_page": "placeholder_image_3.jpg",
+        "image_bottom": "placeholder_bottom_3.jpg",
+        "pre_writeup": "Today, let's explore your passions. Think about an activity or hobby that truly excites you. Write down what it is and why it brings you joy. Now, consider how you can incorporate more of this passion into your daily life. Maybe it's setting aside time each week to engage in this activity or finding a community of like-minded individuals. Let's make space for what lights us up and fills our lives with purpose!",
+        "prompt": "What is a passion of yours, and how can you incorporate more of it into your daily life?",
+        "lines": 25
+    },
+    {
+        "day": 4,
+        "image_full_page": "placeholder_image_4.jpg",
+        "image_bottom": "placeholder_bottom_4.jpg",
+        "pre_writeup": "Today, we're focusing on self-care. Take a moment to reflect on what self-care means to you. Is it a relaxing bath, a walk in nature, or perhaps a good book? Write down three self-care activities that resonate with you. Now, plan to incorporate at least one of these activities into your week. Remember, taking care of yourself is not selfish; it's essential for your well-being. Let's prioritize our own needs and nurture ourselves!",
+        "prompt": "What are three self-care activities that resonate with you, and how will you incorporate them into your week?",
+        "lines": 25
+    },
+    {
+        "day": 5,
+        "image_full_page": "placeholder_image_5.jpg",
+        "image_bottom": "placeholder_bottom_5.jpg",
+        "pre_writeup": "Today, let's tackle a challenge. Think about something that's been holding you back or causing you stress. Write it down and explore why it's difficult for you. Now, brainstorm three actionable steps you can take to address this challenge. It could be breaking it down into smaller tasks, seeking support from others, or finding resources to help you. Let's face our challenges head-on and grow from them!",
+        "prompt": "What is a challenge you're facing, and what are three actionable steps you can take to address it?",
+        "lines": 25
+    },
+    {
+        "day": 6,
+        "image_full_page": "placeholder_image_6.jpg",
+        "image_bottom": "placeholder_bottom_6.jpg",
+        "pre_writeup": "Today, let's reflect on the week that's passed. Take a moment to review the goals you set, the gratitude you expressed, the passions you explored, the self-care you practiced, and the challenges you faced. Write about what you learned from each experience and how it has impacted your growth. Consider what you would like to carry forward into the next week and what you might want to change. This reflection is a powerful tool for personal development and self-awareness.",
+        "prompt": "What did you learn from this week's experiences, and what would you like to carry forward into the next week?",
+        "lines": 25
+    }
+]
