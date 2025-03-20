@@ -50,7 +50,7 @@
    PUBMED_API_KEY=your_pubmed_api_key_here  # Optional, will use mock data if missing
    ```
 
-2. Configure testing mode:
+2. Configure testing mode:(deprecated)
    - Edit `config/settings.py` and set `TESTING_MODE = True` for a quick test output.
    - Set `TESTING_MODE = False` for full course generation.
 
