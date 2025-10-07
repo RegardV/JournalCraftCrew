@@ -96,7 +96,7 @@ langchain-community==0.3.18
 langchain-core==0.3.40
 langchain-experimental==0.3.4
 langchain-openai==0.2.14
-langchain-text-splitters==0.3.6
+langchain-text-splitters==1.0.0a1
 langchain_xai==0.1.0  # Add ChatXAI support
 langsmith==0.1.147
 litellm==1.61.15
