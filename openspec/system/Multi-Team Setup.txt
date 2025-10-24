@@ -1,0 +1,667 @@
+# JournalCraftCrew - Initial System Specification
+
+## System Overview
+
+**Project Name:** JournalCraftCrew  
+**Type:** Multi-Agent AI System (CrewAI-based)  
+**Purpose:** Automated journal entry processing, analysis, and content generation  
+**Deployment:** Python virtual environment (uv-managed)  
+**AI Framework:** CrewAI with multiple specialized agents
+
+---
+
+## System Goal
+
+**Primary Objective:**  
+Transform raw journal entries into enriched, analyzed, and formatted content through a coordinated multi-agent workflow.
+
+**End Goal:**  
+Provide users with:
+1. Sentiment and emotion analysis of journal entries
+2. NLP-processed insights and entity extraction
+3. Professionally formatted PDF outputs
+4. Curated content recommendations
+5. Research-backed insights and discovery
+6. Media-enriched journal experiences
+7. Platform-ready publishing capabilities
+
+---
+
+## Architecture Overview
+
+### Agent-Based Processing Pipeline
+
+```
+User Input (Journal Entry)
+    ↓
+Manager Agent (Orchestration)
+    ↓
+┌────────────────────────────────────────┐
+│  Parallel/Sequential Agent Processing  │
+├────────────────────────────────────────┤
+│  • Discovery Agent                     │
+│  • Research Agent                      │
+│  • Content Curator Agent               │
+│  • Editor Agent                        │
+│  • Media Agent                         │
+│  • Onboarding/Setup Agent              │
+│  • Platform Setup Agent                │
+│  • Iteration Agent                     │
+└────────────────────────────────────────┘
+    ↓
+PDF Builder Agent (Output Generation)
+    ↓
+Final Output (Enriched Journal + PDF)
+```
+
+---
+
+## Agent Specifications
+
+### 1. Manager Agent
+**File:** `agents/manager_agent.py`
+
+#### Purpose
+Orchestrate the entire journal processing workflow by coordinating all specialized agents.
+
+#### Requirements
+
+##### Requirement: Workflow Orchestration
+The manager agent SHALL coordinate task distribution across all specialized agents.
+
+###### Scenario: Process journal entry
+- GIVEN a valid journal entry from user
+- WHEN processing begins
+- THEN manager SHALL assign tasks to appropriate agents
+- AND monitor progress of each agent
+- AND collect results from all agents
+- AND handle inter-agent communication
+
+##### Requirement: Error Recovery
+The manager agent MUST handle agent failures gracefully.
+
+###### Scenario: Agent failure during processing
+- GIVEN an agent fails mid-processing
+- WHEN the failure is detected
+- THEN manager SHALL log the error
+- AND attempt retry with exponential backoff
+- AND provide fallback processing if retry fails
+- AND notify user of degraded functionality
+
+#### Tools
+- DuckDBTool (data querying)
+- Agent coordination tools (built-in CrewAI)
+
+---
+
+### 2. Content Curator Agent
+**File:** `agents/content_curator_agent.py`
+
+#### Purpose
+Select and organize relevant content, insights, and recommendations based on journal entries.
+
+#### Requirements
+
+##### Requirement: Content Selection
+The agent SHALL curate relevant content based on journal themes.
+
+###### Scenario: Identify related content
+- GIVEN processed journal entry with themes
+- WHEN curation begins
+- THEN agent SHALL identify related articles, quotes, or media
+- AND rank content by relevance
+- AND filter inappropriate content
+- AND return top N recommendations
+
+---
+
+### 3. Discovery Agent
+**File:** `agents/discovery_agent.py`
+
+#### Purpose
+Discover patterns, insights, and connections within and across journal entries.
+
+#### Requirements
+
+##### Requirement: Pattern Recognition
+The agent SHALL identify recurring themes and patterns.
+
+###### Scenario: Multi-entry analysis
+- GIVEN multiple journal entries over time
+- WHEN analysis is requested
+- THEN agent SHALL identify recurring themes
+- AND detect emotional patterns
+- AND highlight significant changes
+- AND suggest areas for user reflection
+
+---
+
+### 4. Editor Agent
+**File:** `agents/editor_agent.py`
+
+#### Purpose
+Improve writing quality, grammar, and style of journal entries.
+
+#### Requirements
+
+##### Requirement: Content Enhancement
+The agent SHALL enhance journal entry quality while preserving voice.
+
+###### Scenario: Edit journal entry
+- GIVEN a raw journal entry
+- WHEN editing is requested
+- THEN agent SHALL correct grammar and spelling
+- AND improve clarity and flow
+- AND maintain user's authentic voice
+- AND suggest alternative phrasings
+
+---
+
+### 5. Iteration Agent
+**File:** `agents/iteration_agent.py`
+
+#### Purpose
+Manage iterative refinement of content through multiple processing cycles.
+
+#### Requirements
+
+##### Requirement: Iterative Refinement
+The agent SHALL manage multiple processing iterations.
+
+###### Scenario: Multi-pass processing
+- GIVEN initial agent outputs
+- WHEN refinement is needed
+- THEN agent SHALL coordinate additional passes
+- AND track improvements across iterations
+- AND determine when quality threshold is met
+- AND prevent infinite loops
+
+---
+
+### 6. Media Agent
+**File:** `agents/media_agent.py`
+
+#### Purpose
+Handle media-related tasks including image selection, video processing, and multimedia integration.
+
+#### Requirements
+
+##### Requirement: Media Integration
+The agent SHALL integrate relevant media with journal entries.
+
+###### Scenario: Add visual content
+- GIVEN a journal entry with themes
+- WHEN media enhancement is requested
+- THEN agent SHALL select appropriate images
+- AND resize/optimize media files
+- AND ensure licensing compliance
+- AND embed media in output format
+
+---
+
+### 7. Onboarding Agent
+**File:** `agents/onboarding_agent.py`
+
+#### Purpose
+Guide new users through initial setup and system familiarization.
+
+#### Requirements
+
+##### Requirement: User Onboarding
+The agent SHALL facilitate smooth user onboarding.
+
+###### Scenario: New user setup
+- GIVEN a new user account
+- WHEN onboarding begins
+- THEN agent SHALL explain system capabilities
+- AND guide through initial journal entry
+- AND configure user preferences
+- AND provide helpful tips
+
+---
+
+### 8. PDF Builder Agent
+**File:** `agents/pdf_builder_agent.py`
+
+#### Purpose
+Generate professionally formatted PDF outputs from processed journal entries.
+
+#### Requirements
+
+##### Requirement: PDF Generation
+The agent SHALL generate high-quality PDF documents.
+
+###### Scenario: Create journal PDF
+- GIVEN processed journal content
+- WHEN PDF generation is requested
+- THEN agent SHALL format content with proper styling
+- AND include images and media
+- AND generate table of contents
+- AND create paginated output
+- AND ensure proper encoding (UTF-8)
+
+#### Dependencies
+- fpdf2 library
+- Font handling system
+- Template engine
+
+---
+
+### 9. Platform Setup Agent
+**File:** `agents/platform_setup_agent.py`
+
+#### Purpose
+Configure platform integrations and deployment settings.
+
+#### Requirements
+
+##### Requirement: Platform Configuration
+The agent SHALL configure external platform integrations.
+
+###### Scenario: Setup publishing platform
+- GIVEN platform credentials
+- WHEN configuration is requested
+- THEN agent SHALL validate credentials
+- AND configure API connections
+- AND test integration
+- AND store configuration securely
+
+---
+
+### 10. Research Agent
+**File:** `agents/research_agent.py`
+
+#### Purpose
+Conduct research and gather information to enrich journal entries.
+
+#### Requirements
+
+##### Requirement: Information Gathering
+The agent SHALL research topics mentioned in journal entries.
+
+###### Scenario: Research journal topics
+- GIVEN identified topics in journal
+- WHEN research is requested
+- THEN agent SHALL search reliable sources
+- AND synthesize findings
+- AND cite sources appropriately
+- AND provide contextual information
+
+---
+
+## System Workflows
+
+### Primary Workflow: Journal Entry Processing
+
+#### Specification
+**File:** `openspec/specs/workflows/journal-entry-processing.md`
+
+##### Requirement: End-to-End Processing
+The system SHALL process journal entries through all required stages.
+
+###### Scenario: Complete journal processing
+- GIVEN user submits raw journal entry
+- WHEN processing is initiated
+- THEN entry SHALL be validated
+- AND sentiment analysis SHALL be performed
+- AND NLP processing SHALL extract entities
+- AND content curation SHALL provide recommendations
+- AND editing SHALL improve quality
+- AND media SHALL be integrated
+- AND PDF SHALL be generated
+- AND results SHALL be stored in database
+
+##### Requirement: Processing Time
+The system SHALL complete processing within acceptable time limits.
+
+###### Scenario: Performance requirements
+- GIVEN a standard journal entry (< 1000 words)
+- WHEN processing begins
+- THEN complete processing SHALL finish within 30 seconds
+- AND user SHALL receive progress updates
+- AND system SHALL handle concurrent requests
+
+---
+
+## Technical Architecture
+
+### Technology Stack
+
+**Core Framework:**
+- Python 3.10+
+- CrewAI (multi-agent orchestration)
+- uv (package management)
+
+**Key Dependencies:**
+- crewai
+- crewai-tools
+- nltk (NLP processing)
+- fpdf2 (PDF generation)
+- python-dotenv (configuration)
+- zhipuai (GLM-4.6 API)
+- timeout-decorator (task timeout management)
+
+**Data Storage:**
+- DuckDB (local analytics database)
+- File system (journal entries, media)
+
+**AI Models:**
+- GLM-4.6 (primary LLM via Z.AI API)
+- Optional: Other LLM providers via configuration
+
+---
+
+## Environment Configuration
+
+### Required Environment Variables
+
+```bash
+# API Keys
+XAI_API_KEY=<X.AI API key>
+ZHIPUAI_API_KEY=<Z.AI API key for GLM-4.6>
+
+# Optional Keys
+OPENAI_API_KEY=<OpenAI key if needed>
+
+# System Configuration
+DEBUG=false
+LOG_LEVEL=INFO
+MAX_PROCESSING_TIME=300  # seconds
+```
+
+### Virtual Environment Setup
+
+```bash
+# Python version: 3.10+
+# Package manager: uv
+# Environment location: .venv/
+
+# Required packages managed in:
+- requirements.txt
+- pyproject.toml
+```
+
+---
+
+## Data Specifications
+
+### Input Format
+
+#### Journal Entry Schema
+```json
+{
+  "entry_id": "string (UUID)",
+  "user_id": "string",
+  "content": "string (markdown supported)",
+  "timestamp": "ISO 8601 datetime",
+  "metadata": {
+    "mood": "string (optional)",
+    "location": "string (optional)",
+    "tags": ["array of strings"]
+  }
+}
+```
+
+### Output Format
+
+#### Processed Journal Schema
+```json
+{
+  "entry_id": "string (UUID)",
+  "user_id": "string",
+  "original_content": "string",
+  "processed_content": "string (enhanced)",
+  "analysis": {
+    "sentiment": "positive|neutral|negative",
+    "sentiment_score": "float (-1 to 1)",
+    "emotions": ["array of detected emotions"],
+    "entities": {
+      "people": ["array"],
+      "places": ["array"],
+      "topics": ["array"]
+    }
+  },
+  "recommendations": {
+    "content": ["array of curated content"],
+    "prompts": ["array of reflection prompts"]
+  },
+  "media": {
+    "images": ["array of image URLs"],
+    "videos": ["array of video URLs"]
+  },
+  "pdf_path": "string (file path to generated PDF)",
+  "processing_metadata": {
+    "processed_at": "ISO 8601 datetime",
+    "processing_time_ms": "integer",
+    "agents_used": ["array of agent names"],
+    "model_version": "string"
+  }
+}
+```
+
+---
+
+## Quality Requirements
+
+### Performance
+
+##### Requirement: Response Time
+System SHALL meet performance benchmarks.
+
+###### Scenario: Processing time targets
+- GIVEN journal entry < 500 words
+- THEN processing SHALL complete in < 15 seconds
+- GIVEN journal entry 500-1000 words
+- THEN processing SHALL complete in < 30 seconds
+- GIVEN journal entry > 1000 words
+- THEN processing SHALL complete in < 60 seconds
+
+### Accuracy
+
+##### Requirement: Sentiment Analysis Accuracy
+Sentiment detection SHALL meet minimum accuracy thresholds.
+
+###### Scenario: Sentiment classification
+- GIVEN labeled test dataset
+- WHEN sentiment analysis is performed
+- THEN accuracy SHALL be >= 85%
+- AND false positive rate SHALL be <= 10%
+
+### Reliability
+
+##### Requirement: System Uptime
+System SHALL maintain high availability.
+
+###### Scenario: Error handling
+- GIVEN system is operational
+- WHEN errors occur
+- THEN graceful degradation SHALL occur
+- AND user SHALL be notified
+- AND partial results SHALL be saved
+- AND recovery SHALL be automatic
+
+---
+
+## Security & Privacy
+
+### Requirements
+
+##### Requirement: Data Privacy
+User data SHALL be protected at all times.
+
+###### Scenario: Data storage
+- GIVEN user journal entry
+- WHEN stored in system
+- THEN data SHALL be encrypted at rest
+- AND access SHALL be authenticated
+- AND logs SHALL not contain sensitive data
+- AND data retention policy SHALL be enforced
+
+##### Requirement: API Security
+External API calls SHALL be secure.
+
+###### Scenario: API communication
+- GIVEN API key configuration
+- WHEN making external calls
+- THEN keys SHALL be stored securely (environment variables)
+- AND HTTPS SHALL be used for all communications
+- AND API rate limits SHALL be respected
+- AND errors SHALL not expose credentials
+
+---
+
+## Testing Requirements
+
+### Unit Tests
+Each agent SHALL have unit tests covering:
+- Core functionality
+- Error handling
+- Edge cases
+- Input validation
+
+### Integration Tests
+System SHALL have integration tests for:
+- End-to-end workflows
+- Agent coordination
+- Database operations
+- External API integrations
+
+### Test Coverage
+Code coverage SHALL be:
+- Minimum: 70%
+- Target: 85%
+- Critical paths: 100%
+
+---
+
+## Deployment Specification
+
+### Environment Setup
+
+#### Development
+```bash
+# Location: Local machine
+# Environment: .venv/
+# Configuration: .env (local)
+# Database: DuckDB (local file)
+```
+
+#### Production (Future)
+```bash
+# Location: TBD (cloud/on-premise)
+# Environment: Docker container / systemd service
+# Configuration: Environment variables (secure vault)
+# Database: PostgreSQL / DuckDB (production config)
+# Monitoring: Logs, metrics, alerts
+```
+
+---
+
+## Future Enhancements
+
+### Planned Features
+1. **Multi-language Support**
+   - Detect language automatically
+   - Translate entries
+   - Support non-Latin scripts
+
+2. **Voice Input**
+   - Speech-to-text integration
+   - Voice journaling feature
+   - Audio diary generation
+
+3. **Advanced Analytics**
+   - Longitudinal trend analysis
+   - Mood prediction
+   - Personalized insights
+
+4. **Collaboration Features**
+   - Shared journals
+   - Therapist/coach access
+   - Group journaling
+
+5. **Export Options**
+   - Multiple formats (Word, ePub, etc.)
+   - Custom templates
+   - Integration with publishing platforms
+
+---
+
+## Success Metrics
+
+### Key Performance Indicators (KPIs)
+
+1. **Processing Success Rate**
+   - Target: 99% of entries processed successfully
+   - Measure: Successful completions / Total attempts
+
+2. **User Satisfaction**
+   - Target: 4.5/5.0 average rating
+   - Measure: User feedback and ratings
+
+3. **Processing Speed**
+   - Target: 90% of entries processed within SLA
+   - Measure: Processing time distribution
+
+4. **System Reliability**
+   - Target: 99.5% uptime
+   - Measure: Available time / Total time
+
+---
+
+## Maintenance & Support
+
+### Monitoring
+- System health checks every 5 minutes
+- Error logging and alerting
+- Performance metrics dashboard
+- Usage analytics
+
+### Updates
+- Regular dependency updates
+- Security patches within 48 hours
+- Feature releases (monthly cadence)
+- Bug fixes (as needed)
+
+### Documentation
+- README.md (getting started)
+- API documentation
+- Agent specifications (this document)
+- Troubleshooting guide
+
+---
+
+## Glossary
+
+- **Agent:** Autonomous AI component with specific role and capabilities
+- **Crew:** Collection of agents working together (CrewAI concept)
+- **Task:** Specific work item assigned to an agent
+- **Flow:** Orchestrated sequence of agent tasks
+- **Entry:** User-submitted journal content
+- **Processing Pipeline:** End-to-end workflow for journal analysis
+
+---
+
+## Version History
+
+| Version | Date | Changes | Author |
+|---------|------|---------|--------|
+| 0.1.0 | 2025-10-24 | Initial specification created | System |
+
+---
+
+## Approval & Sign-off
+
+This specification represents the initial baseline for the JournalCraftCrew system.
+
+**Status:** Draft - Awaiting Review  
+**Next Steps:** 
+1. Review and validate against actual codebase
+2. Update with missing agent details
+3. Add specific API endpoint specifications
+4. Document database schema
+5. Create change proposals for new features
+
+---
+
+*This specification is a living document and should be updated as the system evolves.*
