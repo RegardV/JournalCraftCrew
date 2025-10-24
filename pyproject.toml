@@ -1,23 +1,10 @@
 [project]
-name = "coursecraft_crew"
+name = "journal-craft-crew"
 version = "0.1.0"
-description = "coursecraft_crew using crewAI"
-authors = [{ name = "Your Name", email = "you@example.com" }]
-requires-python = ">=3.10,<3.13"
+description = "Journal Craft Crew - AI-powered journaling project"
+requires-python = ">=3.10"
 dependencies = [
-    "crewai[tools]>=0.102.0,<1.0.0"
+    "zhipuai",
+    "python-dotenv",
+    "requests",
 ]
-
-[project.scripts]
-coursecraft_crew = "coursecraft_crew.main:run"
-run_crew = "coursecraft_crew.main:run"
-train = "coursecraft_crew.main:train"
-replay = "coursecraft_crew.main:replay"
-test = "coursecraft_crew.main:test"
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[tool.crewai]
-type = "crew"

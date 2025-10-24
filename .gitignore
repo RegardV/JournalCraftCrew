@@ -3,3 +3,23 @@ venv/
 .env
 *.pyc
 __pycache__/
+# Python Virtual Environment
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environment variables
+.env
+.env.local
+
+# uv
+.uv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
