@@ -1,6 +1,6 @@
 # CourseCraft Crew
 
-![CourseCraft Banner](https://via.placeholder.com/800x200?text=CourseCraft+Crew)
+![CourseCraft Banner]([https://via.placeholder.com/800x200?text=CourseCraft+Crew](https://storage.googleapis.com/msgsndr/IrMcgCngseyAip8tcgDm/media/68fb59aa9b2f636d8d1ec31b.jpeg))
 
 ## Overview
 
