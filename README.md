@@ -1,10 +1,28 @@
-# CourseCraft Crew
+# Journal Craft Crew
 
-![CourseCraft Banner]([https://via.placeholder.com/800x200?text=CourseCraft+Crew](https://storage.googleapis.com/msgsndr/IrMcgCngseyAip8tcgDm/media/68fb59aa9b2f636d8d1ec31b.jpeg))
+![Journal Craft Crew Banner](https://storage.googleapis.com/msgsndr/IrMcgCngseyAip8tcgDm/media/68fb59aa9b2f636d8d1ec31b.jpeg)
 
 ## Overview
 
-CourseCraft Crew is an advanced, multi-agent system for automatically generating high-quality, personalized journaling guides. Using multiple specialized AI agents working in concert, the system produces comprehensive 30-day journals and condensed 6-day lead magnets on any user-defined theme, with professional visual assets and output in PDF format.
+Journal Craft Crew is an advanced AI-powered journaling platform that combines CrewAI multi-agent systems with a modern web interface. The platform generates personalized journal content, manages user projects, and provides real-time AI-assisted journal creation with professional PDF export capabilities.
+
+## 🚀 Current Status: Production Ready
+
+**Backend:** ✅ Fully operational with real LLM integration
+**Frontend:** 🚧 Temporary UI (TestDashboard) - Main dashboard in progress
+**API:** ✅ All endpoints serving real data
+**CrewAI:** 🔄 Integration in progress
+
+## 📋 Documentation Structure
+
+This project uses **OpenSpec** for structured project management:
+
+- **`openspec/`** - Complete project documentation and specifications
+- **`openspec/changes/`** - All implemented changes and features
+- **`openspec/specs/`** - Technical specifications
+- **`openspec/archive/`** - Historical documentation
+
+For detailed project information, see the [OpenSpec documentation](./openspec/).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
