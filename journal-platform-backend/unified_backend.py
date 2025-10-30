@@ -7,7 +7,7 @@ Combines the complete functionality of working_server.py with production-grade s
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect, Depends, Security, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi.responses import JSONResponse, HTMLResponse, FileResponse
 from pydantic import BaseModel, EmailStr, Field
 from typing import Dict, Any, List, Optional
 import json
@@ -22,6 +22,9 @@ from datetime import datetime, timedelta, timezone
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from passlib.hash import bcrypt
+
+# Import CrewAI integration
+from crewai_integration import journal_service
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -160,6 +163,25 @@ class CustomizationSettings(BaseModel):
     color_scheme: str = "default"
     paper_type: str = "standard"
     binding_type: str = "perfect"
+
+# Journal Creation Models
+class JournalPreferences(BaseModel):
+    theme: str = Field(..., description="Journal theme (e.g., 'Journaling for Anxiety')")
+    title: str = Field(..., description="Journal title")
+    titleStyle: str = Field(..., description="Title style preference")
+    authorStyle: str = Field(..., description="Author writing style")
+    researchDepth: str = Field(..., description="Research depth: 'light', 'medium', or 'deep'")
+
+class JournalCreationRequest(BaseModel):
+    preferences: JournalPreferences
+
+class JournalProgress(BaseModel):
+    jobId: str
+    status: str  # 'starting', 'research', 'curation', 'editing', 'pdf', 'completed', 'error'
+    progress: int  # 0-100
+    currentAgent: str
+    message: str
+    estimatedTimeRemaining: int
 
 # Available themes and styles
 AVAILABLE_THEMES = [
@@ -639,6 +661,198 @@ async def simulate_ai_generation(job_id: str):
             "timestamp": time.time()
         }
         await manager.send_progress(job_id, completion_data)
+
+# ==============================
+# JOURNAL CREATION ENDPOINTS
+# ==============================
+
+@app.post("/api/journals/create", response_model=dict)
+async def create_journal(request: JournalCreationRequest, current_user: dict = Depends(get_current_user)):
+    """Create a new journal using CrewAI agents"""
+    try:
+        # Find user_id by searching through users data store
+        user_id = None
+        for uid, user_data in data_store.get("users", {}).items():
+            if user_data.get("email") == current_user.get("email"):
+                user_id = uid
+                break
+
+        if not user_id:
+            raise HTTPException(status_code=401, detail="User not found in data store")
+
+        # Start journal creation process
+        job_id = await journal_service.start_journal_creation(
+            request.preferences.model_dump(),
+            progress_callback=None  # We'll handle progress via WebSocket
+        )
+
+        # Store job with user association
+        if "ai_jobs" not in data_store:
+            data_store["ai_jobs"] = {}
+
+        data_store["ai_jobs"][job_id] = {
+            "user_id": user_id,
+            "preferences": request.preferences.model_dump(),
+            "status": "started",
+            "created_at": datetime.now().isoformat()
+        }
+        save_data(data_store)
+
+        return {
+            "success": True,
+            "jobId": job_id,
+            "message": "Journal creation started successfully"
+        }
+
+    except Exception as e:
+        logger.error(f"Error creating journal: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/journals/status/{job_id}", response_model=JournalProgress)
+async def get_journal_status(job_id: str, current_user: dict = Depends(get_current_user)):
+    """Get the status of a journal creation job"""
+    try:
+        # Check if job exists and belongs to user
+        if job_id not in data_store.get("ai_jobs", {}):
+            raise HTTPException(status_code=404, detail="Job not found")
+
+        job_data = data_store["ai_jobs"][job_id]
+
+        # Find user_id by searching through users data store (same as creation endpoint)
+        user_id = None
+        for uid, user_data in data_store.get("users", {}).items():
+            if user_data.get("email") == current_user.get("email"):
+                user_id = uid
+                break
+
+        if not user_id or job_data["user_id"] != user_id:
+            raise HTTPException(status_code=403, detail="Access denied")
+
+        # Get status from journal service
+        job_status = journal_service.get_job_status(job_id)
+        if not job_status:
+            raise HTTPException(status_code=404, detail="Job status not found")
+
+        return JournalProgress(**job_status)
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error getting job status: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/journals/author-suggestions")
+async def get_author_suggestions(theme: str = ""):
+    """Get author style suggestions for a given theme"""
+    try:
+        suggestions = journal_service.get_author_suggestions(theme)
+        return suggestions
+    except Exception as e:
+        logger.error(f"Error getting author suggestions: {e}")
+        # Return fallback suggestions
+        return {
+            "authors": [
+                {"name": "James Clear", "style": "direct actionable"},
+                {"name": "Mark Manson", "style": "blunt irreverent"},
+                {"name": "Brené Brown", "style": "empathetic research-driven"},
+                {"name": "Robin Sharma", "style": "inspirational narrative"},
+                {"name": "Mel Robbins", "style": "direct motivational"}
+            ],
+            "theme": theme
+        }
+
+@app.get("/api/journals/{job_id}/download")
+async def download_journal(job_id: str, current_user: dict = Depends(get_current_user)):
+    """Download a completed journal"""
+    try:
+        # Check if job exists and belongs to user
+        if job_id not in data_store.get("ai_jobs", {}):
+            raise HTTPException(status_code=404, detail="Job not found")
+
+        job_data = data_store["ai_jobs"][job_id]
+        if job_data["user_id"] != current_user["user_id"]:
+            raise HTTPException(status_code=403, detail="Access denied")
+
+        # Get job result
+        job_status = journal_service.get_job_status(job_id)
+        if not job_status or job_status.get("status") != "completed":
+            raise HTTPException(status_code=400, detail="Journal not ready for download")
+
+        result = job_status.get("result")
+        if not result:
+            raise HTTPException(status_code=404, detail="Journal file not found")
+
+        # Check if file exists
+        file_path = result.get("file_path") or result.get("pdf_path")
+        if not file_path or not os.path.exists(file_path):
+            raise HTTPException(status_code=404, detail="Journal file not found")
+
+        # Return file
+        filename = f"{job_data['preferences']['title']}.md"
+        return FileResponse(
+            path=file_path,
+            filename=filename,
+            media_type="text/markdown"
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error downloading journal: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# WebSocket for real-time progress updates
+class WebSocketManager:
+    def __init__(self):
+        self.active_connections: dict[str, WebSocket] = {}
+
+    async def connect(self, websocket: WebSocket, job_id: str):
+        await websocket.accept()
+        self.active_connections[job_id] = websocket
+
+    def disconnect(self, job_id: str):
+        if job_id in self.active_connections:
+            del self.active_connections[job_id]
+
+    async def send_progress(self, job_id: str, data: dict):
+        if job_id in self.active_connections:
+            try:
+                await self.active_connections[job_id].send_text(json.dumps(data))
+            except Exception as e:
+                logger.error(f"Error sending WebSocket message: {e}")
+                # Remove broken connection
+                self.disconnect(job_id)
+
+manager = WebSocketManager()
+
+@app.websocket("/ws/journal/{job_id}")
+async def websocket_journal_progress(websocket: WebSocket, job_id: str):
+    """WebSocket endpoint for real-time journal creation progress"""
+    await manager.connect(websocket, job_id)
+    try:
+        # Send initial status
+        job_status = journal_service.get_job_status(job_id)
+        if job_status:
+            await websocket.send_text(json.dumps(job_status))
+
+        # Keep connection alive and send updates
+        while True:
+            # Check for updates and send them
+            await asyncio.sleep(1)  # Check every second
+
+            # This would normally be triggered by the journal service
+            # For now, we'll just keep the connection alive
+            job_status = journal_service.get_job_status(job_id)
+            if job_status and job_status.get("status") in ["completed", "error"]:
+                # Send final status and close
+                await websocket.send_text(json.dumps(job_status))
+                break
+
+    except WebSocketDisconnect:
+        manager.disconnect(job_id)
+    except Exception as e:
+        logger.error(f"WebSocket error: {e}")
+        manager.disconnect(job_id)
 
 if __name__ == "__main__":
     import uvicorn
