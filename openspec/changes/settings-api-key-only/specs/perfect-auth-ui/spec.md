@@ -3,9 +3,9 @@
 ## Purpose
 Define requirements for restoring the perfect authentication interface from the archived industry-standard spec, but with API key management moved exclusively to settings.
 
-## Requirements
+## ADDED Requirements
 
-### ADDED: Modern Authentication Interface (Restored from Archive)
+### Requirement: Modern Authentication Interface (Restored from Archive)
 The system SHALL provide a contemporary, industry-standard authentication interface that follows current UX best practices.
 
 #### Scenario: User visits login page
@@ -23,7 +23,7 @@ The system SHALL provide a contemporary, industry-standard authentication interf
 - AND form fields SHALL be appropriately sized for mobile input
 - AND the layout SHALL adapt to mobile screen constraints
 
-### ADDED: Simplified Registration Form
+### Requirement: Simplified Registration Form
 The system SHALL provide a streamlined registration form that focuses only on essential user information.
 
 #### Scenario: New user registers
@@ -41,7 +41,7 @@ The system SHALL provide a streamlined registration form that focuses only on es
 - AND user SHALL be directed to settings for API key setup when ready
 - AND there SHALL be no pressure to add API key immediately
 
-### ADDED: Enhanced Form Validation
+### Requirement: Enhanced Form Validation
 The system SHALL provide real-time, inline validation with user-friendly feedback mechanisms.
 
 #### Scenario: User enters invalid email
@@ -58,7 +58,7 @@ The system SHALL provide real-time, inline validation with user-friendly feedbac
 - AND indicator SHALL show real-time strength updates
 - AND system SHALL provide specific requirements feedback
 
-### ADDED: Security-Focused UX Design
+### Requirement: Security-Focused UX Design
 The system SHALL implement security best practices in the user interface design.
 
 #### Scenario: User enters password
@@ -75,7 +75,7 @@ The system SHALL implement security best practices in the user interface design.
 - AND user SHALL have option to extend session
 - AND system SHALL gracefully handle session expiration
 
-### ADDED: Accessibility Compliance
+### Requirement: Accessibility Compliance
 The system SHALL comply with WCAG 2.1 AA accessibility standards.
 
 #### Scenario: Screen reader user authentication
@@ -92,7 +92,7 @@ The system SHALL comply with WCAG 2.1 AA accessibility standards.
 - AND focus indicators SHALL be clearly visible
 - AND tab order SHALL follow logical sequence
 
-### ADDED: Settings-Based API Key Management
+### Requirement: Settings-Based API Key Management
 The system SHALL provide API key management exclusively in the settings area.
 
 #### Scenario: User wants to add API key
@@ -109,7 +109,7 @@ The system SHALL provide API key management exclusively in the settings area.
 - AND system SHALL direct user to settings to add API key
 - AND user experience SHALL be supportive and educational
 
-### ADDED: Progressive Enhancement
+### Requirement: Progressive Enhancement
 The system SHALL provide enhanced functionality for modern browsers while maintaining core functionality in older browsers.
 
 #### Scenario: User with modern browser

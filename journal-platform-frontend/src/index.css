@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom base styles */
+@layer base {
+  :root {
+    --color-primary: #6366f1;
+    --color-primary-dark: #4f46e5;
+    --color-secondary: #f1f5f9;
+    --color-accent: #f59e0b;
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+    --color-error: #ef4444;
+    --color-text: #1e293b;
+    --color-text-light: #64748b;
+    --color-border: #e2e8f0;
+    --color-bg: #ffffff;
+    --color-bg-muted: #f8fafc;
+  }
+
+  body {
+    @apply bg-white text-gray-900;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.6;
+  }
+
+  * {
+    @apply border-gray-200;
+  }
+}
+
+/* Custom component styles */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-xl text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-color-primary focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none shadow-sm hover:shadow-md;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-indigo-600 to-indigo-700 text-white hover:from-indigo-700 hover:to-indigo-800 shadow-lg hover:shadow-xl;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-100 text-gray-900 hover:bg-gray-200 border border-gray-300;
+  }
+
+  .btn-outline {
+    @apply border-2 border-gray-300 bg-transparent text-gray-900 hover:bg-gray-100 hover:border-indigo-600;
+  }
+
+  .btn-ghost {
+    @apply text-gray-600 hover:text-gray-900 hover:bg-gray-100;
+  }
+
+  .card {
+    @apply rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-all duration-200 overflow-hidden;
+  }
+
+  .card-hover {
+    @apply hover:shadow-xl hover:-translate-y-1;
+  }
+
+  .input {
+    @apply flex h-12 w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 text-sm placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2 focus-visible:border-indigo-600 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200;
+  }
+
+  .gradient-bg {
+    @apply bg-gradient-to-br from-indigo-50 via-white to-purple-50;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-indigo-600 to-indigo-700 bg-clip-text text-transparent;
+  }
+
+  .glass-effect {
+    @apply bg-white/80 backdrop-blur-sm border border-white/20;
+  }
+
+  .section-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .content-card {
+    @apply bg-white rounded-2xl shadow-lg border border-gray-100 p-8 hover:shadow-xl transition-all duration-300;
+  }
+
+  .metric-card {
+    @apply bg-gradient-to-br from-white to-gray-50 rounded-xl p-6 border border-gray-100 hover:shadow-lg transition-all duration-200;
+  }
+
+  .status-badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+  }
+
+  .status-success {
+    @apply bg-green-100 text-green-800;
+  }
+
+  .status-warning {
+    @apply bg-yellow-100 text-yellow-800;
+  }
+
+  .status-error {
+    @apply bg-red-100 text-red-800;
+  }
+
+  .status-info {
+    @apply bg-blue-100 text-blue-800;
+  }
+
+  .sidebar-nav {
+    @apply flex flex-col gap-1 p-4;
+  }
+
+  .sidebar-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl text-color-text-light hover:text-color-text hover:bg-color-bg-muted transition-all duration-200;
+  }
+
+  .sidebar-item-active {
+    @apply bg-color-primary text-white shadow-lg;
+  }
+
+  .header-container {
+    @apply bg-white/80 backdrop-blur-sm border-b border-color-border sticky top-0 z-40;
+  }
+
+  .loading-spinner {
+    @apply animate-spin rounded-full h-8 w-8 border-2 border-color-primary border-t-transparent;
+  }
+
+  .skeleton {
+    @apply animate-pulse bg-color-bg-muted rounded;
+  }
+
+  .skeleton-text {
+    @apply h-4 w-3/4 rounded;
+  }
+
+  .skeleton-avatar {
+    @apply h-10 w-10 rounded-full;
+  }
+
+  /* Additional spacing utilities */
+  .space-y-8 > * + * {
+    @apply mt-8;
+  }
+
+  .space-y-6 > * + * {
+    @apply mt-6;
+  }
+
+  .space-y-4 > * + * {
+    @apply mt-4;
+  }
+
+  /* Gap utilities handled by Tailwind directly */
+
+  /* Improved hover states */
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-xl;
+  }
+
+  .hover-scale {
+    @apply transition-transform duration-200 hover:scale-105;
+  }
+
+  /* Better text hierarchy */
+  .text-display {
+    @apply text-4xl md:text-5xl font-bold;
+  }
+
+  .text-heading {
+    @apply text-2xl md:text-3xl font-bold;
+  }
+
+  .text-subheading {
+    @apply text-lg md:text-xl font-semibold;
+  }
+
+  .text-body {
+    @apply text-base;
+  }
+
+  .text-caption {
+    @apply text-sm text-color-text-light;
+  }
+}
