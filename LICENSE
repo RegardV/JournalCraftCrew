@@ -1,0 +1,122 @@
+Journal Craft Crew Commercial License Agreement
+
+Effective Date: November 6, 2025
+
+This Journal Craft Crew Commercial License Agreement ("License") is entered into between the Licensor (RegardV, creator and owner of Journal Craft Crew) and the Licensee (you, the user of this software).
+
+By using, installing, modifying, distributing, or operating Journal Craft Crew for commercial purposes, you agree to be bound by the terms of this License.
+
+---
+
+ARTICLE 1: DEFINITIONS
+
+1.1 "Software" means the Journal Craft Crew software platform, including all source code, documentation, databases, and related materials.
+
+1.2 "Commercial Use" means any use of the Software to generate revenue, including but not limited to:
+- Operating the Software as a SaaS platform
+- Selling access to the Software or its features
+- Using the Software in a business context to generate income
+- Integrating the Software into commercial products or services
+
+1.3 "Gross Revenue" means all revenue generated from Commercial Use of the Software, before any deductions, expenses, or taxes.
+
+1.4 "Threshold" means USD $900.00 per calendar month.
+
+1.5 "Royalty Rate" means 3.5% of Gross Revenue exceeding the Threshold.
+
+1.6 "Calendar Month" means each month from the 1st to the last day of the month.
+
+ARTICLE 2: LICENSE GRANT
+
+2.1 Commercial License. Subject to the terms of this License, Licensor grants Licensee a non-exclusive, non-transferable, worldwide license to use, modify, and distribute the Software for Commercial Use.
+
+2.2 Source Code Access. Licensee is granted full access to the Software's source code for the purpose of modification and customization.
+
+2.3 Distribution Rights. Licensee may distribute modified versions of the Software, provided that all commercial terms of this License are passed to downstream users.
+
+ARTICLE 3: FINANCIAL OBLIGATIONS
+
+3.1 Revenue Sharing. Licensee agrees to pay Licensor a royalty of 3.5% on all Gross Revenue generated from Commercial Use of the Software that exceeds USD $900.00 in any calendar month.
+
+3.2 Payment Calculation.
+   - If monthly Gross Revenue ≤ $900.00: No royalty payment due
+   - If monthly Gross Revenue > $900.00: Royalty = (Gross Revenue - $900.00) × 3.5%
+
+3.3 Example Calculations:
+   - $1,000 monthly revenue: ($1,000 - $900) × 3.5% = $3.50 royalty
+   - $5,000 monthly revenue: ($5,000 - $900) × 3.5% = $143.50 royalty
+   - $10,000 monthly revenue: ($10,000 - $900) × 3.5% = $318.50 royalty
+
+3.4 Payment Schedule. Royalty payments are due within 15 days of month-end for the preceding calendar month.
+
+3.5 Reporting Requirements. Licensee shall provide Licensor with a monthly report detailing:
+   - Total Gross Revenue for the month
+   - Calculation of royalty due
+   - Proof of revenue (if requested)
+
+3.6 Payment Method. Payments shall be made via bank transfer or other method specified by Licensor.
+
+ARTICLE 4: COMPLIANCE AND AUDITING
+
+4.1 Record Keeping. Licensee shall maintain accurate and complete records of all revenue generated from Commercial Use of the Software for a period of 3 years.
+
+4.2 Audit Rights. Licensor reserves the right, upon reasonable notice, to audit Licensee's records to verify compliance with this License.
+
+4.3 Audit Costs. If audit results show underpayment of 5% or more, Licensee shall bear the cost of the audit.
+
+ARTICLE 5: INTELLECTUAL PROPERTY
+
+5.1 Ownership. Licensor retains all right, title, and interest in and to the Software, including all intellectual property rights.
+
+5.2 Modifications. All modifications, enhancements, and derivative works created by Licensee shall be subject to the same terms of this License.
+
+5.3 Branding. Licensee shall not remove or alter any copyright notices, trademarks, or attribution notices in the Software.
+
+ARTICLE 6: TERM AND TERMINATION
+
+6.1 Term. This License commences on the Effective Date and continues perpetually unless terminated.
+
+6.2 Termination for Breach. Licensor may terminate this License if Licensee:
+   - Fails to pay royalties when due
+   - Fails to provide required reports
+   - Breaches any material term of this License
+
+6.3 Effect of Termination. Upon termination:
+   - All rights granted under this License immediately cease
+   - Licensee must cease all Commercial Use of the Software
+   - Licensor may seek damages for any unpaid royalties
+
+6.4 Survival. Sections 3, 4, 5, and 7 survive termination of this License.
+
+ARTICLE 7: DISCLAIMERS AND LIMITATIONS
+
+7.1 "AS IS" Software. The Software is provided "AS IS," without warranty of any kind.
+
+7.2 Limitation of Liability. Licensor's total liability under this License shall not exceed the total royalties paid by Licensee in the 12 months preceding the claim.
+
+7.3 No Support. Licensor is not obligated to provide technical support, updates, or maintenance.
+
+ARTICLE 8: GENERAL PROVISIONS
+
+8.1 Governing Law. This License shall be governed by the laws of [Your Jurisdiction].
+
+8.2 Notices. All notices shall be in writing and sent to the parties' last known contact information.
+
+8.3 Assignment. Licensee may not assign this License without Licensor's prior written consent.
+
+8.4 Entire Agreement. This License constitutes the entire agreement between the parties.
+
+8.5 Severability. If any provision is found unenforceable, the remainder remains in full force.
+
+---
+
+LICENSOR CONTACT:
+RegardV
+Email: [Your Email Address]
+GitHub: https://github.com/RegardV
+
+---
+
+IMPORTANT: By using Journal Craft Crew for commercial purposes, you acknowledge that you have read, understood, and agree to be bound by all terms and conditions of this License Agreement.
+
+The royalty structure is designed to support sustainable development while allowing small operators to grow without significant financial burden. For questions or custom licensing arrangements, please contact the Licensor directly.
