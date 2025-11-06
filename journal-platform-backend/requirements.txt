@@ -14,7 +14,7 @@ asyncpg==0.29.0
 psycopg2-binary==2.9.7
 
 # Authentication & Security
-python-jose[cryptography]==3.3.0
+PyJWT[cryptography]==2.10.1
 python-multipart==0.0.6
 passlib[bcrypt]==1.7.4
 

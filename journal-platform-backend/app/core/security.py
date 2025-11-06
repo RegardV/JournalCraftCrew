@@ -6,7 +6,8 @@ Phase 3.2: User Authentication & Authorization System
 import os
 from datetime import datetime, timedelta
 from typing import Optional, Dict, Any
-from jose import JWTError, jwt
+import jwt
+from jwt.exceptions import InvalidTokenError as JWTError
 from passlib.context import CryptContext
 from passlib.hash import bcrypt
 import secrets
