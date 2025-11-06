@@ -43,7 +43,7 @@ python-multipart==0.0.6
 
 # PDF Generation (for advanced exports)
 reportlab==4.0.5
-Pillow==10.1.0
+Pillow==10.3.0
 
 # Monitoring & Logging
 structlog==23.1.0
@@ -51,7 +51,7 @@ sentry-sdk==1.40.6
 
 # File Processing
 python-magic==0.10.2
- Pillow==10.1.0
+ Pillow==10.3.0
 
 # Development Server
 python-devtools==2023.10.4
