@@ -21,6 +21,9 @@ import { Link } from 'react-router-dom';
 import { projectAPI } from '@/lib/api';
 import JournalCreationModal from '@/components/journal/JournalCreationModal';
 import JournalProgress from '@/components/journal/JournalProgress';
+import CrewAIProgressVisualization from '@/components/journal/CrewAIProgressVisualization';
+import ContentLibrary from '@/components/content/ContentLibrary';
+import CrewAIOnboarding from '@/components/onboarding/CrewAIOnboarding';
 
 interface DashboardProps {
   user?: {
@@ -30,7 +33,7 @@ interface DashboardProps {
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ user }) => {
-  const [activeView, setActiveView] = useState<'dashboard' | 'settings'>('dashboard');
+  const [activeView, setActiveView] = useState<'dashboard' | 'library' | 'settings'>('dashboard');
   const [recentProjects, setRecentProjects] = useState<Array<{
     id: string;
     title: string;
@@ -44,7 +47,9 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
 
   // Journal creation state
   const [isJournalModalOpen, setIsJournalModalOpen] = useState(false);
+  const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
   const [activeJobId, setActiveJobId] = useState<string | null>(null);
+  const [userPreferences, setUserPreferences] = useState<any>(null);
 
   useEffect(() => {
     // Fetch LLM projects when component mounts
@@ -80,25 +85,38 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
 
   const handleJournalCreation = async (preferences: any) => {
     try {
-      const response = await fetch('/api/journals/create', {
+      // Direct journal creation for testing
+      console.log('Creating journal with preferences:', preferences);
+
+      const response = await fetch('http://localhost:6770/api/journals/create', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(preferences)
       });
 
       if (response.ok) {
         const data = await response.json();
-        setActiveJobId(data.jobId);
+        console.log('Journal creation started:', data);
+        setActiveJobId(data.job_id);
+        setIsJournalModalOpen(false);
+
+        // Show success message
+        alert(`Journal creation started! Job ID: ${data.job_id}`);
       } else {
-        console.error('Failed to create journal:', await response.text());
-        alert('Failed to create journal. Please try again.');
+        const errorText = await response.text();
+        console.error('Failed to create journal:', errorText);
+
+        if (response.status === 401) {
+          alert('Authentication required. Please log in first.');
+        } else {
+          alert(`Failed to create journal: ${errorText}`);
+        }
       }
     } catch (error) {
       console.error('Error creating journal:', error);
-      alert('An error occurred while creating your journal. Please try again.');
+      alert('Network error. Please check your connection and try again.');
     }
   };
 
@@ -140,6 +158,35 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
       trend: 'neutral'
     }
   ];
+
+  if (activeView === 'library') {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-heading">Content Library</h1>
+            <p className="text-gray-600">Manage and organize your generated journals</p>
+          </div>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => setActiveView('dashboard')}
+              className="btn btn-ghost"
+            >
+              Back to Dashboard
+            </button>
+            <button
+              onClick={() => handleCreateJournal()}
+              className="btn btn-primary flex items-center gap-2"
+            >
+              <Plus className="w-4 h-4" />
+              Create New Journal
+            </button>
+          </div>
+        </div>
+        <ContentLibrary />
+      </div>
+    );
+  }
 
   if (activeView === 'settings') {
     return (
@@ -199,6 +246,13 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
           >
             <Plus className="w-5 h-5" />
             Create New Journal
+          </button>
+          <button
+            onClick={() => setActiveView('library')}
+            className="btn btn-outline flex items-center justify-center gap-2 px-6 py-3"
+          >
+            <FileText className="w-5 h-5" />
+            Content Library
           </button>
           <button
             onClick={() => setActiveView('settings')}
@@ -378,12 +432,21 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
         onComplete={handleJournalCreation}
       />
 
-      {/* Journal Progress Modal */}
+      {/* CrewAI Progress Visualization */}
       {activeJobId && (
-        <JournalProgress
+        <CrewAIProgressVisualization
           jobId={activeJobId}
           onComplete={handleJournalComplete}
           onError={handleJournalError}
+        />
+      )}
+
+      {/* CrewAI Onboarding Modal */}
+      {isOnboardingOpen && userPreferences && (
+        <CrewAIOnboarding
+          preferences={userPreferences}
+          onOnboardingComplete={handleOnboardingComplete}
+          onClose={() => setIsOnboardingOpen(false)}
         />
       )}
     </div>

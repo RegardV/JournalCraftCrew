@@ -44,5 +44,5 @@ class PDFContent(BaseModel):
     """Content for PDF generation"""
     title: str = Field(..., description="Course title")
     body: List[CourseModule] = Field(default_factory=list, description="Content modules for the PDF")
-    footer: str = Field("© CourseCraft Crew", description="Footer text for the PDF")
+    footer: str = Field("© Journal Craft Crew", description="Footer text for the PDF")
     image_paths: List[str] = Field(default_factory=list, description="Paths to images to include")

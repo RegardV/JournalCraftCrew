@@ -1,6 +1,6 @@
 1. Project Brief
 
-Project Name: CourseCraft CrewPurpose: CourseCraft Crew is an AI-driven automation platform designed to streamline the creation of self-help and self-improvement courses, with a focus on adaptability to various topics. It leverages CrewAI’s agent-based framework to research, curate, edit, and generate professional course materials, starting with a proof-of-concept course titled "Journaling for Anxiety: Journaling to Calm Your Mind". The system aims to reduce manual effort in course development, producing high-quality, evidence-based content in multiple formats (currently text and PDF, with plans for audio and video).
+Project Name: Journal Craft CrewPurpose: Journal Craft Crew is an AI-driven automation platform designed to streamline the creation of self-help and self-improvement courses, with a focus on adaptability to various topics. It leverages CrewAI's agent-based framework to research, curate, edit, and generate professional course materials, starting with a proof-of-concept course titled "Journaling for Anxiety: Journaling to Calm Your Mind". The system aims to reduce manual effort in course development, producing high-quality, evidence-based content in multiple formats (currently text and PDF, with plans for audio and video).
 
 Objective:
 
@@ -163,12 +163,12 @@ Data Flow:
 
 5. Project Handover Write-Up
 
-Overview: This handover provides a step-by-step guide to understanding, running, and extending the CourseCraft Crew project as of March 20, 2025. It details every method, implementation, output, tool, task, and format involved, ensuring a new developer can take over seamlessly.
+Overview: This handover provides a step-by-step guide to understanding, running, and extending the Journal Craft Crew project as of March 20, 2025. It details every method, implementation, output, tool, task, and format involved, ensuring a new developer can take over seamlessly.
 
 Step-by-Step Process:
 
 1. Setup Environment:
-    - Clone the repository from GitHub to ~/crewprojects/coursecraft_crew/.
+    - Clone the repository from GitHub to ~/crewprojects/journal_craft_crew/.
     - Create a Python 3.12 virtual environment (python -m venv venv) and activate it (source venv/bin/activate).
     - Install dependencies from requirements.txt (pip install -r requirements.txt), including crewai, nltk, fpdf, timeout_decorator, and dotenv.
     - Create a .env file in the root with XAI_API_KEY (required) and MEDIA_LLM_API_KEY (optional, currently unused).

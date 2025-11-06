@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set project root
-PROJECT_DIR=~/crewprojects/coursecraft_crew
+PROJECT_DIR=~/crewprojects/journal_craft_crew
 
 # Navigate to project root
 cd "$PROJECT_DIR" || { echo "Directory $PROJECT_DIR not found!"; exit 1; }

@@ -48,7 +48,7 @@ For detailed project information, see the [OpenSpec documentation](./openspec/).
 
 ## 🏗️ System Architecture
 
-CourseCraft Crew implements a crew-based architecture with specialized agents orchestrated by a manager agent. The system follows a sequential multi-phase workflow:
+Journal Craft Crew implements a crew-based architecture with specialized agents orchestrated by a manager agent. The system follows a sequential multi-phase workflow:
 
 ```
 Onboarding → Discovery → Research → Content Curation → Editing → Media Generation → PDF Creation
@@ -200,8 +200,8 @@ Each phase is handled by a dedicated agent with specific expertise, with the Man
 
 ### Step 1: Clone the repository
 ```bash
-git clone https://github.com/yourusername/coursecraft_crew.git
-cd coursecraft_crew
+git clone https://github.com/yourusername/journal_craft_crew.git
+cd journal_craft_crew
 ```
 
 ### Step 2: Set up virtual environment
@@ -230,7 +230,7 @@ NCBI_API_KEY=your_ncbi_api_key  # Optional
 python main.py
 ```
 
-This starts the CourseCraft Crew and begins the guided process:
+This starts the Journal Craft Crew and begins the guided process:
 
 1. **Onboarding**: Enter your theme, title style preference, and author style preference
 2. **Discovery**: Review and select from generated title options
@@ -285,7 +285,7 @@ Choose a title from the generated options: [3] Strategic Leadership: 30 Days to 
 ### Directory Structure
 
 ```
-coursecraft_crew/
+journal_craft_crew/
 ├── agents/                   # Agent implementations
 │   ├── content_curator_agent.py
 │   ├── discovery_agent.py
@@ -328,4 +328,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
-*CourseCraft Crew: Transforming themes into comprehensive journaling experiences.*
+*Journal Craft Crew: Transforming themes into comprehensive journaling experiences.*

@@ -42,7 +42,7 @@ except Exception as e:
     exit(1)
 
 def run_with_manager():
-    log_debug("Starting CourseCraft Crew in FULL mode")
+    log_debug("Starting Journal Craft Crew in FULL mode")
     manager_agent = create_manager_agent(llm)
     onboarding_agent = create_onboarding_agent(llm)
     discovery_agent = create_discovery_agent(llm)

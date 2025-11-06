@@ -1,16 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from '@/contexts/AuthContext';
 import { JournalCreationProvider } from '@/contexts/JournalCreationContext';
 import Header from '@/components/layout/Header';
 import Sidebar from '@/components/layout/Sidebar';
 import Dashboard from '@/components/dashboard/Dashboard';
-import TestDashboard from '@/components/test/TestDashboard';
 import SplashScreen from '@/components/splash/SplashScreen';
 import LoginPage from '@/pages/auth/LoginPage';
 import RegisterPage from '@/pages/auth/RegisterPage';
 import ConnectionStatus from '@/components/ui/ConnectionStatus';
-import { systemAPI } from '@/lib/api';
 
 // Authenticated routes component
 function AuthenticatedRoutes() {
@@ -102,7 +100,6 @@ function App() {
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<SplashScreen />} />
-          <Route path="/test" element={<TestDashboard />} />
           <Route path="/auth/login" element={<LoginPage />} />
           <Route path="/auth/register" element={<RegisterPage />} />
 
