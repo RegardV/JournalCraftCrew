@@ -8,6 +8,9 @@ import Dashboard from '@/components/dashboard/Dashboard';
 import SplashScreen from '@/components/splash/SplashScreen';
 import LoginPage from '@/pages/auth/LoginPage';
 import RegisterPage from '@/pages/auth/RegisterPage';
+import ForgotPasswordPage from '@/pages/auth/ForgotPasswordPage';
+import TermsPage from '@/pages/legal/TermsPage';
+import PrivacyPage from '@/pages/legal/PrivacyPage';
 import ConnectionStatus from '@/components/ui/ConnectionStatus';
 
 // Authenticated routes component
@@ -102,6 +105,11 @@ function App() {
           <Route path="/" element={<SplashScreen />} />
           <Route path="/auth/login" element={<LoginPage />} />
           <Route path="/auth/register" element={<RegisterPage />} />
+          <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
+
+          {/* Legal Pages */}
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
 
           {/* Protected Routes */}
           <Route path="/dashboard/*" element={<AuthenticatedRoutes />} />

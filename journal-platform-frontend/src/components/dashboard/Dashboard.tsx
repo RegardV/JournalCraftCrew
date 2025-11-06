@@ -88,22 +88,37 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
       // Direct journal creation for testing
       console.log('Creating journal with preferences:', preferences);
 
+      // Format preferences to match backend API structure
+      const formattedPreferences = {
+        preferences: {
+          theme: preferences.theme || preferences.selectedTheme,
+          title: preferences.title || preferences.projectTitle,
+          titleStyle: preferences.titleStyle || preferences.title_style,
+          authorStyle: preferences.authorStyle || preferences.author_style,
+          researchDepth: preferences.researchDepth || preferences.research_depth
+        }
+      };
+
+      console.log('Sending formatted request:', formattedPreferences);
+
       const response = await fetch('http://localhost:6770/api/journals/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(preferences)
+        body: JSON.stringify(formattedPreferences)
       });
 
       if (response.ok) {
         const data = await response.json();
         console.log('Journal creation started:', data);
-        setActiveJobId(data.job_id);
+        // Handle both jobId and job_id response formats
+        const jobId = data.jobId || data.job_id;
+        setActiveJobId(jobId);
         setIsJournalModalOpen(false);
 
         // Show success message
-        alert(`Journal creation started! Job ID: ${data.job_id}`);
+        alert(`Journal creation started! Job ID: ${jobId}`);
       } else {
         const errorText = await response.text();
         console.error('Failed to create journal:', errorText);
@@ -122,8 +137,38 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
 
   const handleJournalComplete = (result: any) => {
     setActiveJobId(null);
-    // Refresh the recent projects list
-    window.location.reload();
+    // Refresh the recent projects list instead of full reload
+    const fetchLLMProjects = async () => {
+      try {
+        const response = await projectAPI.getLLMProjects();
+        if (response.projects && response.projects.length > 0) {
+          const formattedProjects = response.projects.map((project: any) => ({
+            id: project.id,
+            title: project.title,
+            description: project.description,
+            status: project.status,
+            progress: project.progress || 100,
+            lastEdit: new Date(project.created_at).toLocaleDateString(),
+            wordCount: project.word_count || 'N/A',
+            files: project.files || []
+          }));
+          setRecentProjects(formattedProjects);
+        }
+      } catch (error) {
+        console.error('Error refreshing projects:', error);
+      }
+    };
+
+    fetchLLMProjects();
+
+    // Show success notification with library guidance
+    const goToLibrary = confirm(
+      '🎉 Journal created successfully!\n\nYour journal is now ready in your Content Library where you can:\n• Download the complete PDF\n• Preview all pages\n• View AI agent details\n• Access all your generated content\n\nWould you like to visit your Content Library now?'
+    );
+
+    if (goToLibrary) {
+      setActiveView('library');
+    }
   };
 
   const handleJournalError = (error: string) => {
