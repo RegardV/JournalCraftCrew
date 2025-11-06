@@ -268,7 +268,7 @@ fake_users_db = {
         "full_name": "John Doe",
         "hashed_password": get_password_hash("secret"),
         "disabled": False,
-        "openai_api_key": "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"
+        "openai_api_key": os.getenv("OPENAI_API_KEY", "YOUR_OPENAI_API_KEY_HERE")
     }
 }
 

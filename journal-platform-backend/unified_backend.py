@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
 Unified Backend Server for Journal Craft Crew
-Combines the complete functionality of working_server.py with production-grade security
+Phase 4: Security Hardened Production Backend
 """
 
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect, Depends, Security, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.responses import JSONResponse, HTMLResponse, FileResponse
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, validator
 from typing import Dict, Any, List, Optional
 import json
 import asyncio
@@ -23,17 +23,39 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from passlib.hash import bcrypt
 
+# Import security middleware
+from app.middleware.security import setup_cors_middleware, RateLimitMiddleware, SecurityHeadersMiddleware
+from app.utils.validation import SecurityValidator, validate_string_field
+from app.utils.error_handling import (
+    setup_exception_handlers,
+    JournalPlatformException,
+    ValidationError,
+    AuthenticationError,
+    NotFoundError,
+    DatabaseError
+)
+
 # Import CrewAI integration
 from crewai_integration import journal_service
 
+# Import journal scanner service
+from app.services.journal_scanner import JournalScannerService
+
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=getattr(logging, os.getenv("LOG_LEVEL", "INFO")),
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 logger = logging.getLogger(__name__)
 
-# Security configuration
-SECRET_KEY = secrets.token_urlsafe(32)
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 1440  # 24 hours
+# Security configuration from environment
+SECRET_KEY = os.getenv("SECRET_KEY", secrets.token_urlsafe(32))
+ALGORITHM = os.getenv("ALGORITHM", "HS256")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "1440"))
+
+# Validate secret key
+if SECRET_KEY == "your-super-secret-key-change-in-production" or SECRET_KEY.startswith("CHANGE_ME"):
+    logger.warning("Using default or placeholder SECRET_KEY. Please set a secure SECRET_KEY in production!")
 
 # File-based data persistence
 DATA_FILE = "unified_data.json"
@@ -100,6 +122,9 @@ def verify_token(token: str) -> Optional[dict]:
 # Initialize data
 data_store = load_data()
 
+# Initialize journal scanner service
+journal_scanner = JournalScannerService(llm_output_dir="../LLM_output")
+
 # Security
 security = HTTPBearer()
 
@@ -124,38 +149,65 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Security(
 
 # Create FastAPI app
 app = FastAPI(
-    title="Journal Platform - Unified Backend",
-    description="Complete backend with all functionality and production-grade security"
+    title="Journal Craft Crew - Production Backend",
+    description="Security-hardened backend with rate limiting and input validation"
 )
 
-# Add CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# Setup security middleware (CORS, rate limiting, security headers)
+setup_cors_middleware(app)
+app.add_middleware(RateLimitMiddleware, calls=100, period=60)
+app.add_middleware(SecurityHeadersMiddleware)
 
-# Pydantic models
+# Setup comprehensive error handling
+setup_exception_handlers(app)
+
+# Enhanced Pydantic models with security validation
 class UserRegistration(BaseModel):
-    email: EmailStr
-    password: str
-    full_name: str
-    profile_type: str = "personal_journaler"
+    email: EmailStr = Field(..., description="Valid email address")
+    password: str = Field(..., min_length=8, max_length=128, description="Secure password (8-128 characters)")
+    full_name: str = Field(..., min_length=1, max_length=100, description="Full name")
+    profile_type: str = Field("personal_journaler", pattern="^(personal_journaler|content_creator)$", description="Account type")
+
+    @validator('full_name')
+    def validate_full_name(cls, v):
+        return validate_string_field(v, 'full_name', max_length=100)
+
+    @validator('password')
+    def validate_password_strength(cls, v):
+        is_valid, errors = SecurityValidator.validate_password_strength(v)
+        if not is_valid:
+            raise ValueError(f"Password validation failed: {', '.join(errors)}")
+        return v
 
 class UserLogin(BaseModel):
-    email: EmailStr
-    password: str
+    email: EmailStr = Field(..., description="Valid email address")
+    password: str = Field(..., min_length=1, max_length=128, description="User password")
+
+    @validator('email')
+    def validate_email_format(cls, v):
+        if not SecurityValidator.validate_email(v):
+            raise ValueError("Invalid email format")
+        return v.lower()
 
 class TokenData(BaseModel):
-    access_token: str
-    token_type: str = "bearer"
+    access_token: str = Field(..., min_length=10, description="JWT access token")
+    token_type: str = Field("bearer", pattern="^bearer$", description="Token type")
 
 class AIGenerationRequest(BaseModel):
-    theme: str
-    title_style: str
-    description: Optional[str] = None
+    theme: str = Field(..., min_length=3, max_length=200, description="Journal theme")
+
+    @validator('theme')
+    def validate_theme(cls, v):
+        # Sanitize and validate theme input
+        sanitized = SecurityValidator.sanitize_string(v, max_length=200)
+        if SecurityValidator.check_sql_injection(sanitized):
+            raise ValueError("Invalid theme detected")
+        return sanitized
+
+class AIGenerationResponse(BaseModel):
+    job_id: str = Field(..., description="Unique job identifier")
+    status: str = Field(..., pattern="^(pending|processing|completed|failed)$", description="Job status")
+    message: str = Field(..., description="Status message")
 
 class CustomizationSettings(BaseModel):
     layout: str = "single-column"
@@ -507,9 +559,123 @@ async def delete_project(project_id: str, current_user: dict = Depends(get_curre
         "message": "Project deleted successfully"
     }
 
+# ==============================
+# JOURNAL LIBRARY INTEGRATION
+# ==============================
+
+@app.get("/api/journals/library")
+async def get_journal_library(current_user: dict = Depends(get_current_user)):
+    """Get user's completed CrewAI journal projects"""
+    try:
+        # Scan projects using the journal scanner service
+        projects = journal_scanner.scan_projects()
+
+        return {
+            "projects": projects,
+            "count": len(projects),
+            "last_scan": journal_scanner.last_scan.isoformat() if journal_scanner.last_scan else None,
+            "success": True
+        }
+
+    except Exception as e:
+        logger.error(f"Error scanning journal library: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/journals/{project_id}/files")
+async def get_project_files(project_id: str, current_user: dict = Depends(get_current_user)):
+    """Get file structure for a specific journal project"""
+    try:
+        files = journal_scanner.get_project_files(project_id)
+
+        if not files:
+            raise HTTPException(status_code=404, detail="Project not found")
+
+        return {
+            "project_id": project_id,
+            "files": files,
+            "success": True
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error getting project files: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/journals/{project_id}/metadata")
+async def get_project_metadata(project_id: str, current_user: dict = Depends(get_current_user)):
+    """Get metadata for a specific journal project"""
+    try:
+        project = journal_scanner.get_project_by_id(project_id)
+
+        if not project:
+            raise HTTPException(status_code=404, detail="Project not found")
+
+        return {
+            "project": project,
+            "success": True
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error getting project metadata: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/journals/{project_id}/download/{file_path:path}")
+async def download_journal_file(project_id: str, file_path: str, current_user: dict = Depends(get_current_user)):
+    """Download a specific file from a journal project"""
+    try:
+        # Get the absolute file path
+        full_path = journal_scanner.get_file_path(project_id, file_path)
+
+        if not full_path or not full_path.exists():
+            raise HTTPException(status_code=404, detail="File not found")
+
+        # Determine media type
+        if file_path.endswith('.pdf'):
+            media_type = 'application/pdf'
+        elif file_path.endswith('.json'):
+            media_type = 'application/json'
+        elif file_path.endswith(('.jpg', '.jpeg')):
+            media_type = 'image/jpeg'
+        elif file_path.endswith('.png'):
+            media_type = 'image/png'
+        else:
+            media_type = 'application/octet-stream'
+
+        return FileResponse(
+            path=full_path,
+            filename=os.path.basename(file_path),
+            media_type=media_type
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error downloading file: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/journals/{project_id}/status")
+async def get_project_completion_status(project_id: str, current_user: dict = Depends(get_current_user)):
+    """Check if a CrewAI project has completed successfully"""
+    try:
+        is_complete = journal_scanner.is_project_complete(project_id)
+
+        return {
+            "project_id": project_id,
+            "is_complete": is_complete,
+            "status": "completed" if is_complete else "in_progress",
+            "success": True
+        }
+
+    except Exception as e:
+        logger.error(f"Error checking project status: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/api/library/llm-projects")
 async def get_llm_output_projects():
-    """Scan and return projects from LLM_output folder"""
+    """Scan and return projects from LLM_output folder (legacy endpoint)"""
     try:
         # Look for LLM_output folder in parent directory (project-relative path)
         llm_output_path = os.path.join("..", "LLM_output")
@@ -857,20 +1023,23 @@ async def websocket_journal_progress(websocket: WebSocket, job_id: str):
 if __name__ == "__main__":
     import uvicorn
     print("🚀 Starting Journal Craft Crew Unified Backend Server")
-    print("📍 Backend: http://localhost:8000")
-    print("📍 Health Check: http://localhost:8000/health")
+    print("📍 Backend: http://localhost:6770")
+    print("📍 Health Check: http://localhost:6770/health")
     print("📍 Frontend: http://localhost:5173")
     print("📋 Available Endpoints:")
     print("   - Authentication: /api/auth/register, /api/auth/login")
     print("   - AI Generation: /api/ai/themes, /api/ai/title-styles, /api/ai/generate-journal")
+    print("   - Journal Creation: /api/journals/create, /api/journals/status/{job_id}")
+    print("   - Journal Library: /api/journals/library, /api/journals/{project_id}/files")
+    print("   - File Downloads: /api/journals/{project_id}/download/{file_path}")
     print("   - Project Library: /api/library/projects (full CRUD)")
-    print("   - WebSocket: /ws/job/{job_id} (real-time progress)")
+    print("   - WebSocket: /ws/job/{job_id}, /ws/journal/{job_id} (real-time progress)")
     print("   - Data Persistence: File-based storage with security")
     print("🎯 Unified Backend Ready!")
 
     uvicorn.run(
         app,
         host="0.0.0.0",
-        port=8000,
+        port=6770,
         log_level="info"
     )

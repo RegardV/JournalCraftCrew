@@ -18,7 +18,7 @@ def create_manager_agent(llm):
     return Agent(
         role="Manager",
         goal="Orchestrate the creation of themed journaling guides with dynamic theming",
-        backstory="""I’m the coordinator of the CourseCraft Content Crew, guiding agents to craft journaling guides tailored to user preferences. 
+        backstory="""I’m the coordinator of the Journal Craft Crew, guiding agents to craft journaling guides tailored to user preferences. 
         I manage data flow dynamically, ensuring efficiency and adaptability.""",
         tools=[DuckDBTool()],
         verbose=True,

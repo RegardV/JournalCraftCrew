@@ -85,9 +85,9 @@ const RegisterPage: React.FC = () => {
     try {
       await register({
         email: formData.email,
-        username: formData.email.split('@')[0], // Use email prefix as username
         password: formData.password,
-        full_name: formData.full_name
+        full_name: formData.full_name,
+        profile_type: 'personal_journaler' // Default profile type
       });
       navigate('/dashboard');
     } catch (error) {

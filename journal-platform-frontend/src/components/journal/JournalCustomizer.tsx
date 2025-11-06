@@ -176,7 +176,7 @@ const JournalCustomizer: React.FC = () => {
       </div>
     `
 
-    setPreviewContent(content)
+    setPreviewContent(sampleContent)
   }, [customSettings])
 
   const handleSettingChange = (key: keyof CustomizationSettings, value: any) => {

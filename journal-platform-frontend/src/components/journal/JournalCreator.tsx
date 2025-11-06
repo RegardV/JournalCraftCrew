@@ -132,7 +132,7 @@ export const JournalCreator: React.FC = () => {
 
   const startProgressTracking = useCallback((jobId: string) => {
     const token = localStorage.getItem('access_token')
-    const wsUrl = `ws://localhost:8000/ws/job/${jobId}?token=${token}`
+    const wsUrl = `ws://localhost:6770/ws/job/${jobId}?token=${token}`
 
     try {
       const ws = new WebSocket(wsUrl)

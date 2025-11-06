@@ -1,0 +1,3511 @@
+{
+  "tasks": {
+    "create_`journal_platform_backend/crewai_integratio": {
+      "name": "Create `journal_platform_backend/crewai_integration.py`",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133726",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_`journalcreationservice`_class": {
+      "name": "Implement `JournalCreationService` class",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133744",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_crewai_integration_layer": {
+      "name": "Add CrewAI integration layer",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133748",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "create_job_tracking_system_with_unique_ids": {
+      "name": "Create job tracking system with unique IDs",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133751",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_preference_conversion_(web_format_\u2192_crew": {
+      "name": "Implement preference conversion (web format \u2192 CrewAI format)",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133755",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "`post_/api/journals/create`___start_journal_creati": {
+      "name": "`POST /api/journals/create` - Start journal creation",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133758",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "`get_/api/journals/status/{job_id}`___get_job_stat": {
+      "name": "`GET /api/journals/status/{job_id}` - Get job status",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133761",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "`get_/api/journals/{job_id}/download`___download_c": {
+      "name": "`GET /api/journals/{job_id}/download` - Download completed journal",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133764",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "`get_/api/journals/author_suggestions?theme=x`___d": {
+      "name": "`GET /api/journals/author-suggestions?theme=X` - Dynamic author suggestions",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133766",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "set_up_websocket_connection_handling": {
+      "name": "Set up WebSocket connection handling",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133769",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_progress_broadcasting_system": {
+      "name": "Implement progress broadcasting system",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133772",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_connection_management_and_cleanup": {
+      "name": "Add connection management and cleanup",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133775",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "create_progress_message_format_standardization": {
+      "name": "Create progress message format standardization",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133777",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "create_`components/journal/journalcreationmodal.ts": {
+      "name": "Create `components/journal/JournalCreationModal.tsx`",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133781",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_multi_step_form_structure": {
+      "name": "Implement multi-step form structure",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133784",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_step_indicators_and_navigation": {
+      "name": "Add step indicators and navigation",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133787",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "create_theme_selection_component": {
+      "name": "Create theme selection component",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133790",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "build_title_and_style_configuration": {
+      "name": "Build title and style configuration",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133792",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_review_and_confirmation_step": {
+      "name": "Add review and confirmation step",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133795",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "create_`lib/api/journals.ts`": {
+      "name": "Create `lib/api/journals.ts`",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133798",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_journal_creation_api_calls": {
+      "name": "Implement journal creation API calls",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133800",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_error_handling_and_retry_logic": {
+      "name": "Add error handling and retry logic",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133805",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "create_response_type_definitions": {
+      "name": "Create response type definitions",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133809",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_loading_state_management": {
+      "name": "Add loading state management",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133812",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 1: Foundation (Week 1)",
+      "source": "openspec",
+      "history": []
+    },
+    "create_`hooks/usejournalprogress.ts`": {
+      "name": "Create `hooks/useJournalProgress.ts`",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133816",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_websocket_connection_management": {
+      "name": "Implement WebSocket connection management",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133819",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_automatic_reconnection_logic": {
+      "name": "Add automatic reconnection logic",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133822",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "create_progress_state_management": {
+      "name": "Create progress state management",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133824",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_connection_error_handling": {
+      "name": "Add connection error handling",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133827",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "create_`components/journal/journalprogress.tsx`": {
+      "name": "Create `components/journal/JournalProgress.tsx`",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133829",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "design_agent_status_cards": {
+      "name": "Design agent status cards",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133832",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_progress_bars_with_animations": {
+      "name": "Implement progress bars with animations",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133835",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_estimated_time_remaining_display": {
+      "name": "Add estimated time remaining display",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133837",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "create_current_task_description_display": {
+      "name": "Create current task description display",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133845",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_error_state_ui_with_retry_options": {
+      "name": "Add error state UI with retry options",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133849",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "modify_crewai_agents_to_emit_progress_callbacks": {
+      "name": "Modify CrewAI agents to emit progress callbacks",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133853",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_progress_calculation_logic": {
+      "name": "Implement progress calculation logic",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133856",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_time_estimation_algorithms": {
+      "name": "Add time estimation algorithms",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133859",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "create_progress_state_persistence": {
+      "name": "Create progress state persistence",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133861",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_error_tracking_and_reporting": {
+      "name": "Add error tracking and reporting",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133864",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "connect_crewai_output_to_web_accessible_paths": {
+      "name": "Connect CrewAI output to web-accessible paths",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133867",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_file_organization_by_user_and_job": {
+      "name": "Implement file organization by user and job",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133870",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_automatic_pdf_optimization": {
+      "name": "Add automatic PDF optimization",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133875",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "create_thumbnail_generation_for_previews": {
+      "name": "Create thumbnail generation for previews",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133878",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_metadata_indexing": {
+      "name": "Implement metadata indexing",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133880",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_automatic_cleanup_for_old_files": {
+      "name": "Add automatic cleanup for old files",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133883",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "create_`components/journal/journalresults.tsx`": {
+      "name": "Create `components/journal/JournalResults.tsx`",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133886",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_pdf_preview_component": {
+      "name": "Implement PDF preview component",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133888",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_download_functionality_with_progress_tracking": {
+      "name": "Add download functionality with progress tracking",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133891",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "create_share_functionality_(email,_link)": {
+      "name": "Create share functionality (email, link)",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133894",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_\"create_another\"_workflow": {
+      "name": "Add \"Create Another\" workflow",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133896",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_journal_metadata_display": {
+      "name": "Implement journal metadata display",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133900",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 2: Progress Tracking (Week 2)",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_api_response_caching": {
+      "name": "Implement API response caching",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133903",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_optimistic_ui_updates": {
+      "name": "Add optimistic UI updates",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133907",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "optimize_websocket_message_payload": {
+      "name": "Optimize WebSocket message payload",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133910",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_request_debouncing_for_author_suggestions": {
+      "name": "Add request debouncing for author suggestions",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133913",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_lazy_loading_for_components": {
+      "name": "Implement lazy loading for components",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133915",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_email_notifications_for_long_running_jobs": {
+      "name": "Add email notifications for long-running jobs",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133919",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_journal_templates_and_presets": {
+      "name": "Implement journal templates and presets",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133922",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "create_journal_preview_mode": {
+      "name": "Create journal preview mode",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133925",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_batch_journal_creation": {
+      "name": "Add batch journal creation",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133927",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_journal_sharing_and_collaboration": {
+      "name": "Implement journal sharing and collaboration",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133931",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_comprehensive_error_boundary_implementation": {
+      "name": "Add comprehensive error boundary implementation",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133934",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "create_offline_functionality_with_sync": {
+      "name": "Create offline functionality with sync",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133937",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_session_persistence_across_refreshes": {
+      "name": "Implement session persistence across refreshes",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133939",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_timeout_handling_for_long_operations": {
+      "name": "Add timeout handling for long operations",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133942",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "create_user_friendly_error_messages": {
+      "name": "Create user-friendly error messages",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133946",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_performance_metrics_tracking": {
+      "name": "Add performance metrics tracking",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133949",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_error_logging_and_alerting": {
+      "name": "Implement error logging and alerting",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133952",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "create_user_analytics_for_journal_creation": {
+      "name": "Create user analytics for journal creation",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133954",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_system_health_monitoring": {
+      "name": "Add system health monitoring",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133957",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_usage_analytics_dashboard": {
+      "name": "Implement usage analytics dashboard",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133960",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "create_comprehensive_unit_tests_for_all_components": {
+      "name": "Create comprehensive unit tests for all components",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133962",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_integration_tests_for_api_endpoints": {
+      "name": "Add integration tests for API endpoints",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133966",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_e2e_tests_for_complete_user_flow": {
+      "name": "Implement E2E tests for complete user flow",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133969",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "add_performance_testing_for_concurrent_users": {
+      "name": "Add performance testing for concurrent users",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133973",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "create_accessibility_testing_compliance": {
+      "name": "Create accessibility testing compliance",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133976",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83c\udfaf Phase 3: Polish & Enhancement (Week 3)",
+      "source": "openspec",
+      "history": []
+    },
+    "all_api_endpoints_functional_and_tested": {
+      "name": "All API endpoints functional and tested",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133978",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\udccb Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "modal_components_rendered_correctly": {
+      "name": "Modal components rendered correctly",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133981",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\udccb Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "crewai_integration_working_end_to_end": {
+      "name": "CrewAI integration working end-to-end",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133984",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\udccb Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "websocket_connections_established_reliably": {
+      "name": "WebSocket connections established reliably",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133986",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\udccb Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "real_time_progress_tracking_functional": {
+      "name": "Real-time progress tracking functional",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133992",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\udccb Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "file_downloads_working_correctly": {
+      "name": "File downloads working correctly",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133995",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\udccb Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "error_handling_comprehensive": {
+      "name": "Error handling comprehensive",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.133997",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\udccb Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "performance_<5_seconds_for_api_responses": {
+      "name": "Performance <5 seconds for API responses",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134000",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\udccb Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "user_satisfaction_>4.5/5_in_testing": {
+      "name": "User satisfaction >4.5/5 in testing",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134004",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\udccb Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "system_reliability_>99%": {
+      "name": "System reliability >99%",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134008",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\udccb Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "mobile_responsiveness_complete": {
+      "name": "Mobile responsiveness complete",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134011",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\udccb Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "accessibility_compliance_achieved": {
+      "name": "Accessibility compliance achieved",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134013",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\udccb Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "all_components_tested_in_staging_environment": {
+      "name": "All components tested in staging environment",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134018",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\ude80 Deployment Readiness",
+      "source": "openspec",
+      "history": []
+    },
+    "performance_benchmarks_met": {
+      "name": "Performance benchmarks met",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134020",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\ude80 Deployment Readiness",
+      "source": "openspec",
+      "history": []
+    },
+    "security_audit_completed": {
+      "name": "Security audit completed",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134023",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\ude80 Deployment Readiness",
+      "source": "openspec",
+      "history": []
+    },
+    "user_acceptance_testing_passed": {
+      "name": "User acceptance testing passed",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134026",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\ude80 Deployment Readiness",
+      "source": "openspec",
+      "history": []
+    },
+    "documentation_complete": {
+      "name": "Documentation complete",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134028",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\ude80 Deployment Readiness",
+      "source": "openspec",
+      "history": []
+    },
+    "monitoring_and_alerting_configured": {
+      "name": "Monitoring and alerting configured",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134031",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\ude80 Deployment Readiness",
+      "source": "openspec",
+      "history": []
+    },
+    "feature_flag_implementation_for_gradual_rollout": {
+      "name": "Feature flag implementation for gradual rollout",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134033",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\ude80 Deployment Readiness",
+      "source": "openspec",
+      "history": []
+    },
+    "user_communication_plan_prepared": {
+      "name": "User communication plan prepared",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134037",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\ude80 Deployment Readiness",
+      "source": "openspec",
+      "history": []
+    },
+    "support_documentation_ready": {
+      "name": "Support documentation ready",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134041",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\ude80 Deployment Readiness",
+      "source": "openspec",
+      "history": []
+    },
+    "backup_and_recovery_procedures_tested": {
+      "name": "Backup and recovery procedures tested",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134044",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\ude80 Deployment Readiness",
+      "source": "openspec",
+      "history": []
+    },
+    "post_launch_monitoring_plan_active": {
+      "name": "Post-launch monitoring plan active",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134047",
+      "context": "OpenSpec change: interactive-journal-creation-crewai - \ud83d\ude80 Deployment Readiness",
+      "source": "openspec",
+      "history": []
+    },
+    "1.1_create_llm_output_directory_scanner_service": {
+      "name": "1.1 Create LLM_output directory scanner service",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134053",
+      "context": "OpenSpec change: journal-library-integration - 1. Backend File System Integration",
+      "source": "openspec",
+      "history": []
+    },
+    "1.2_implement_file_structure_parser_for_crewai_out": {
+      "name": "1.2 Implement file structure parser for CrewAI output",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134056",
+      "context": "OpenSpec change: journal-library-integration - 1. Backend File System Integration",
+      "source": "openspec",
+      "history": []
+    },
+    "1.3_add_journal_metadata_extraction_from_json_file": {
+      "name": "1.3 Add journal metadata extraction from JSON files",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134058",
+      "context": "OpenSpec change: journal-library-integration - 1. Backend File System Integration",
+      "source": "openspec",
+      "history": []
+    },
+    "1.4_create_project_status_tracking_system": {
+      "name": "1.4 Create project status tracking system",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134061",
+      "context": "OpenSpec change: journal-library-integration - 1. Backend File System Integration",
+      "source": "openspec",
+      "history": []
+    },
+    "1.5_implement_file_security_and_user_access_contro": {
+      "name": "1.5 Implement file security and user access controls",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134063",
+      "context": "OpenSpec change: journal-library-integration - 1. Backend File System Integration",
+      "source": "openspec",
+      "history": []
+    },
+    "2.1_add_get_/api/journals/library___list_user_proj": {
+      "name": "2.1 Add GET /api/journals/library - List user projects",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134066",
+      "context": "OpenSpec change: journal-library-integration - 2. API Endpoints Development",
+      "source": "openspec",
+      "history": []
+    },
+    "2.2_add_get_/api/journals/{project_id}/files___get": {
+      "name": "2.2 Add GET /api/journals/{project_id}/files - Get project file tree",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134068",
+      "context": "OpenSpec change: journal-library-integration - 2. API Endpoints Development",
+      "source": "openspec",
+      "history": []
+    },
+    "2.3_add_get_/api/journals/{project_id}/download/{f": {
+      "name": "2.3 Add GET /api/journals/{project_id}/download/{file_path} - File download",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134071",
+      "context": "OpenSpec change: journal-library-integration - 2. API Endpoints Development",
+      "source": "openspec",
+      "history": []
+    },
+    "2.4_add_get_/api/journals/{project_id}/metadata___": {
+      "name": "2.4 Add GET /api/journals/{project_id}/metadata - Project details",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134074",
+      "context": "OpenSpec change: journal-library-integration - 2. API Endpoints Development",
+      "source": "openspec",
+      "history": []
+    },
+    "2.5_add_websocket_for_real_time_project_updates": {
+      "name": "2.5 Add WebSocket for real-time project updates",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134076",
+      "context": "OpenSpec change: journal-library-integration - 2. API Endpoints Development",
+      "source": "openspec",
+      "history": []
+    },
+    "3.1_create_journallibrary_component": {
+      "name": "3.1 Create JournalLibrary component",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134079",
+      "context": "OpenSpec change: journal-library-integration - 3. Frontend Library Interface",
+      "source": "openspec",
+      "history": []
+    },
+    "3.2_implement_filebrowser_component_for_folder_str": {
+      "name": "3.2 Implement FileBrowser component for folder structure",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134082",
+      "context": "OpenSpec change: journal-library-integration - 3. Frontend Library Interface",
+      "source": "openspec",
+      "history": []
+    },
+    "3.3_add_pdf_viewer_component": {
+      "name": "3.3 Add PDF viewer component",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134084",
+      "context": "OpenSpec change: journal-library-integration - 3. Frontend Library Interface",
+      "source": "openspec",
+      "history": []
+    },
+    "3.4_create_downloadmanager_for_file_access": {
+      "name": "3.4 Create DownloadManager for file access",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134088",
+      "context": "OpenSpec change: journal-library-integration - 3. Frontend Library Interface",
+      "source": "openspec",
+      "history": []
+    },
+    "3.5_add_projectcard_component_for_journal_overview": {
+      "name": "3.5 Add ProjectCard component for journal overview",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134091",
+      "context": "OpenSpec change: journal-library-integration - 3. Frontend Library Interface",
+      "source": "openspec",
+      "history": []
+    },
+    "4.1_implement_auto_refresh_when_crewai_completes": {
+      "name": "4.1 Implement auto-refresh when CrewAI completes",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134093",
+      "context": "OpenSpec change: journal-library-integration - 4. User Experience Enhancement",
+      "source": "openspec",
+      "history": []
+    },
+    "4.2_add_visual_previews_of_journal_content": {
+      "name": "4.2 Add visual previews of journal content",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134097",
+      "context": "OpenSpec change: journal-library-integration - 4. User Experience Enhancement",
+      "source": "openspec",
+      "history": []
+    },
+    "4.3_create_organized_media_gallery_display": {
+      "name": "4.3 Create organized media gallery display",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134100",
+      "context": "OpenSpec change: journal-library-integration - 4. User Experience Enhancement",
+      "source": "openspec",
+      "history": []
+    },
+    "4.4_add_search_and_filtering_capabilities": {
+      "name": "4.4 Add search and filtering capabilities",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134102",
+      "context": "OpenSpec change: journal-library-integration - 4. User Experience Enhancement",
+      "source": "openspec",
+      "history": []
+    },
+    "4.5_implement_project_status_indicators": {
+      "name": "4.5 Implement project status indicators",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134105",
+      "context": "OpenSpec change: journal-library-integration - 4. User Experience Enhancement",
+      "source": "openspec",
+      "history": []
+    },
+    "5.1_connect_with_existing_authentication_system": {
+      "name": "5.1 Connect with existing authentication system",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134109",
+      "context": "OpenSpec change: journal-library-integration - 5. Integration with Existing Systems",
+      "source": "openspec",
+      "history": []
+    },
+    "5.2_integrate_with_crewai_job_tracking": {
+      "name": "5.2 Integrate with CrewAI job tracking",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134112",
+      "context": "OpenSpec change: journal-library-integration - 5. Integration with Existing Systems",
+      "source": "openspec",
+      "history": []
+    },
+    "5.3_link_to_journal_creation_workflow": {
+      "name": "5.3 Link to journal creation workflow",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134114",
+      "context": "OpenSpec change: journal-library-integration - 5. Integration with Existing Systems",
+      "source": "openspec",
+      "history": []
+    },
+    "5.4_add_to_user_dashboard_navigation": {
+      "name": "5.4 Add to user dashboard navigation",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134116",
+      "context": "OpenSpec change: journal-library-integration - 5. Integration with Existing Systems",
+      "source": "openspec",
+      "history": []
+    },
+    "5.5_ensure_responsive_design_for_mobile_access": {
+      "name": "5.5 Ensure responsive design for mobile access",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134120",
+      "context": "OpenSpec change: journal-library-integration - 5. Integration with Existing Systems",
+      "source": "openspec",
+      "history": []
+    },
+    "fix_jsx_syntax_errors_in_dashboard.tsx_(lines_125,": {
+      "name": "Fix JSX syntax errors in Dashboard.tsx (lines 125, 373)",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134124",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "resolve_file_watcher_limit_issue_(increase_limits_": {
+      "name": "Resolve file watcher limit issue (increase limits or use polling)",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134127",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "enable_frontend_compilation_and_development_server": {
+      "name": "Enable frontend compilation and development server",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134129",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "test_end_to_end_functionality_with_real_backend": {
+      "name": "Test end-to-end functionality with real backend",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134132",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "archive_outdated_proposals_that_don't_match_realit": {
+      "name": "Archive outdated proposals that don't match reality:",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134135",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "move_`settings_api_key_only`_to_archive_(not_imple": {
+      "name": "Move `settings-api-key-only` to archive (not implemented)",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134137",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "move_`backend_frontend_integration`_to_archive_(pa": {
+      "name": "Move `backend-frontend-integration` to archive (partially complete)",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134140",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "move_`crewai_web_integration`_to_archive_(not_impl": {
+      "name": "Move `crewai-web-integration` to archive (not implemented)",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134144",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "move_`dashboard_ui_improvement`_to_archive_(has_er": {
+      "name": "Move `dashboard-ui-improvement` to archive (has errors)",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134147",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "create_new_accurate_proposals_reflecting_current_s": {
+      "name": "Create new accurate proposals reflecting current state",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134150",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "update_task_completion_status_in_existing_proposal": {
+      "name": "Update task completion status in existing proposals",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134172",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "**option_a**:_deploy_with_testdashboard_as_tempora": {
+      "name": "**Option A**: Deploy with TestDashboard as temporary UI",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134175",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "replace_main_dashboard_route_with_testdashboard": {
+      "name": "Replace main Dashboard route with TestDashboard",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134178",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "update_navigation_and_user_flow": {
+      "name": "Update navigation and user flow",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134181",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "deploy_working_version_immediately": {
+      "name": "Deploy working version immediately",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134185",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "**option_b**:_fix_dashboard_completely": {
+      "name": "**Option B**: Fix Dashboard completely",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134188",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "resolve_all_jsx_compilation_issues": {
+      "name": "Resolve all JSX compilation issues",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134191",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "connect_dashboard_to_real_api_endpoints": {
+      "name": "Connect Dashboard to real API endpoints",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134193",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_full_functionality_before_deployment": {
+      "name": "Implement full functionality before deployment",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134196",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_actual_settings_based_api_key_management": {
+      "name": "Implement actual settings-based API key management",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134199",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "integrate_crewai_agents_with_web_interface": {
+      "name": "Integrate CrewAI agents with web interface",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134202",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "connect_real_journal_creation_workflow": {
+      "name": "Connect real journal creation workflow",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134204",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "add_websocket_support_for_real_time_progress": {
+      "name": "Add WebSocket support for real-time progress",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134207",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83d\udccb Immediate Action Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "frontend_compiles_without_errors": {
+      "name": "Frontend compiles without errors",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134211",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83c\udfaf Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "development_server_runs_successfully": {
+      "name": "Development server runs successfully",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134213",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83c\udfaf Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "can_access_working_application_in_browser": {
+      "name": "Can access working application in browser",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134216",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83c\udfaf Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "backend_and_frontend_fully_connected": {
+      "name": "Backend and frontend fully connected",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134219",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83c\udfaf Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "production_deployment_with_working_ui": {
+      "name": "Production deployment with working UI",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134221",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83c\udfaf Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "real_journal_creation_workflow_functional": {
+      "name": "Real journal creation workflow functional",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134224",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83c\udfaf Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "user_authentication_complete_flow_working": {
+      "name": "User authentication complete flow working",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134226",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83c\udfaf Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "openspec_updated_to_reflect_actual_implementation": {
+      "name": "OpenSpec updated to reflect actual implementation",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134229",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83c\udfaf Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "crewai_integration_implemented": {
+      "name": "CrewAI integration implemented",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134232",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83c\udfaf Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "advanced_features_(websocket,_real_time_updates)": {
+      "name": "Advanced features (WebSocket, real-time updates)",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134235",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83c\udfaf Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "performance_optimization_and_scaling": {
+      "name": "Performance optimization and scaling",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134237",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83c\udfaf Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "complete_user_testing_and_feedback_integration": {
+      "name": "Complete user testing and feedback integration",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134243",
+      "context": "OpenSpec change: current-state-audit-2025-10-30 - \ud83c\udfaf Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "create_archive_directory:_`openspec/archive/root_c": {
+      "name": "Create archive directory: `openspec/archive/root-cleanup-2025-10-30/`",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134246",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "list_all_files_to_be_archived_(21_proposal/summary": {
+      "name": "List all files to be archived (21 proposal/summary files)",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134249",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "verify_git_status_before_moving_files": {
+      "name": "Verify git status before moving files",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134252",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "move_proposal_files_to_archive:": {
+      "name": "Move PROPOSAL files to archive:",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134255",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "agent_system_improvement_proposal.md": {
+      "name": "AGENT_SYSTEM_IMPROVEMENT_PROPOSAL.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134257",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "aligned_implementation_strategy.md": {
+      "name": "ALIGNED_IMPLEMENTATION_STRATEGY.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134260",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "hybrid_platform_proposal.md": {
+      "name": "HYBRID_PLATFORM_PROPOSAL.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134262",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "image_inference_system_plan.md": {
+      "name": "IMAGE_INFERENCE_SYSTEM_PLAN.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134269",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "openspec_compliant_documentation_proposal.md": {
+      "name": "OPENSPEC_COMPLIANT_DOCUMENTATION_PROPOSAL.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134272",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "phase1_web_ui_implementation_plan.md": {
+      "name": "PHASE1_WEB_UI_IMPLEMENTATION_PLAN.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134276",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "move_summary_files_to_archive:": {
+      "name": "Move SUMMARY files to archive:",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134279",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "critical_reprioritization_summary.md": {
+      "name": "CRITICAL_REPRIORITIZATION_SUMMARY.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134283",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "documentation_proposals_summary.md": {
+      "name": "DOCUMENTATION_PROPOSALS_SUMMARY.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134287",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "frontend_rescue_success_report.md": {
+      "name": "FRONTEND_RESCUE_SUCCESS_REPORT.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134290",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "implementation_summary.md": {
+      "name": "IMPLEMENTATION_SUMMARY.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134293",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "phase1_completion_summary.md": {
+      "name": "PHASE1_COMPLETION_SUMMARY.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134295",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "phase2_completion_update.md": {
+      "name": "PHASE2_COMPLETION_UPDATE.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134298",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "prompt_analysis_report.md": {
+      "name": "PROMPT_ANALYSIS_REPORT.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134300",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "proposal_reassessment_report.md": {
+      "name": "PROPOSAL_REASSESSMENT_REPORT.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134304",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "move_other_files_to_archive:": {
+      "name": "Move other files to archive:",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134307",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "fragmented_system_assessment.md": {
+      "name": "FRAGMENTED_SYSTEM_ASSESSMENT.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134314",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "journal_pdf_format_analysis.md": {
+      "name": "JOURNAL_PDF_FORMAT_ANALYSIS.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134317",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "proposal_reorganization_summary.md": {
+      "name": "PROPOSAL_REORGANIZATION_SUMMARY.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134319",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "proposal_update_phase1_complete.md": {
+      "name": "PROPOSAL_UPDATE_PHASE1_COMPLETE.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134322",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "repriorized_proposals_plan.md": {
+      "name": "REPRIORIZED_PROPOSALS_PLAN.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134326",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "rescue_operation_log.md": {
+      "name": "RESCUE_OPERATION_LOG.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134330",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "updated_execution_plan.md": {
+      "name": "UPDATED_EXECUTION_PLAN.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134333",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "updated_priority_plan.md": {
+      "name": "UPDATED_PRIORITY_PLAN.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134335",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "move_agents.md_to_`openspec/agents/legacy_agents.m": {
+      "name": "Move AGENTS.md to `openspec/agents/legacy-agents.md`",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134338",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "move_changelog.md_to_`openspec/changelog.md`": {
+      "name": "Move changelog.md to `openspec/changelog.md`",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134341",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "move_scandoc.md_to_`openspec/archive/scandoc.md`": {
+      "name": "Move Scandoc.md to `openspec/archive/scandoc.md`",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134344",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "update_readme.md:": {
+      "name": "Update README.md:",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134346",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "fix_brand_name_from_\"coursecraft\"_to_\"journal_craf": {
+      "name": "Fix brand name from \"CourseCraft\" to \"Journal Craft Crew\"",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134349",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "update_project_description_to_current_state": {
+      "name": "Update project description to current state",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134379",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "add_reference_to_openspec_documentation_structure": {
+      "name": "Add reference to OpenSpec documentation structure",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134382",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "update_installation_and_setup_instructions": {
+      "name": "Update installation and setup instructions",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134385",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "update_claude.md:": {
+      "name": "Update CLAUDE.md:",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134387",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "add_reference_to_openspec_for_project_management": {
+      "name": "Add reference to OpenSpec for project management",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134391",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "update_instructions_to_use_openspec_workflow": {
+      "name": "Update instructions to use OpenSpec workflow",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134396",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "review_ui_design_standards.md_(keep_as_is)": {
+      "name": "Review UI_DESIGN_STANDARDS.md (keep as-is)",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134398",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "verify_all_files_moved_with_git_history_preserved": {
+      "name": "Verify all files moved with git history preserved",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134401",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "check_root_directory_has_only_3_.md_files": {
+      "name": "Check root directory has only 3 .md files",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134404",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "test_internal_links_in_remaining_files": {
+      "name": "Test internal links in remaining files",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134406",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "verify_openspec_structure_is_intact": {
+      "name": "Verify OpenSpec structure is intact",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134409",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "commit_changes_with_descriptive_message": {
+      "name": "Commit changes with descriptive message",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134412",
+      "context": "OpenSpec change: documentation-cleanup - \ud83d\udccb Implementation Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "root_directory_reduced_from_28_to_3_.md_files": {
+      "name": "Root directory reduced from 28 to 3 .md files",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134414",
+      "context": "OpenSpec change: documentation-cleanup - \ud83c\udfaf Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "all_content_preserved_and_accessible": {
+      "name": "All content preserved and accessible",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134417",
+      "context": "OpenSpec change: documentation-cleanup - \ud83c\udfaf Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "no_broken_internal_links": {
+      "name": "No broken internal links",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134420",
+      "context": "OpenSpec change: documentation-cleanup - \ud83c\udfaf Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "git_history_maintained_for_all_files": {
+      "name": "Git history maintained for all files",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134422",
+      "context": "OpenSpec change: documentation-cleanup - \ud83c\udfaf Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "clean,_professional_project_structure": {
+      "name": "Clean, professional project structure",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134425",
+      "context": "OpenSpec change: documentation-cleanup - \ud83c\udfaf Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "openspec_workflow_clearly_documented_in_claude.md": {
+      "name": "OpenSpec workflow clearly documented in CLAUDE.md",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134428",
+      "context": "OpenSpec change: documentation-cleanup - \ud83c\udfaf Success Criteria",
+      "source": "openspec",
+      "history": []
+    },
+    "resolve_file_watcher_limit_issue_for_development_s": {
+      "name": "Resolve file watcher limit issue for development server",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134432",
+      "context": "OpenSpec change: production-ready-platform - \ud83c\udfaf Immediate Priority Tasks (Next 2-4 hours)",
+      "source": "openspec",
+      "history": []
+    },
+    "enable_frontend_compilation_and_test_build_process": {
+      "name": "Enable frontend compilation and test build process",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134435",
+      "context": "OpenSpec change: production-ready-platform - \ud83c\udfaf Immediate Priority Tasks (Next 2-4 hours)",
+      "source": "openspec",
+      "history": []
+    },
+    "verify_frontend_can_connect_to_backend_api": {
+      "name": "Verify frontend can connect to backend API",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134439",
+      "context": "OpenSpec change: production-ready-platform - \ud83c\udfaf Immediate Priority Tasks (Next 2-4 hours)",
+      "source": "openspec",
+      "history": []
+    },
+    "switch_main_dashboard_route_to_use_testdashboard_c": {
+      "name": "Switch main dashboard route to use TestDashboard component",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134443",
+      "context": "OpenSpec change: production-ready-platform - \ud83c\udfaf Immediate Priority Tasks (Next 2-4 hours)",
+      "source": "openspec",
+      "history": []
+    },
+    "connect_testdashboard_to_real_backend_api_endpoint": {
+      "name": "Connect TestDashboard to real backend API endpoints",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134446",
+      "context": "OpenSpec change: production-ready-platform - \ud83c\udfaf Immediate Priority Tasks (Next 2-4 hours)",
+      "source": "openspec",
+      "history": []
+    },
+    "test_complete_user_registration/login_flow": {
+      "name": "Test complete user registration/login flow",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134448",
+      "context": "OpenSpec change: production-ready-platform - \ud83c\udfaf Immediate Priority Tasks (Next 2-4 hours)",
+      "source": "openspec",
+      "history": []
+    },
+    "verify_llm_projects_display_correctly": {
+      "name": "Verify LLM projects display correctly",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134452",
+      "context": "OpenSpec change: production-ready-platform - \ud83c\udfaf Immediate Priority Tasks (Next 2-4 hours)",
+      "source": "openspec",
+      "history": []
+    },
+    "deploy_to_production_environment": {
+      "name": "Deploy to production environment",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134455",
+      "context": "OpenSpec change: production-ready-platform - \ud83c\udfaf Immediate Priority Tasks (Next 2-4 hours)",
+      "source": "openspec",
+      "history": []
+    },
+    "backend_fastapi_server_with_authentication": {
+      "name": "Backend FastAPI server with authentication",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134457",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udccb Current Implementation Status",
+      "source": "openspec",
+      "history": []
+    },
+    "real_llm_data_integration_from_../llm_output": {
+      "name": "Real LLM data integration from ../LLM_output",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134460",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udccb Current Implementation Status",
+      "source": "openspec",
+      "history": []
+    },
+    "user_registration_and_login_system": {
+      "name": "User registration and login system",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134463",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udccb Current Implementation Status",
+      "source": "openspec",
+      "history": []
+    },
+    "jwt_token_based_authentication": {
+      "name": "JWT token-based authentication",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134465",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udccb Current Implementation Status",
+      "source": "openspec",
+      "history": []
+    },
+    "file_based_user_and_project_storage": {
+      "name": "File-based user and project storage",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134468",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udccb Current Implementation Status",
+      "source": "openspec",
+      "history": []
+    },
+    "cors_configuration_for_frontend": {
+      "name": "CORS configuration for frontend",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134470",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udccb Current Implementation Status",
+      "source": "openspec",
+      "history": []
+    },
+    "react_+_typescript_+_vite_setup": {
+      "name": "React + TypeScript + Vite setup",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134473",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udccb Current Implementation Status",
+      "source": "openspec",
+      "history": []
+    },
+    "tailwind_css_design_system": {
+      "name": "Tailwind CSS design system",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134476",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udccb Current Implementation Status",
+      "source": "openspec",
+      "history": []
+    },
+    "testdashboard_component_(fully_functional)": {
+      "name": "TestDashboard component (fully functional)",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134478",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udccb Current Implementation Status",
+      "source": "openspec",
+      "history": []
+    },
+    "mobile_responsive_ui_components": {
+      "name": "Mobile-responsive UI components",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134481",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udccb Current Implementation Status",
+      "source": "openspec",
+      "history": []
+    },
+    "ui_design_standards_documentation": {
+      "name": "UI Design Standards documentation",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134485",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udccb Current Implementation Status",
+      "source": "openspec",
+      "history": []
+    },
+    "openspec_structure_cleanup": {
+      "name": "OpenSpec structure cleanup",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134487",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udccb Current Implementation Status",
+      "source": "openspec",
+      "history": []
+    },
+    "dashboard.tsx_jsx_syntax_errors_preventing_compila": {
+      "name": "Dashboard.tsx JSX syntax errors preventing compilation",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134490",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udccb Current Implementation Status",
+      "source": "openspec",
+      "history": []
+    },
+    "file_watcher_limit_preventing_development_server": {
+      "name": "File watcher limit preventing development server",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134492",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udccb Current Implementation Status",
+      "source": "openspec",
+      "history": []
+    },
+    "main_dashboard_component_non_functional": {
+      "name": "Main Dashboard component non-functional",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134495",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udccb Current Implementation Status",
+      "source": "openspec",
+      "history": []
+    },
+    "create_journal_button_not_implemented": {
+      "name": "Create Journal button not implemented",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134498",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udccb Current Implementation Status",
+      "source": "openspec",
+      "history": []
+    },
+    "no_crewai_integration_with_web_interface": {
+      "name": "No CrewAI integration with web interface",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134500",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udccb Current Implementation Status",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_crewai_agents_integration": {
+      "name": "Implement CrewAI agents integration",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134504",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\ude80 Post-Launch Enhancement Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "create_functional_dashboard_component": {
+      "name": "Create functional Dashboard component",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134509",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\ude80 Post-Launch Enhancement Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "add_real_journal_creation_workflow": {
+      "name": "Add real journal creation workflow",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134512",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\ude80 Post-Launch Enhancement Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "implement_websocket_for_real_time_progress": {
+      "name": "Implement WebSocket for real-time progress",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134515",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\ude80 Post-Launch Enhancement Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "add_pdf_export_functionality": {
+      "name": "Add PDF export functionality",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134517",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\ude80 Post-Launch Enhancement Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "enhance_user_settings_and_api_key_management": {
+      "name": "Enhance user settings and API key management",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134520",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\ude80 Post-Launch Enhancement Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "multi_user_collaboration_features": {
+      "name": "Multi-user collaboration features",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134522",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\ude80 Post-Launch Enhancement Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "advanced_journal_customization": {
+      "name": "Advanced journal customization",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134525",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\ude80 Post-Launch Enhancement Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "analytics_and_usage_tracking": {
+      "name": "Analytics and usage tracking",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134528",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\ude80 Post-Launch Enhancement Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "performance_optimization": {
+      "name": "Performance optimization",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134530",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\ude80 Post-Launch Enhancement Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "scaling_and_monitoring": {
+      "name": "Scaling and monitoring",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134534",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\ude80 Post-Launch Enhancement Tasks",
+      "source": "openspec",
+      "history": []
+    },
+    "development_server_runs_on_localhost:5173": {
+      "name": "Development server runs on localhost:5173",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134539",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udcca Success Metrics",
+      "source": "openspec",
+      "history": []
+    },
+    "backend_serving_on_localhost:8000": {
+      "name": "Backend serving on localhost:8000",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134541",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udcca Success Metrics",
+      "source": "openspec",
+      "history": []
+    },
+    "testdashboard_displays_real_llm_projects": {
+      "name": "TestDashboard displays real LLM projects",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134544",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udcca Success Metrics",
+      "source": "openspec",
+      "history": []
+    },
+    "user_can_register_and_log_in_successfully": {
+      "name": "User can register and log in successfully",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134547",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udcca Success Metrics",
+      "source": "openspec",
+      "history": []
+    },
+    "end_to_end_flow_working": {
+      "name": "End-to-end flow working",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134550",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udcca Success Metrics",
+      "source": "openspec",
+      "history": []
+    },
+    "deployed_application_accessible_online": {
+      "name": "Deployed application accessible online",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134553",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udcca Success Metrics",
+      "source": "openspec",
+      "history": []
+    },
+    "real_users_can_create_accounts": {
+      "name": "Real users can create accounts",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134556",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udcca Success Metrics",
+      "source": "openspec",
+      "history": []
+    },
+    "dashboard_shows_actual_journal_projects": {
+      "name": "Dashboard shows actual journal projects",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134559",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udcca Success Metrics",
+      "source": "openspec",
+      "history": []
+    },
+    "mobile_responsive_design_working": {
+      "name": "Mobile responsive design working",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134561",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udcca Success Metrics",
+      "source": "openspec",
+      "history": []
+    },
+    "performance_acceptable_(<3s_load_time)": {
+      "name": "Performance acceptable (<3s load time)",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134565",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udcca Success Metrics",
+      "source": "openspec",
+      "history": []
+    },
+    "journal_creation_workflow_functional": {
+      "name": "Journal creation workflow functional",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134568",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udcca Success Metrics",
+      "source": "openspec",
+      "history": []
+    },
+    "crewai_integration_working": {
+      "name": "CrewAI integration working",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134570",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udcca Success Metrics",
+      "source": "openspec",
+      "history": []
+    },
+    "real_time_progress_updates": {
+      "name": "Real-time progress updates",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134573",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udcca Success Metrics",
+      "source": "openspec",
+      "history": []
+    },
+    "pdf_generation_and_download": {
+      "name": "PDF generation and download",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134576",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udcca Success Metrics",
+      "source": "openspec",
+      "history": []
+    },
+    "user_satisfaction_>4/5": {
+      "name": "User satisfaction >4/5",
+      "status": "pending",
+      "created_at": "2025-11-01T21:06:33.134578",
+      "context": "OpenSpec change: production-ready-platform - \ud83d\udcca Success Metrics",
+      "source": "openspec",
+      "history": []
+    },
+    "1.1_research_archon_api_documentation_and_authenti": {
+      "name": "1.1 Research Archon API documentation and authentication",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134582",
+      "context": "OpenSpec change: add-archon-knowledge-base-integration - 1. Development Assistant Integration \u2705 COMPLETED",
+      "source": "openspec",
+      "history": []
+    },
+    "1.2_create_archon_service_client_module_(`app/serv": {
+      "name": "1.2 Create Archon service client module (`app/services/archon_client.py`)",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134585",
+      "context": "OpenSpec change: add-archon-knowledge-base-integration - 1. Development Assistant Integration \u2705 COMPLETED",
+      "source": "openspec",
+      "history": []
+    },
+    "1.3_implement_knowledge_base_query_service_for_dev": {
+      "name": "1.3 Implement knowledge base query service for development (`app/services/development_assistant.py`)",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134588",
+      "context": "OpenSpec change: add-archon-knowledge-base-integration - 1. Development Assistant Integration \u2705 COMPLETED",
+      "source": "openspec",
+      "history": []
+    },
+    "1.4_add_development_research_and_guidance_endpoint": {
+      "name": "1.4 Add development research and guidance endpoints (available through service functions)",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134590",
+      "context": "OpenSpec change: add-archon-knowledge-base-integration - 1. Development Assistant Integration \u2705 COMPLETED",
+      "source": "openspec",
+      "history": []
+    },
+    "1.5_research_file_storage_solutions_(google_drive,": {
+      "name": "1.5 Research file storage solutions (Google Drive, Dropbox, etc.) - Ready via CLI",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134593",
+      "context": "OpenSpec change: add-archon-knowledge-base-integration - 1. Development Assistant Integration \u2705 COMPLETED",
+      "source": "openspec",
+      "history": []
+    },
+    "1.6_investigate_authentication_patterns_(firebase,": {
+      "name": "1.6 Investigate authentication patterns (Firebase, OAuth, JWT) - Ready via CLI",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134596",
+      "context": "OpenSpec change: add-archon-knowledge-base-integration - 1. Development Assistant Integration \u2705 COMPLETED",
+      "source": "openspec",
+      "history": []
+    },
+    "1.7_research_deployment_strategies_and_vps_hosting": {
+      "name": "1.7 Research deployment strategies and VPS hosting solutions - Ready via CLI",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134598",
+      "context": "OpenSpec change: add-archon-knowledge-base-integration - 1. Development Assistant Integration \u2705 COMPLETED",
+      "source": "openspec",
+      "history": []
+    },
+    "2.1_create_development_assistant_cli_tools_(`dev_a": {
+      "name": "2.1 Create development assistant CLI tools (`dev_assistant_cli.py`)",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134601",
+      "context": "OpenSpec change: add-archon-knowledge-base-integration - 2. Development Tools Implementation \u2705 COMPLETED",
+      "source": "openspec",
+      "history": []
+    },
+    "2.2_add_technical_research_capabilities_for_archit": {
+      "name": "2.2 Add technical research capabilities for architecture decisions",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134605",
+      "context": "OpenSpec change: add-archon-knowledge-base-integration - 2. Development Tools Implementation \u2705 COMPLETED",
+      "source": "openspec",
+      "history": []
+    },
+    "2.3_implement_best_practices_guidance_generator": {
+      "name": "2.3 Implement best practices guidance generator",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134609",
+      "context": "OpenSpec change: add-archon-knowledge-base-integration - 2. Development Tools Implementation \u2705 COMPLETED",
+      "source": "openspec",
+      "history": []
+    },
+    "2.4_create_implementation_pattern_recommendations": {
+      "name": "2.4 Create implementation pattern recommendations",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134612",
+      "context": "OpenSpec change: add-archon-knowledge-base-integration - 2. Development Tools Implementation \u2705 COMPLETED",
+      "source": "openspec",
+      "history": []
+    },
+    "3.1_add_archon_api_configuration_to_development_en": {
+      "name": "3.1 Add Archon API configuration to development environment",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134615",
+      "context": "OpenSpec change: add-archon-knowledge-base-integration - 3. Configuration & Testing \u2705 COMPLETED",
+      "source": "openspec",
+      "history": []
+    },
+    "3.2_implement_error_handling_for_development_resea": {
+      "name": "3.2 Implement error handling for development research failures (comprehensive fallback handling)",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134625",
+      "context": "OpenSpec change: add-archon-knowledge-base-integration - 3. Configuration & Testing \u2705 COMPLETED",
+      "source": "openspec",
+      "history": []
+    },
+    "3.3_create_integration_tests_for_development_assis": {
+      "name": "3.3 Create integration tests for development assistance",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134628",
+      "context": "OpenSpec change: add-archon-knowledge-base-integration - 3. Configuration & Testing \u2705 COMPLETED",
+      "source": "openspec",
+      "history": []
+    },
+    "3.4_add_testing_for_technical_guidance_generation": {
+      "name": "3.4 Add testing for technical guidance generation",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134631",
+      "context": "OpenSpec change: add-archon-knowledge-base-integration - 3. Configuration & Testing \u2705 COMPLETED",
+      "source": "openspec",
+      "history": []
+    },
+    "4.1_document_development_assistant_usage_(archon_d": {
+      "name": "4.1 Document development assistant usage (ARCHON_DEVELOPMENT_ASSISTANT_COMPLETE.md)",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134635",
+      "context": "OpenSpec change: add-archon-knowledge-base-integration - 4. Documentation \u2705 COMPLETED",
+      "source": "openspec",
+      "history": []
+    },
+    "4.2_create_technical_research_guides_(cli_help_and": {
+      "name": "4.2 Create technical research guides (CLI help and examples)",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134638",
+      "context": "OpenSpec change: add-archon-knowledge-base-integration - 4. Documentation \u2705 COMPLETED",
+      "source": "openspec",
+      "history": []
+    },
+    "4.3_document_implementation_patterns_discovered_th": {
+      "name": "4.3 Document implementation patterns discovered through research",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134641",
+      "context": "OpenSpec change: add-archon-knowledge-base-integration - 4. Documentation \u2705 COMPLETED",
+      "source": "openspec",
+      "history": []
+    },
+    "4.4_create_vps_deployment_and_file_storage_impleme": {
+      "name": "4.4 Create VPS deployment and file storage implementation guides (via CLI research)",
+      "status": "completed",
+      "created_at": "2025-11-01T21:06:33.134644",
+      "context": "OpenSpec change: add-archon-knowledge-base-integration - 4. Documentation \u2705 COMPLETED",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_001**:_implement_responsive_grid_system_wit": {
+      "name": "**TASK-001**: Implement responsive grid system with breakpoints for mobile (sm:640px), tablet (md:768px), and desktop (lg:1024px)",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008159",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 1: Responsive Dashboard Implementation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_002**:_convert_header_layout_to_responsive_": {
+      "name": "**TASK-002**: Convert header layout to responsive design with proper text scaling and button arrangements",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008173",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 1: Responsive Dashboard Implementation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_003**:_implement_responsive_stats_grid_that": {
+      "name": "**TASK-003**: Implement responsive stats grid that adapts from 1 column (mobile) to 4 columns (desktop)",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008176",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 1: Responsive Dashboard Implementation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_004**:_create_touch_friendly_button_sizes_a": {
+      "name": "**TASK-004**: Create touch-friendly button sizes and spacing for mobile interaction",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008178",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 1: Responsive Dashboard Implementation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_005**:_implement_comprehensive_css_utility_": {
+      "name": "**TASK-005**: Implement comprehensive CSS utility classes (hover-lift, content-card, metric-card)",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008181",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 1: Responsive Dashboard Implementation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_006**:_create_consistent_gradient_backgroun": {
+      "name": "**TASK-006**: Create consistent gradient backgrounds and color schemes across components",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008184",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 1: Responsive Dashboard Implementation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_007**:_apply_proper_typography_scaling_and_": {
+      "name": "**TASK-007**: Apply proper typography scaling and heading hierarchy",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008185",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 1: Responsive Dashboard Implementation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_008**:_add_micro_interactions,_transitions,": {
+      "name": "**TASK-008**: Add micro-interactions, transitions, and hover effects throughout dashboard",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008187",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 1: Responsive Dashboard Implementation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_009**:_integrate_with_`/api/library/llm_pro": {
+      "name": "**TASK-009**: Integrate with `/api/library/llm-projects` endpoint for real project data display",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008189",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 1: Responsive Dashboard Implementation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_010**:_implement_proper_error_handling_and_": {
+      "name": "**TASK-010**: Implement proper error handling and fallback UI states for API failures",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008191",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 1: Responsive Dashboard Implementation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_011**:_add_loading_states_and_indicators_du": {
+      "name": "**TASK-011**: Add loading states and indicators during data fetching",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008193",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 1: Responsive Dashboard Implementation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_012**:_format_and_display_real_project_data": {
+      "name": "**TASK-012**: Format and display real project data with progress indicators and metadata",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008195",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 1: Responsive Dashboard Implementation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_013**:_redesign_quick_actions_section_with_": {
+      "name": "**TASK-013**: Redesign Quick Actions section with interactive cards and proper hover effects",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008197",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 1: Responsive Dashboard Implementation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_014**:_implement_recent_projects_display_wi": {
+      "name": "**TASK-014**: Implement Recent Projects display with real data and file information",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008198",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 1: Responsive Dashboard Implementation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_015**:_create_activity_feed_with_timeline_b": {
+      "name": "**TASK-015**: Create Activity Feed with timeline-based layout and status indicators",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008200",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 1: Responsive Dashboard Implementation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_016**:_ensure_all_sections_are_properly_res": {
+      "name": "**TASK-016**: Ensure all sections are properly responsive and mobile-optimized",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008203",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 1: Responsive Dashboard Implementation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_017**:_make_create_new_journal_button_funct": {
+      "name": "**TASK-017**: Make Create New Journal button functional with user feedback",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008205",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 2: Functional Improvements \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_018**:_implement_settings_navigation_and_vi": {
+      "name": "**TASK-018**: Implement Settings navigation and view switching",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008206",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 2: Functional Improvements \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_019**:_add_interactive_hover_states_and_tra": {
+      "name": "**TASK-019**: Add interactive hover states and transitions for all clickable elements",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008210",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 2: Functional Improvements \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_020**:_ensure_proper_keyboard_navigation_an": {
+      "name": "**TASK-020**: Ensure proper keyboard navigation and accessibility features",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008212",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 2: Functional Improvements \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_021**:_update_all_paths_to_be_project_relat": {
+      "name": "**TASK-021**: Update all paths to be project-relative for deployment readiness",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008213",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 2: Functional Improvements \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_022**:_organize_css_classes_and_utilities_f": {
+      "name": "**TASK-022**: Organize CSS classes and utilities for maintainability",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008215",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 2: Functional Improvements \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_023**:_remove_ai_credits_system_references_": {
+      "name": "**TASK-023**: Remove AI credits system references and related UI elements",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008217",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 2: Functional Improvements \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_024**:_optimize_asset_loading_and_performan": {
+      "name": "**TASK-024**: Optimize asset loading and performance for mobile devices",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008219",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 2: Functional Improvements \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_025**:_apply_consistent_code_formatting_and": {
+      "name": "**TASK-025**: Apply consistent code formatting and component structure",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008221",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 2: Functional Improvements \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_026**:_implement_proper_typescript_types_fo": {
+      "name": "**TASK-026**: Implement proper TypeScript types for API responses",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008222",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 2: Functional Improvements \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_027**:_add_comprehensive_error_handling_and": {
+      "name": "**TASK-027**: Add comprehensive error handling and logging",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008224",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 2: Functional Improvements \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_028**:_ensure_semantic_html_structure_for_a": {
+      "name": "**TASK-028**: Ensure semantic HTML structure for accessibility",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008227",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 2: Functional Improvements \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_029**:_test_dashboard_functionality_on_mobi": {
+      "name": "**TASK-029**: Test dashboard functionality on mobile devices (320px - 640px)",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008229",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 3: Testing and Validation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_030**:_validate_responsive_behavior_on_tabl": {
+      "name": "**TASK-030**: Validate responsive behavior on tablet devices (640px - 1024px)",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008231",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 3: Testing and Validation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_031**:_ensure_desktop_experience_maintains_": {
+      "name": "**TASK-031**: Ensure desktop experience maintains all features and proper layout",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008233",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 3: Testing and Validation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_032**:_test_touch_interactions_and_gesture_": {
+      "name": "**TASK-032**: Test touch interactions and gesture support on mobile devices",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008235",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 3: Testing and Validation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_033**:_optimize_loading_performance_for_mob": {
+      "name": "**TASK-033**: Optimize loading performance for mobile networks",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008237",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 3: Testing and Validation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_034**:_validate_wcag_2.1_aa_compliance_for_": {
+      "name": "**TASK-034**: Validate WCAG 2.1 AA compliance for color contrast and interaction",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008239",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 3: Testing and Validation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_035**:_test_screen_reader_compatibility_and": {
+      "name": "**TASK-035**: Test screen reader compatibility and keyboard navigation",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008240",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 3: Testing and Validation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_036**:_verify_proper_error_handling_and_use": {
+      "name": "**TASK-036**: Verify proper error handling and user feedback mechanisms",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008242",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 3: Testing and Validation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_037**:_test_api_integration_with_real_backe": {
+      "name": "**TASK-037**: Test API integration with real backend endpoints",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008244",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 3: Testing and Validation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_038**:_validate_authentication_flow_integra": {
+      "name": "**TASK-038**: Validate authentication flow integration with dashboard",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008246",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 3: Testing and Validation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_039**:_test_error_scenarios_and_fallback_be": {
+      "name": "**TASK-039**: Test error scenarios and fallback behaviors",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008248",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 3: Testing and Validation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_040**:_ensure_proper_data_formatting_and_di": {
+      "name": "**TASK-040**: Ensure proper data formatting and display consistency",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008250",
+      "context": "OpenSpec change: 2025-10-29-dashboard-ui-improvement - Phase 3: Testing and Validation \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_001**:_create_`/api/journals/create`_endpoi": {
+      "name": "**TASK-001**: Create `/api/journals/create` endpoint for starting journal generation",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008253",
+      "context": "OpenSpec change: 2025-10-29-crewai-journal-crew - Phase 1: Web API Integration (8 tasks) \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_002**:_create_`/api/journals/status/{job_id": {
+      "name": "**TASK-002**: Create `/api/journals/status/{job_id}` endpoint for progress tracking",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008255",
+      "context": "OpenSpec change: 2025-10-29-crewai-journal-crew - Phase 1: Web API Integration (8 tasks) \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_003**:_create_`/api/journals/choices/{job_i": {
+      "name": "**TASK-003**: Create `/api/journals/choices/{job_id}` endpoint for user decision handling",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008257",
+      "context": "OpenSpec change: 2025-10-29-crewai-journal-crew - Phase 1: Web API Integration (8 tasks) \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_004**:_create_`/api/journals/projects/{user": {
+      "name": "**TASK-004**: Create `/api/journals/projects/{user_id}` endpoint for project listing",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008260",
+      "context": "OpenSpec change: 2025-10-29-crewai-journal-crew - Phase 1: Web API Integration (8 tasks) \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_005**:_implement_background_job_system_for_": {
+      "name": "**TASK-005**: Implement background job system for async agent execution",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008261",
+      "context": "OpenSpec change: 2025-10-29-crewai-journal-crew - Phase 1: Web API Integration (8 tasks) \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_006**:_create_websocket_support_for_real_ti": {
+      "name": "**TASK-006**: Create WebSocket support for real-time progress updates",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008263",
+      "context": "OpenSpec change: 2025-10-29-crewai-journal-crew - Phase 1: Web API Integration (8 tasks) \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_007**:_implement_user_specific_file_storage": {
+      "name": "**TASK-007**: Implement user-specific file storage and management",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008270",
+      "context": "OpenSpec change: 2025-10-29-crewai-journal-crew - Phase 1: Web API Integration (8 tasks) \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_008**:_create_`/api/journals/download/{proj": {
+      "name": "**TASK-008**: Create `/api/journals/download/{project_id}` endpoint for file access",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008273",
+      "context": "OpenSpec change: 2025-10-29-crewai-journal-crew - Phase 1: Web API Integration (8 tasks) \u2705 **COMPLETED**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_009**:_create_multi_step_journal_creation_w": {
+      "name": "**TASK-009**: Create multi-step journal creation wizard",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008275",
+      "context": "OpenSpec change: 2025-10-29-crewai-journal-crew - Phase 2: Frontend Interface Development (8 tasks) \ud83d\udd04 **READY TO START**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_010**:_implement_real_time_progress_trackin": {
+      "name": "**TASK-010**: Implement real-time progress tracking interface",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008277",
+      "context": "OpenSpec change: 2025-10-29-crewai-journal-crew - Phase 2: Frontend Interface Development (8 tasks) \ud83d\udd04 **READY TO START**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_011**:_create_user_decision_point_handlers_": {
+      "name": "**TASK-011**: Create user decision point handlers (title selection, continuation)",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008280",
+      "context": "OpenSpec change: 2025-10-29-crewai-journal-crew - Phase 2: Frontend Interface Development (8 tasks) \ud83d\udd04 **READY TO START**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_012**:_build_project_management_dashboard": {
+      "name": "**TASK-012**: Build project management dashboard",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008282",
+      "context": "OpenSpec change: 2025-10-29-crewai-journal-crew - Phase 2: Frontend Interface Development (8 tasks) \ud83d\udd04 **READY TO START**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_013**:_create_content_preview_and_review_sy": {
+      "name": "**TASK-013**: Create content preview and review system",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008284",
+      "context": "OpenSpec change: 2025-10-29-crewai-journal-crew - Phase 2: Frontend Interface Development (8 tasks) \ud83d\udd04 **READY TO START**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_014**:_implement_download_and_export_interf": {
+      "name": "**TASK-014**: Implement download and export interface",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008286",
+      "context": "OpenSpec change: 2025-10-29-crewai-journal-crew - Phase 2: Frontend Interface Development (8 tasks) \ud83d\udd04 **READY TO START**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_015**:_integrate_with_existing_settings_for": {
+      "name": "**TASK-015**: Integrate with existing settings for API key management",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008288",
+      "context": "OpenSpec change: 2025-10-29-crewai-journal-crew - Phase 2: Frontend Interface Development (8 tasks) \ud83d\udd04 **READY TO START**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_016**:_ensure_mobile_responsive_design": {
+      "name": "**TASK-016**: Ensure mobile-responsive design",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008290",
+      "context": "OpenSpec change: 2025-10-29-crewai-journal-crew - Phase 2: Frontend Interface Development (8 tasks) \ud83d\udd04 **READY TO START**",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_017**:_implement_template_system_for_saving": {
+      "name": "**TASK-017**: Implement template system for saving/reusing preferences",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008295",
+      "context": "OpenSpec change: 2025-10-29-crewai-journal-crew - Phase 3: Enhanced Features (6 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_018**:_add_collaboration_features_for_shari": {
+      "name": "**TASK-018**: Add collaboration features for sharing projects",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008297",
+      "context": "OpenSpec change: 2025-10-29-crewai-journal-crew - Phase 3: Enhanced Features (6 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_019**:_create_advanced_customization_option": {
+      "name": "**TASK-019**: Create advanced customization options",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008299",
+      "context": "OpenSpec change: 2025-10-29-crewai-journal-crew - Phase 3: Enhanced Features (6 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_020**:_build_analytics_and_usage_insights": {
+      "name": "**TASK-020**: Build analytics and usage insights",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008301",
+      "context": "OpenSpec change: 2025-10-29-crewai-journal-crew - Phase 3: Enhanced Features (6 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_021**:_implement_performance_optimization_a": {
+      "name": "**TASK-021**: Implement performance optimization and caching",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008303",
+      "context": "OpenSpec change: 2025-10-29-crewai-journal-crew - Phase 3: Enhanced Features (6 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_022**:_add_security_features_and_content_mo": {
+      "name": "**TASK-022**: Add security features and content moderation",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008306",
+      "context": "OpenSpec change: 2025-10-29-crewai-journal-crew - Phase 3: Enhanced Features (6 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_001**:_remove_ai_credits_references_from_he": {
+      "name": "**TASK-001**: Remove AI credits references from hero section messaging",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008309",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 1: Content Cleanup (12 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_002**:_remove_development_environment_setup": {
+      "name": "**TASK-002**: Remove development environment setup section",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008311",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 1: Content Cleanup (12 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_003**:_update_registration_form_to_remove_c": {
+      "name": "**TASK-003**: Update registration form to remove credit-related fields",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008312",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 1: Content Cleanup (12 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_004**:_clean_up_login_form_descriptions_and": {
+      "name": "**TASK-004**: Clean up login form descriptions and labels",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008314",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 1: Content Cleanup (12 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_005**:_remove_mock_data_references_from_int": {
+      "name": "**TASK-005**: Remove mock data references from interface",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008316",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 1: Content Cleanup (12 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_006**:_update_form_validation_messages_for_": {
+      "name": "**TASK-006**: Update form validation messages for simplified flow",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008318",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 1: Content Cleanup (12 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_007**:_remove_legacy_credit_system_error_me": {
+      "name": "**TASK-007**: Remove legacy credit system error messages",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008319",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 1: Content Cleanup (12 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_008**:_update_success_messages_for_openai_f": {
+      "name": "**TASK-008**: Update success messages for OpenAI-focused flow",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008321",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 1: Content Cleanup (12 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_009**:_clean_up_api_descriptions_in_authent": {
+      "name": "**TASK-009**: Clean up API descriptions in authentication endpoints",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008323",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 1: Content Cleanup (12 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_010**:_remove_development_mode_indicators": {
+      "name": "**TASK-010**: Remove development mode indicators",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008324",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 1: Content Cleanup (12 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_011**:_update_help_text_and_tooltips_for_op": {
+      "name": "**TASK-011**: Update help text and tooltips for OpenAI API keys",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008326",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 1: Content Cleanup (12 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_012**:_remove_references_to_artificial_cont": {
+      "name": "**TASK-012**: Remove references to artificial content generation",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008328",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 1: Content Cleanup (12 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_013**:_simplify_hero_section_design_and_mes": {
+      "name": "**TASK-013**: Simplify hero section design and messaging",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008329",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 2: Visual Simplification (10 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_014**:_streamline_authentication_form_layou": {
+      "name": "**TASK-014**: Streamline authentication form layouts",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008331",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 2: Visual Simplification (10 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_015**:_enhance_openai_api_key_input_present": {
+      "name": "**TASK-015**: Enhance OpenAI API key input presentation",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008333",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 2: Visual Simplification (10 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_016**:_improve_visual_hierarchy_of_authenti": {
+      "name": "**TASK-016**: Improve visual hierarchy of authentication elements",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008336",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 2: Visual Simplification (10 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_017**:_update_color_scheme_to_reflect_opena": {
+      "name": "**TASK-017**: Update color scheme to reflect OpenAI partnership",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008339",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 2: Visual Simplification (10 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_018**:_simplify_form_field_layouts_and_spac": {
+      "name": "**TASK-018**: Simplify form field layouts and spacing",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008341",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 2: Visual Simplification (10 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_019**:_enhance_mobile_responsiveness_for_si": {
+      "name": "**TASK-019**: Enhance mobile responsiveness for simplified interface",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008342",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 2: Visual Simplification (10 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_020**:_update_loading_states_and_progress_i": {
+      "name": "**TASK-020**: Update loading states and progress indicators",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008345",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 2: Visual Simplification (10 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_021**:_improve_error_state_presentations": {
+      "name": "**TASK-021**: Improve error state presentations",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008347",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 2: Visual Simplification (10 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_022**:_optimize_form_button_styling_and_int": {
+      "name": "**TASK-022**: Optimize form button styling and interactions",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008349",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 2: Visual Simplification (10 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_023**:_clarify_openai_api_key_value_proposi": {
+      "name": "**TASK-023**: Clarify OpenAI API key value proposition in registration",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008350",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 3: User Experience Optimization (8 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_024**:_simplify_user_registration_flow_with": {
+      "name": "**TASK-024**: Simplify user registration flow with fewer steps",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008352",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 3: User Experience Optimization (8 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_025**:_improve_onboarding_for_api_key_setup": {
+      "name": "**TASK-025**: Improve onboarding for API key setup process",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008354",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 3: User Experience Optimization (8 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_026**:_add_helpful_tooltips_for_openai_api_": {
+      "name": "**TASK-026**: Add helpful tooltips for OpenAI API key format",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008357",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 3: User Experience Optimization (8 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_027**:_streamline_login_to_dashboard_transi": {
+      "name": "**TASK-027**: Streamline login to dashboard transition",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008358",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 3: User Experience Optimization (8 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_028**:_enhance_first_time_user_experience": {
+      "name": "**TASK-028**: Enhance first-time user experience",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008360",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 3: User Experience Optimization (8 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_029**:_add_contextual_help_for_api_key_mana": {
+      "name": "**TASK-029**: Add contextual help for API key management",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008362",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 3: User Experience Optimization (8 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_030**:_improve_user_feedback_and_notificati": {
+      "name": "**TASK-030**: Improve user feedback and notification system",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008364",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Phase 3: User Experience Optimization (8 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_031**:_update_openai_server_html_templates": {
+      "name": "**TASK-031**: Update OpenAI server HTML templates",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008365",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Technical Implementation (5 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_032**:_remove_credit_related_ui_components_": {
+      "name": "**TASK-032**: Remove credit-related UI components from JavaScript",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008368",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Technical Implementation (5 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_033**:_update_authentication_endpoint_respo": {
+      "name": "**TASK-033**: Update authentication endpoint responses",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008370",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Technical Implementation (5 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_034**:_enhance_api_key_management_interface": {
+      "name": "**TASK-034**: Enhance API key management interface",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008387",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Technical Implementation (5 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "**task_035**:_test_and_validate_simplified_authent": {
+      "name": "**TASK-035**: Test and validate simplified authentication flow",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008391",
+      "context": "OpenSpec change: 2025-10-27-simplify-login-interface - Technical Implementation (5 tasks)",
+      "source": "openspec",
+      "history": []
+    },
+    "1.1_create_modern_css_component_library_with_desig": {
+      "name": "1.1 Create modern CSS component library with design tokens",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008393",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 1. Visual Design Implementation",
+      "source": "openspec",
+      "history": []
+    },
+    "1.2_implement_responsive_grid_layout_system": {
+      "name": "1.2 Implement responsive grid layout system",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008395",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 1. Visual Design Implementation",
+      "source": "openspec",
+      "history": []
+    },
+    "1.3_add_contemporary_typography_and_color_scheme": {
+      "name": "1.3 Add contemporary typography and color scheme",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008398",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 1. Visual Design Implementation",
+      "source": "openspec",
+      "history": []
+    },
+    "1.4_design_modern_form_components_(inputs,_buttons": {
+      "name": "1.4 Design modern form components (inputs, buttons, cards)",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008399",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 1. Visual Design Implementation",
+      "source": "openspec",
+      "history": []
+    },
+    "2.1_implement_inline_form_validation_with_real_tim": {
+      "name": "2.1 Implement inline form validation with real-time feedback",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008401",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 2. Enhanced User Experience",
+      "source": "openspec",
+      "history": []
+    },
+    "2.2_add_password_strength_indicator_with_visual_fe": {
+      "name": "2.2 Add password strength indicator with visual feedback",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008403",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 2. Enhanced User Experience",
+      "source": "openspec",
+      "history": []
+    },
+    "2.3_create_smooth_transitions_and_micro_interactio": {
+      "name": "2.3 Create smooth transitions and micro-interactions",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008405",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 2. Enhanced User Experience",
+      "source": "openspec",
+      "history": []
+    },
+    "2.4_implement_loading_states_and_progress_indicato": {
+      "name": "2.4 Implement loading states and progress indicators",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008407",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 2. Enhanced User Experience",
+      "source": "openspec",
+      "history": []
+    },
+    "3.1_add_password_visibility_toggle_functionality": {
+      "name": "3.1 Add password visibility toggle functionality",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008408",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 3. Security Features",
+      "source": "openspec",
+      "history": []
+    },
+    "3.2_implement_secure_session_timeout_warnings": {
+      "name": "3.2 Implement secure session timeout warnings",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008410",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 3. Security Features",
+      "source": "openspec",
+      "history": []
+    },
+    "3.3_add_captcha_integration_for_bot_protection": {
+      "name": "3.3 Add CAPTCHA integration for bot protection",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008412",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 3. Security Features",
+      "source": "openspec",
+      "history": []
+    },
+    "3.4_create_security_indicators_and_trust_badges": {
+      "name": "3.4 Create security indicators and trust badges",
+      "status": "pending",
+      "created_at": "2025-11-01T21:22:58.008414",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 3. Security Features",
+      "source": "openspec",
+      "history": []
+    },
+    "4.1_ensure_wcag_2.1_aa_color_contrast_ratios": {
+      "name": "4.1 Ensure WCAG 2.1 AA color contrast ratios",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008416",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 4. Accessibility Implementation",
+      "source": "openspec",
+      "history": []
+    },
+    "4.2_add_comprehensive_aria_labels_and_descriptions": {
+      "name": "4.2 Add comprehensive ARIA labels and descriptions",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008417",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 4. Accessibility Implementation",
+      "source": "openspec",
+      "history": []
+    },
+    "4.3_implement_full_keyboard_navigation_support": {
+      "name": "4.3 Implement full keyboard navigation support",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008419",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 4. Accessibility Implementation",
+      "source": "openspec",
+      "history": []
+    },
+    "4.4_add_screen_reader_announcements_for_dynamic_co": {
+      "name": "4.4 Add screen reader announcements for dynamic content",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008421",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 4. Accessibility Implementation",
+      "source": "openspec",
+      "history": []
+    },
+    "5.1_design_mobile_first_responsive_layouts": {
+      "name": "5.1 Design mobile-first responsive layouts",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008424",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 5. Mobile Optimization",
+      "source": "openspec",
+      "history": []
+    },
+    "5.2_implement_touch_friendly_interaction_targets": {
+      "name": "5.2 Implement touch-friendly interaction targets",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008426",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 5. Mobile Optimization",
+      "source": "openspec",
+      "history": []
+    },
+    "5.3_optimize_for_various_screen_sizes_and_orientat": {
+      "name": "5.3 Optimize for various screen sizes and orientations",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008427",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 5. Mobile Optimization",
+      "source": "openspec",
+      "history": []
+    },
+    "5.4_add_device_specific_optimizations_(ios/android": {
+      "name": "5.4 Add device-specific optimizations (iOS/Android)",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008430",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 5. Mobile Optimization",
+      "source": "openspec",
+      "history": []
+    },
+    "6.1_add_enhanced_input_validation_and_sanitization": {
+      "name": "6.1 Add enhanced input validation and sanitization",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008432",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 6. Backend API Enhancements",
+      "source": "openspec",
+      "history": []
+    },
+    "6.2_implement_rate_limiting_for_authentication_end": {
+      "name": "6.2 Implement rate limiting for authentication endpoints",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008434",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 6. Backend API Enhancements",
+      "source": "openspec",
+      "history": []
+    },
+    "6.3_add_comprehensive_error_responses_for_frontend": {
+      "name": "6.3 Add comprehensive error responses for frontend handling",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008435",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 6. Backend API Enhancements",
+      "source": "openspec",
+      "history": []
+    },
+    "6.4_create_security_headers_and_csp_policies": {
+      "name": "6.4 Create security headers and CSP policies",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008437",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 6. Backend API Enhancements",
+      "source": "openspec",
+      "history": []
+    },
+    "7.1_cross_browser_compatibility_testing": {
+      "name": "7.1 Cross-browser compatibility testing",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008439",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 7. Testing & Validation",
+      "source": "openspec",
+      "history": []
+    },
+    "7.2_mobile_device_testing_on_actual_hardware": {
+      "name": "7.2 Mobile device testing on actual hardware",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008441",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 7. Testing & Validation",
+      "source": "openspec",
+      "history": []
+    },
+    "7.3_accessibility_testing_with_screen_readers": {
+      "name": "7.3 Accessibility testing with screen readers",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008443",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 7. Testing & Validation",
+      "source": "openspec",
+      "history": []
+    },
+    "7.4_security_penetration_testing_for_auth_flows": {
+      "name": "7.4 Security penetration testing for auth flows",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008445",
+      "context": "OpenSpec change: 2025-10-27-industry-auth-ui - 7. Testing & Validation",
+      "source": "openspec",
+      "history": []
+    },
+    "1.1_remove_ai_credits_field_from_user_database_mod": {
+      "name": "1.1 Remove ai_credits field from user database model",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008447",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 1. Remove AI Credit System",
+      "source": "openspec",
+      "history": []
+    },
+    "1.2_remove_ai_credits_logic_from_all_server_files_": {
+      "name": "1.2 Remove ai_credits logic from all server files (testing_server.py, auth_service.py, etc.)",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008449",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 1. Remove AI Credit System",
+      "source": "openspec",
+      "history": []
+    },
+    "1.3_remove_profile_type_based_credit_allocation_fr": {
+      "name": "1.3 Remove profile type based credit allocation from registration",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008451",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 1. Remove AI Credit System",
+      "source": "openspec",
+      "history": []
+    },
+    "1.4_remove_credit_checking_logic_from_ai_generatio": {
+      "name": "1.4 Remove credit checking logic from AI generation endpoints",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008452",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 1. Remove AI Credit System",
+      "source": "openspec",
+      "history": []
+    },
+    "2.1_add_encrypted_openai_api_key_field_to_user_mod": {
+      "name": "2.1 Add encrypted openai_api_key field to user model",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008454",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 2. OpenAI API Key Management",
+      "source": "openspec",
+      "history": []
+    },
+    "2.2_create_api_key_validation_endpoint_(check_key_": {
+      "name": "2.2 Create API key validation endpoint (check key validity with OpenAI)",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008456",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 2. OpenAI API Key Management",
+      "source": "openspec",
+      "history": []
+    },
+    "2.3_implement_secure_key_storage_using_environment": {
+      "name": "2.3 Implement secure key storage using environment encryption",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008459",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 2. OpenAI API Key Management",
+      "source": "openspec",
+      "history": []
+    },
+    "2.4_add_api_key_update/delete_functionality": {
+      "name": "2.4 Add API key update/delete functionality",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008461",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 2. OpenAI API Key Management",
+      "source": "openspec",
+      "history": []
+    },
+    "3.1_install_openai_python_sdk": {
+      "name": "3.1 Install OpenAI Python SDK",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008462",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 3. OpenAI API Integration",
+      "source": "openspec",
+      "history": []
+    },
+    "3.2_replace_mock_ai_generation_with_real_openai_ap": {
+      "name": "3.2 Replace mock AI generation with real OpenAI API calls",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008464",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 3. OpenAI API Integration",
+      "source": "openspec",
+      "history": []
+    },
+    "3.3_implement_proper_error_handling_for_api_failur": {
+      "name": "3.3 Implement proper error handling for API failures",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008467",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 3. OpenAI API Integration",
+      "source": "openspec",
+      "history": []
+    },
+    "3.4_add_rate_limiting_based_on_openai_api_limits": {
+      "name": "3.4 Add rate limiting based on OpenAI API limits",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008469",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 3. OpenAI API Integration",
+      "source": "openspec",
+      "history": []
+    },
+    "4.1_implement_token_usage_tracking_for_each_genera": {
+      "name": "4.1 Implement token usage tracking for each generation",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008471",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 4. Cost Tracking & Usage",
+      "source": "openspec",
+      "history": []
+    },
+    "4.2_calculate_and_display_real_openai_api_costs": {
+      "name": "4.2 Calculate and display real OpenAI API costs",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008472",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 4. Cost Tracking & Usage",
+      "source": "openspec",
+      "history": []
+    },
+    "4.3_create_usage_statistics_dashboard": {
+      "name": "4.3 Create usage statistics dashboard",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008475",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 4. Cost Tracking & Usage",
+      "source": "openspec",
+      "history": []
+    },
+    "4.4_add_cost_estimates_before_generation": {
+      "name": "4.4 Add cost estimates before generation",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008476",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 4. Cost Tracking & Usage",
+      "source": "openspec",
+      "history": []
+    },
+    "5.1_remove_ai_credit_display_from_user_profile": {
+      "name": "5.1 Remove AI credit display from user profile",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008478",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 5. Frontend Updates",
+      "source": "openspec",
+      "history": []
+    },
+    "5.2_add_api_key_management_interface_in_user_setti": {
+      "name": "5.2 Add API key management interface in user settings",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008480",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 5. Frontend Updates",
+      "source": "openspec",
+      "history": []
+    },
+    "5.3_update_registration_form_(remove_profile_type,": {
+      "name": "5.3 Update registration form (remove profile type, add API key option)",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008482",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 5. Frontend Updates",
+      "source": "openspec",
+      "history": []
+    },
+    "5.4_add_cost_tracking_display_to_generation_interf": {
+      "name": "5.4 Add cost tracking display to generation interface",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008484",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 5. Frontend Updates",
+      "source": "openspec",
+      "history": []
+    },
+    "6.1_implement_server_side_encryption_for_stored_ap": {
+      "name": "6.1 Implement server-side encryption for stored API keys",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008486",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 6. Security Implementation",
+      "source": "openspec",
+      "history": []
+    },
+    "6.2_add_api_key_usage_monitoring_and_alerts": {
+      "name": "6.2 Add API key usage monitoring and alerts",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008488",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 6. Security Implementation",
+      "source": "openspec",
+      "history": []
+    },
+    "6.3_implement_key_rotation_functionality": {
+      "name": "6.3 Implement key rotation functionality",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008490",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 6. Security Implementation",
+      "source": "openspec",
+      "history": []
+    },
+    "6.4_add_security_headers_and_validation_for_api_en": {
+      "name": "6.4 Add security headers and validation for API endpoints",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008492",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 6. Security Implementation",
+      "source": "openspec",
+      "history": []
+    },
+    "7.1_create_migration_script_to_remove_ai_credits_f": {
+      "name": "7.1 Create migration script to remove ai_credits from existing users",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008494",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 7. Data Migration",
+      "source": "openspec",
+      "history": []
+    },
+    "7.2_update_existing_user_accounts_to_remove_credit": {
+      "name": "7.2 Update existing user accounts to remove credit limits",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008495",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 7. Data Migration",
+      "source": "openspec",
+      "history": []
+    },
+    "7.3_back_up_current_data_before_migration": {
+      "name": "7.3 Back up current data before migration",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008497",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 7. Data Migration",
+      "source": "openspec",
+      "history": []
+    },
+    "7.4_test_migration_on_development_data_first": {
+      "name": "7.4 Test migration on development data first",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008499",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 7. Data Migration",
+      "source": "openspec",
+      "history": []
+    },
+    "8.1_test_api_key_validation_with_real_openai_keys": {
+      "name": "8.1 Test API key validation with real OpenAI keys",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008501",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 8. Testing & Validation",
+      "source": "openspec",
+      "history": []
+    },
+    "8.2_test_cost_calculation_accuracy": {
+      "name": "8.2 Test cost calculation accuracy",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008502",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 8. Testing & Validation",
+      "source": "openspec",
+      "history": []
+    },
+    "8.3_test_security_of_key_storage_and_transmission": {
+      "name": "8.3 Test security of key storage and transmission",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008505",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 8. Testing & Validation",
+      "source": "openspec",
+      "history": []
+    },
+    "8.4_test_edge_cases_(invalid_keys,_api_outages,_et": {
+      "name": "8.4 Test edge cases (invalid keys, API outages, etc.)",
+      "status": "completed",
+      "created_at": "2025-11-01T21:22:58.008507",
+      "context": "OpenSpec change: 2025-10-29-replace-credits-with-openai-key - 8. Testing & Validation",
+      "source": "openspec",
+      "history": []
+    }
+  },
+  "sessions": {},
+  "last_updated": "2025-11-01T21:22:58.008527",
+  "last_sync_from_openspec": "2025-11-01T21:22:58.008528"
+}

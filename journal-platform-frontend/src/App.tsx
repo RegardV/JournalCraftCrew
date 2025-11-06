@@ -12,6 +12,7 @@ import ForgotPasswordPage from '@/pages/auth/ForgotPasswordPage';
 import TermsPage from '@/pages/legal/TermsPage';
 import PrivacyPage from '@/pages/legal/PrivacyPage';
 import ConnectionStatus from '@/components/ui/ConnectionStatus';
+import PerformanceMonitor from '@/components/ui/PerformanceMonitor';
 
 // Authenticated routes component
 function AuthenticatedRoutes() {
@@ -91,6 +92,7 @@ function AuthenticatedRoutes() {
       </div>
 
       <ConnectionStatus />
+      <PerformanceMonitor />
     </div>
   );
 }

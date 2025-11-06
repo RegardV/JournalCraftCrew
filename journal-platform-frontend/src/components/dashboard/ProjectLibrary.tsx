@@ -109,7 +109,7 @@ const ProjectLibrary: React.FC = () => {
     setFilters(prev => ({ ...prev, [key]: value, page: 1 }))
   }
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
     const searchQuery = formData.get('search') as string

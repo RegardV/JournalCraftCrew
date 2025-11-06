@@ -115,7 +115,7 @@ const Header: React.FC<HeaderProps> = ({ user, onMenuToggle, isMobileMenuOpen })
 
                   <div className="p-2">
                     {[
-                      { name: 'Profile', href: '/profile', icon: UserCircleIcon },
+                      { name: 'Profile', href: '/profile', icon: '👤' },
                       { name: 'Settings', href: '/settings', icon: '⚙️' },
                       { name: 'Subscription', href: '/subscription', icon: '💎' },
                     ].map((item) => (

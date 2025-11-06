@@ -1,4 +1,4 @@
-# CourseCraft Crew Changelog
+# Journal Craft Crew Changelog
 
 ## 2025-03-10
 
@@ -23,7 +23,7 @@
 - Added fallback to mock data when API calls fail
 
 Phase 1 Implementation Complete
-I've successfully implemented all components required for Phase 1 of the CourseCraft Crew project. The implementation is focused on text and image-based course creation with a testing mode that produces a 2-3 page PDF.
+I've successfully implemented all components required for Phase 1 of the Journal Craft Crew project. The implementation is focused on text and image-based course creation with a testing mode that produces a 2-3 page PDF.
 
 Components Implemented
 Pydantic Models (models.py)

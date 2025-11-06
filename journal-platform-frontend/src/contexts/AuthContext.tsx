@@ -1,12 +1,12 @@
 // Authentication Context for Unified Backend Integration
 
-import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import type { ReactNode } from 'react';
 import { authAPI } from '@/lib/api';
 import type {
   AuthState,
   AuthContextType,
-  UserRegistration,
-  UserLogin
+  UserRegistration
 } from '@/types/api';
 
 // Auth action types

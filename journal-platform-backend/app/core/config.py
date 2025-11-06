@@ -18,7 +18,7 @@ class Settings(BaseSettings):
 
     # Server
     HOST: str = "0.0.0.0"
-    PORT: int = 8000
+    PORT: int = 6770
     ALLOWED_ORIGINS: List[str] = [
         "http://localhost:3000",  # React frontend
         "http://localhost:5173",  # Vite dev server

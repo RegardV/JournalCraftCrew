@@ -1,6 +1,7 @@
 // Journal Creation Context for AI-powered journal generation
 
-import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import type { ReactNode } from 'react';
 import { aiAPI } from '@/lib/api';
 import type {
   JournalCreationState,

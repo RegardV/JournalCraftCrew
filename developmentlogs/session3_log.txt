@@ -22,6 +22,6 @@
   - Removed outdated `src/` (including `crew_config.md`) and `.env`, moving config to `settings.py`.
   - Replaced `scripts/SetupDirAndTemplatefiles.py` with `scripts/create_py_files.sh`.
 - **Git Management**:
-  - Synced all folder files (except `.gitignore` items like `venv/`) to `https://github.com/RegardV/CourseCraftCrew`.
+  - Synced all folder files (except `.gitignore` items like `venv/`) to `https://github.com/RegardV/Journal CraftCrew`.
   - Updated `.gitignore` to exclude `.env`.
   - Staged, committed, and pushed changes with detailed workflow:

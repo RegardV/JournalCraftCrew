@@ -11,6 +11,7 @@ import {
   PlusIcon,
   MagnifyingGlassIcon,
   SparklesIcon,
+  XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';

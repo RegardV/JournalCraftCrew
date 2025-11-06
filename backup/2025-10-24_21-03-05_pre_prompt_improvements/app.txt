@@ -1,13 +1,13 @@
 2025-03-20 22:45:56.110851: Sentiment analyzed for text: This is a great course!..., result: {'neg': 0.0, 'neu': 0.406, 'pos': 0.594, 'compound': 0.6588}
 2025-03-20 22:45:56.111443: Sentiment test: {'neg': 0.0, 'neu': 0.406, 'pos': 0.594, 'compound': 0.6588}
-2025-03-20 22:45:56.111545: Starting CourseCraft Crew in FULL mode
+2025-03-20 22:45:56.111545: Starting Journal Craft Crew in FULL mode
 2025-03-20 22:45:56.135631: Manager Agent: Coordinating Content Creation Crew...
 2025-03-20 22:45:56.135756: Step 1: Onboarding
 2025-03-20 22:45:56.135840: No existing projects or user chose to create a new journal.
 2025-03-20 22:50:51.972148: Adjusted theme to 'Journaling for Goal-Setting and Reflection' from 'Goal-Setting and Reflection'.
 2025-03-20 22:51:30.352386: Sentiment analyzed for text: This is a great course!..., result: {'neg': 0.0, 'neu': 0.406, 'pos': 0.594, 'compound': 0.6588}
 2025-03-20 22:51:30.352870: Sentiment test: {'neg': 0.0, 'neu': 0.406, 'pos': 0.594, 'compound': 0.6588}
-2025-03-20 22:51:30.352945: Starting CourseCraft Crew in FULL mode
+2025-03-20 22:51:30.352945: Starting Journal Craft Crew in FULL mode
 2025-03-20 22:51:30.377081: Manager Agent: Coordinating Content Creation Crew...
 2025-03-20 22:51:30.377270: Step 1: Onboarding
 2025-03-20 22:51:30.377410: No existing projects or user chose to create a new journal.
@@ -499,7 +499,7 @@
 2025-10-24 20:30:42.039953: Successfully initialized OpenAI GPT-4 LLM
 2025-10-24 20:30:42.047573: Sentiment analyzed for text: This is a great course!..., result: {'neg': 0.0, 'neu': 0.406, 'pos': 0.594, 'compound': 0.6588}
 2025-10-24 20:30:42.047736: Sentiment test: {'neg': 0.0, 'neu': 0.406, 'pos': 0.594, 'compound': 0.6588}
-2025-10-24 20:30:42.047766: Starting CourseCraft Crew in FULL mode
+2025-10-24 20:30:42.047766: Starting Journal Craft Crew in FULL mode
 2025-10-24 20:30:42.053320: Manager Agent: Coordinating Content Creation Crew...
 2025-10-24 20:30:42.053367: Step 1: Onboarding
 2025-10-24 20:30:42.053419: Existing projects found: ['temp_llm', 'Unlock_Your_Potential:_A_Provocative_Journaling_Approach_to_Goal_Setting_and_Reflection_2025-03-20']

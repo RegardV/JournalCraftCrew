@@ -41,7 +41,7 @@
 
 ### Phase 4: Root File Updates
 - [ ] Update README.md:
-  - [ ] Fix brand name from "CourseCraft" to "Journal Craft Crew"
+  - [ ] Fix brand name from "Journal Craft" to "Journal Craft Crew"
   - [ ] Update project description to current state
   - [ ] Add reference to OpenSpec documentation structure
   - [ ] Update installation and setup instructions

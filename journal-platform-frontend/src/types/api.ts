@@ -162,6 +162,7 @@ export interface AuthState {
     full_name: string;
     profile_type: string;
     ai_credits: number;
+    created_at?: string;
   } | null;
   token: string | null;
   isAuthenticated: boolean;
@@ -174,6 +175,7 @@ export interface AuthContextType extends AuthState {
   register: (userData: UserRegistration) => Promise<void>;
   logout: () => void;
   refreshToken: () => Promise<void>;
+  clearError: () => void;
 }
 
 // Journal Creation Context Types

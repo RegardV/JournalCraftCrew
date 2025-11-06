@@ -55,3 +55,9 @@ python-magic==0.10.2
 
 # Development Server
 python-devtools==2023.10.4
+
+# AI & CrewAI Integration (Latest Compatible Versions)
+crewai==1.3.0
+crewai-tools==1.3.0
+openai>=1.13.3
+qdrant-client>=1.15.0

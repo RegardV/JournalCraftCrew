@@ -35,7 +35,7 @@ const JournalProgress: React.FC<JournalProgressProps> = ({ jobId, onComplete, on
   useEffect(() => {
     if (!jobId) return;
 
-    const wsUrl = `ws://localhost:8000/ws/journal/${jobId}`;
+    const wsUrl = `ws://localhost:6770/ws/journal/${jobId}`;
     const ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {
