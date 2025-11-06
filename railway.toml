@@ -1,0 +1,47 @@
+# 🚀 Railway Deployment Configuration
+# Journal Craft Crew - Full-Stack Application
+
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+startCommand = "python unified_backend.py"
+healthcheckPath = "/health"
+healthcheckTimeout = 100
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+[env]
+NODE_ENV = "production"
+PYTHON_VERSION = "3.12"
+
+[variables]
+# Database Configuration
+DATABASE_URL = "${{Postgres.DATABASE_URL}}"
+POSTGRES_HOST = "${{Postgres.HOST}}"
+POSTGRES_PORT = "${{Postgres.PORT}}"
+POSTGRES_USER = "${{Postgres.USER}}"
+POSTGRES_PASSWORD = "${{Postgres.PASSWORD}}"
+POSTGRES_DB = "${{Postgres.DATABASE}}"
+
+# Security
+SECRET_KEY = "${{Secrets.SECRET_KEY}}"
+OPENAI_API_KEY = "${{Secrets.OPENAI_API_KEY}}"
+
+# API Configuration
+VITE_API_BASE_URL = "${{Frontend.URL}}"
+CORS_ORIGINS = "${{Frontend.URL}}"
+
+# Production Settings
+ENVIRONMENT = "production"
+DEBUG = "false"
+
+[[services]]
+name = "frontend"
+source = "."
+builder = "NIXPACKS"
+
+[services.variables]
+VITE_API_BASE_URL = "${{Backend.URL}}"
+VITE_STRIPE_PUBLISHABLE_KEY = "${{Secrets.STRIPE_PUBLISHABLE_KEY}}"
+VITE_APP_NAME = "Journal Craft Crew"

@@ -1,0 +1,20 @@
+# 🔧 Nixpacks Configuration for Railway
+# Journal Craft Crew - Production Build Setup
+
+[phases.setup]
+nixPkgs = ["python312", "nodejs_20", "npm", "postgresql"]
+
+[phases.build]
+cmds = [
+  "cd journal-platform-frontend && npm ci",
+  "cd journal-platform-frontend && npm run build",
+  "cd journal-platform-backend && pip install -r requirements.txt"
+]
+
+[start]
+cmd = "cd journal-platform-backend && python unified_backend.py"
+
+[variables]
+NODE_ENV = "production"
+PYTHONPATH = "/app/journal-platform-backend"
+PORT = "6770"
