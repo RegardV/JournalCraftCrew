@@ -14,6 +14,10 @@ from .export import (
     ExportJob, ExportFormat, ExportTemplate, ExportHistory,
     KDPSubmission, ExportFile, ExportQueue
 )
+from .auth_tokens import (
+    EmailVerification, PasswordReset, RefreshToken, OAuthAccount,
+    LoginAttempt, SecurityEvent
+)
 
 # Export all models for easy importing
 __all__ = [
@@ -37,4 +41,12 @@ __all__ = [
     "KDPSubmission",
     "ExportFile",
     "ExportQueue",
+
+    # Authentication entities
+    "EmailVerification",
+    "PasswordReset",
+    "RefreshToken",
+    "OAuthAccount",
+    "LoginAttempt",
+    "SecurityEvent",
 ]
