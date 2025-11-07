@@ -24,7 +24,6 @@ class ExportJob(BaseModel):
     """Export job model for tracking export operations"""
     __tablename__ = 'export_jobs'
 
-    id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     project_id = Column(Integer, ForeignKey('projects.id'), nullable=False)
 
@@ -57,10 +56,6 @@ class ExportJob(BaseModel):
     queue_position = Column(Integer, nullable=True)
     worker_id = Column(String, nullable=True)  # ID of worker processing the job
 
-    # Timestamps
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
-
     # Relationships
     user = relationship("User", foreign_keys=[user_id])
     project = relationship("Project", foreign_keys=[project_id])
@@ -70,7 +65,6 @@ class ExportTemplate(BaseModel):
     """Export template model for reusable export configurations"""
     __tablename__ = 'export_templates'
 
-    id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
     description = Column(Text, nullable=True)
     category = Column(String, nullable=False)  # pdf, epub, kdp, custom
@@ -91,10 +85,6 @@ class ExportTemplate(BaseModel):
     preview_url = Column(String, nullable=True)
     sample_output_url = Column(String, nullable=True)
 
-    # Timestamps
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
-
     # Relationships
     user = relationship("User", foreign_keys=[user_id])
 
@@ -103,7 +93,6 @@ class ExportHistory(BaseModel):
     """Export history for tracking user export patterns"""
     __tablename__ = 'export_history'
 
-    id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     export_job_id = Column(Integer, ForeignKey('export_jobs.id'), nullable=True)
 
@@ -121,9 +110,6 @@ class ExportHistory(BaseModel):
     user_agent = Column(String, nullable=True)
     ip_address = Column(String, nullable=True)
     source = Column(String, nullable=True)  # web, api, mobile
-
-    # Timestamps
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     # Relationships
     user = relationship("User", foreign_keys=[user_id])

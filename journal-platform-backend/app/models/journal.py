@@ -15,7 +15,6 @@ class JournalEntry(BaseModel):
     """User's journal entries combining AI generation and personal editing"""
     __tablename__ = 'journal_entries'
 
-    id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     project_id = Column(Integer, ForeignKey('projects.id'), nullable=True)
 
@@ -47,9 +46,7 @@ class JournalEntry(BaseModel):
     cover_image = Column(String, nullable=True)  # User or AI generated cover
     attached_images = Column(JSON, nullable=True)
 
-    # Timestamps
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+    # Additional timestamp
     last_accessed = Column(DateTime(timezone=True), nullable=True)
 
     # Relationships
@@ -61,7 +58,6 @@ class JournalTemplate(BaseModel):
     """AI-generated journal templates users can customize"""
     __tablename__ = 'journal_templates'
 
-    id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
     # Template metadata
@@ -78,10 +74,6 @@ class JournalTemplate(BaseModel):
     usage_count = Column(Integer, default=0)
     rating = Column(Integer, nullable=True)  # User rating 1-5
 
-    # Timestamps
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
-
     # Relationships
     user = relationship("User", foreign_keys=[user_id])
 
@@ -90,7 +82,6 @@ class JournalMedia(BaseModel):
     """Media attached to journal entries"""
     __tablename__ = 'journal_media'
 
-    id = Column(Integer, primary_key=True, index=True)
     entry_id = Column(Integer, ForeignKey('journal_entries.id'), nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
@@ -109,9 +100,6 @@ class JournalMedia(BaseModel):
     # Media processing
     processed_at = Column(DateTime(timezone=True), nullable=True)
     thumbnail_path = Column(String, nullable=True)
-
-    # Timestamps
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     # Relationships
     entry = relationship("JournalEntry", foreign_keys=[entry_id])
