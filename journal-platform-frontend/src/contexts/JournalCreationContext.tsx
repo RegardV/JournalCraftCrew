@@ -23,7 +23,7 @@ type JournalCreationAction =
   | { type: 'SET_TITLE_STYLE'; payload: string }
   | { type: 'SET_DESCRIPTION'; payload: string }
   | { type: 'GENERATION_START' }
-  | { type: 'GENERATION_PROGRESS'; payload: { job_id: string; status: string; progress: number; stage: string } }
+  | { type: 'GENERATION_PROGRESS'; payload: { job_id: string; status: string; progress: number; stage: string; currentAgent?: string; logs?: Array<{ timestamp: string; level: string; agent: string; message: string }>; latestLog?: string; estimatedTimeRemaining?: number } }
   | { type: 'GENERATION_COMPLETE' }
   | { type: 'GENERATION_ERROR'; payload: string }
   | { type: 'RESET_CREATION' };
@@ -214,27 +214,64 @@ export const JournalCreationProvider: React.FC<JournalCreationProviderProps> = (
 
       ws.onmessage = (event) => {
         try {
-          const message: WebSocketProgressMessage = JSON.parse(event.data);
+          const data = JSON.parse(event.data);
 
-          if (message.type === 'progress') {
+          // Handle backend format (direct job status) or frontend format (wrapped message)
+          if (data.status || data.progress !== undefined) {
+            // Backend format - direct job status
             dispatch({
               type: 'GENERATION_PROGRESS',
               payload: {
-                job_id: message.job_id,
-                status: 'processing',
-                progress: message.progress || 0,
-                stage: message.stage || 'Processing...',
+                job_id: data.jobId || job_id,
+                status: data.status || 'processing',
+                progress: data.progress || 0,
+                stage: data.message || data.currentAgent || 'Processing...',
+                currentAgent: data.currentAgent,
+                logs: data.logs,
+                latestLog: data.log,
+                estimatedTimeRemaining: data.estimatedTimeRemaining,
               },
             });
-          } else if (message.type === 'completed') {
-            dispatch({ type: 'GENERATION_COMPLETE' });
-            ws.close();
-          } else if (message.type === 'error') {
-            dispatch({
-              type: 'GENERATION_ERROR',
-              payload: message.message || 'Generation failed',
-            });
-            ws.close();
+
+            // Check if completed
+            if (data.status === 'completed') {
+              dispatch({ type: 'GENERATION_COMPLETE' });
+              ws.close();
+            } else if (data.status === 'error') {
+              dispatch({
+                type: 'GENERATION_ERROR',
+                payload: data.message || 'Generation failed',
+              });
+              ws.close();
+            }
+          } else {
+            // Frontend format - wrapped message
+            const message: WebSocketProgressMessage = data;
+
+            if (message.type === 'progress') {
+              dispatch({
+                type: 'GENERATION_PROGRESS',
+                payload: {
+                  job_id: message.job_id,
+                  status: 'processing',
+                  progress: message.progress || 0,
+                  stage: message.stage || 'Processing...',
+                  currentAgent: message.currentAgent,
+                  logs: message.logs,
+                  latestLog: message.log,
+                  estimatedTimeRemaining: message.estimatedTimeRemaining,
+                },
+              });
+            } else if (message.type === 'completed') {
+              dispatch({ type: 'GENERATION_COMPLETE' });
+              ws.close();
+            } else if (message.type === 'error') {
+              dispatch({
+                type: 'GENERATION_ERROR',
+                payload: message.message || 'Generation failed',
+              });
+              ws.close();
+            }
           }
         } catch (error) {
           console.error('WebSocket message parsing error:', error);

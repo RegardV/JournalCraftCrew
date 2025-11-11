@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Card } from '../ui/Card'
 import { Button } from '../ui/Button'
 import { Input } from '../ui/Input'
@@ -33,6 +34,7 @@ interface ProjectFilters {
 }
 
 const ProjectLibrary: React.FC = () => {
+  const navigate = useNavigate()
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -423,7 +425,7 @@ const ProjectLibrary: React.FC = () => {
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => window.location.href = `/library/projects/${project.id}`}
+                          onClick={() => navigate(`/library/projects/${project.id}`)}
                         >
                           View Details
                         </Button>

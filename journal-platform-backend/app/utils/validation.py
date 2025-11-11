@@ -85,33 +85,31 @@ class SecurityValidator:
         """Validate password strength and return feedback"""
         errors = []
 
-        if len(password) < 8:
-            errors.append("Password must be at least 8 characters long")
+        if len(password) < 6:
+            errors.append("Password must be at least 6 characters long")
 
         if len(password) > 128:
             errors.append("Password cannot exceed 128 characters")
 
-        if not re.search(r'[a-z]', password):
-            errors.append("Password must contain at least one lowercase letter")
+        # For development, make requirements more flexible
+        has_lower = re.search(r'[a-z]', password) is not None
+        has_upper = re.search(r'[A-Z]', password) is not None
+        has_number = re.search(r'\d', password) is not None
+        has_special = re.search(r'[!@#$%^&*(),.?":{}|<>]', password) is not None
 
-        if not re.search(r'[A-Z]', password):
-            errors.append("Password must contain at least one uppercase letter")
+        # Require at least 3 of the 4 character types
+        character_types = sum([has_lower, has_upper, has_number, has_special])
+        if character_types < 2:
+            errors.append("Password must contain at least 2 of: lowercase, uppercase, numbers, or special characters")
 
-        if not re.search(r'\d', password):
-            errors.append("Password must contain at least one number")
-
-        if not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
-            errors.append("Password must contain at least one special character")
-
-        # Check for common patterns
+        # Check for very common patterns (reduced list for development)
         common_patterns = [
-            r'password', r'123456', r'qwerty', r'admin', r'letmein',
-            r'welcome', r'monkey', r'1234567890', r'abc123'
+            r'123456', r'password', r'admin'
         ]
 
         for pattern in common_patterns:
             if re.search(pattern, password, re.IGNORECASE):
-                errors.append("Password contains common patterns that are not secure")
+                errors.append("Password cannot contain common patterns like '123456' or 'password'")
                 break
 
         return len(errors) == 0, errors

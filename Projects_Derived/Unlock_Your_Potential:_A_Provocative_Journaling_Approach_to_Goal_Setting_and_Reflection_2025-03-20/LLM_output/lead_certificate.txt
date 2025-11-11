@@ -1,6 +1,0 @@
-{
-  "summary": "Unlock the power of your voice with our exclusive 'Master of Engaging Conversations' certificate! This lead magnet is designed to transform you into a conversational maestro, capable of captivating any audience with ease and confidence. Whether you're networking, negotiating, or simply socializing, this certificate equips you with the skills to leave a lasting impression. Dive into the art of active listening, learn to weave compelling narratives, and master the subtle dance of non-verbal communication. Our expertly crafted modules will guide you through real-world scenarios, ensuring you're prepared for any conversational challenge. By the end of this journey, you'll not only boost your communication prowess but also enhance your personal and professional relationships. Don't miss this opportunity to elevate your conversational game and become the master of engaging dialogues!",
-  "text": "Congratulations, [Name]! You have successfully completed the 'Master of Engaging Conversations' program. You are now equipped with the skills to captivate and engage in any conversation with confidence and charm.",
-  "fields": ["Name", "Date"],
-  "image": "certificate_image_placeholder.jpg"
-}

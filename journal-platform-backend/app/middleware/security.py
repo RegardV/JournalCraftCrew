@@ -110,11 +110,9 @@ def setup_cors_middleware(app) -> None:
     app.add_middleware(
         CORSMiddleware,
         allow_origins=[
-            "http://localhost:3000",
-            "http://localhost:5173",
-            "http://localhost:5174",
-            "http://localhost:5175",
-            "https://yourdomain.com"  # Production domain
+            "http://localhost:3000",   # Production build
+            "http://localhost:5173",   # Development server
+            "https://yourdomain.com"   # Production domain
         ],
         allow_credentials=True,
         allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],

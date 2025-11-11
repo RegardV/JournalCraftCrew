@@ -78,8 +78,18 @@ class AuthService:
                     detail="User with this email already exists"
                 )
 
-            # Hash password
-            hashed_password = password_manager.hash_password(password)
+            # Hash password using bcrypt with length handling
+            password_bytes = password.encode('utf-8')
+            if len(password_bytes) > 72:
+                password_bytes = password_bytes[:72]
+                password = password_bytes.decode('utf-8', errors='ignore')
+            from passlib.context import CryptContext
+            pwd_context = CryptContext(
+                schemes=["bcrypt"],
+                deprecated="auto",
+                bcrypt__rounds=12
+            )
+            hashed_password = pwd_context.hash(password)
 
             # Set AI credits based on profile type
             ai_credits = 10 if profile_type == "personal_journaler" else 50
@@ -165,8 +175,20 @@ class AuthService:
                     detail="Invalid email or password"
                 )
 
-            # Verify password
-            if not password_manager.verify_password(password, user.password_hash):
+            # Verify password using bcrypt with length handling
+            password_bytes = password.encode('utf-8')
+            if len(password_bytes) > 72:
+                password_bytes = password_bytes[:72]
+            password = password_bytes.decode('utf-8', errors='ignore')
+
+            from passlib.context import CryptContext
+            pwd_context = CryptContext(
+                schemes=["bcrypt"],
+                deprecated="auto",
+                bcrypt__rounds=12
+            )
+
+            if not pwd_context.verify(password, user.password_hash):
                 # Log failed login attempt
                 await self._log_login_attempt(email, False, "Invalid password", request_ip, user_agent, user.id)
                 raise HTTPException(

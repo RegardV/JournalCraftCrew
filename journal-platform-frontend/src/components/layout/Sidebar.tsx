@@ -25,11 +25,11 @@ interface SidebarProps {
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: false },
-  { name: 'My Journals', href: '/projects', icon: BookOpenIcon, current: false },
+  { name: 'My Journals', href: '/dashboard?view=library', icon: BookOpenIcon, current: false },
   { name: 'Themes', href: '/themes', icon: PaintBrushIcon, current: false },
   { name: 'Templates', href: '/templates', icon: DocumentTextIcon, current: false },
   { name: 'Collaborations', href: '/collaborations', icon: UserGroupIcon, current: false },
-  { name: 'Analytics', href: '/analytics', icon: ChartBarIcon, current: false },
+  { name: 'Analytics', href: '/dashboard?view=analytics', icon: ChartBarIcon, current: false },
 ];
 
 const secondaryNavigation = [
@@ -38,9 +38,7 @@ const secondaryNavigation = [
 ];
 
 const recentProjects = [
-  { id: '1', name: 'Summer Vacation 2025', type: 'travel', lastEdited: '2 hours ago' },
-  { id: '2', name: 'Project Phoenix', type: 'project', lastEdited: '1 day ago' },
-  { id: '3', name: 'Personal Reflections', type: 'personal', lastEdited: '3 days ago' },
+  // Remove fake projects - will be populated from API
 ];
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, className }) => {

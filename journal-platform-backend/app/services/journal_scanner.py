@@ -117,9 +117,12 @@ class JournalScannerService:
             json_dir = project_path / "Json_output"
             llm_dir = project_path / "LLM_output"
 
+            # Generate a better title from folder name
+            folder_title = self._extract_title_from_foldername(project_id)
+
             metadata = {
                 'id': project_id,
-                'title': 'Untitled Journal',
+                'title': folder_title,
                 'theme': 'unknown',
                 'author_style': 'unknown',
                 'created_at': self._parse_date_from_filename(project_id),
@@ -128,17 +131,20 @@ class JournalScannerService:
             }
 
             # Try to extract title from JSON files
+            title_found = False
             for json_file in json_dir.glob("*.json"):
                 try:
                     with open(json_file, 'r', encoding='utf-8') as f:
                         data = json.load(f)
-                        if 'title' in data:
+                        if 'title' in data and data['title']:
                             metadata['title'] = data['title']
+                            title_found = True
                         if 'theme' in data:
                             metadata['theme'] = data['theme']
                         if 'author_style' in data:
                             metadata['author_style'] = data['author_style']
-                        break
+                        if title_found:
+                            break
                 except Exception as e:
                     logger.debug(f"Could not read {json_file}: {e}")
 
@@ -154,16 +160,78 @@ class JournalScannerService:
             logger.error(f"Error parsing project {project_path}: {e}")
             return None
 
-    def _parse_date_from_filename(self, filename: str) -> str:
-        """Extract date from directory name like '2025-03-20_22-52-24'"""
+    def _extract_title_from_foldername(self, foldername: str) -> str:
+        """Extract a readable title from folder name"""
         try:
-            # Split by underscore and combine date and time
-            if '_' in filename:
-                date_part, time_part = filename.split('_', 1)
-                return f"{date_part}T{time_part}Z"
-            return filename
+            # If foldername contains date at the end, extract the title part
+            if '_' in foldername:
+                parts = foldername.split('_')
+                # Check if last part looks like a date (YYYY-MM-DD)
+                last_part = parts[-1]
+                if len(last_part) == 10 and last_part.count('-') == 2:
+                    # Remove date part and clean up title
+                    title_parts = parts[:-1]
+                    title = ' '.join(title_parts)
+                    # Replace underscores with spaces and capitalize
+                    title = title.replace('_', ' ').title()
+                    return title
+
+            # Replace underscores with spaces and capitalize
+            title = foldername.replace('_', ' ').title()
+            # Remove common suffixes
+            for suffix in ['2025', '2024', '2023']:
+                if title.endswith(suffix):
+                    title = title[:-len(suffix)].strip()
+
+            return title
         except:
-            return filename
+            return foldername
+
+    def _parse_date_from_filename(self, filename: str) -> str:
+        """Extract date from directory name with multiple patterns supported"""
+        try:
+            # Pattern 1: '2025-03-20_22-52-24' (journal_creation format)
+            if '_' in filename and filename.count('_') >= 1:
+                parts = filename.split('_')
+                if len(parts) >= 2 and parts[0].count('-') == 2:  # YYYY-MM-DD format
+                    date_part = parts[0]
+                    time_part = parts[1]
+                    return f"{date_part}T{time_part.replace('-', ':')}Z"
+
+            # Pattern 2: Date at the end like 'Project_Name_2025-03-20'
+            if '_' in filename:
+                parts = filename.split('_')
+                for part in reversed(parts):
+                    if part.count('-') == 2 and len(part) == 10:  # YYYY-MM-DD
+                        # Try to get file modification time as fallback
+                        try:
+                            import os
+                            from pathlib import Path
+                            project_path = self.llm_output_dir / filename
+                            if project_path.exists():
+                                mod_time = datetime.fromtimestamp(project_path.stat().st_mtime())
+                                return mod_time.isoformat()
+                        except:
+                            pass
+                        # Return date part with default time
+                        return f"{part}T12:00:00Z"
+
+            # Pattern 3: Use filesystem creation time as fallback
+            try:
+                import os
+                project_path = self.llm_output_dir / filename
+                if project_path.exists():
+                    # Use the earliest time we can find (creation or modification)
+                    creation_time = datetime.fromtimestamp(project_path.stat().st_mtime())
+                    return creation_time.isoformat()
+            except:
+                pass
+
+            # Pattern 4: Return current time as last resort
+            return datetime.now().isoformat()
+        except Exception as e:
+            logger.debug(f"Could not parse date from filename {filename}: {e}")
+            return datetime.now().isoformat()
 
     def is_project_complete(self, project_id: str) -> bool:
         """Check if a project has completed successfully"""

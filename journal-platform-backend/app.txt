@@ -1,0 +1,40 @@
+2025-11-10 18:00:32.102952: Creating Phase 1 crew with run_dir: Projects_Derived/Goals_to_Dominate_2025-11-10
+2025-11-10 18:12:08.973890: Creating Phase 1 crew with run_dir: Projects_Derived/Gatitude_Gold_2025-11-10
+2025-11-10 18:49:09.523045: Creating Phase 1 crew with run_dir: Projects_Derived/Test_Journal_for_AI_Workflow_2025-11-10
+2025-11-10 19:25:30.095752: Creating Phase 1 crew with run_dir: Projects_Derived/Creative_Juice_flows_2025-11-10
+2025-11-10 19:35:52.325932: Creating Phase 1 crew with run_dir: Projects_Derived/jolt_those_old_happy_bones_2025-11-10
+2025-11-10 19:48:04.378755: Creating Phase 1 crew with run_dir: Projects_Derived/Test_Journal_for_AI_Workflow_2025-11-10
+2025-11-10 19:54:30.604461: Creating Phase 1 crew with run_dir: Projects_Derived/Test_Journal_for_AI_Workflow_2025-11-10
+2025-11-10 19:54:30.613376: Phase 1 crew created successfully
+2025-11-10 19:55:11.656318: Processing Phase 1 crew results: {'success': True, 'pdf_path': '../LLM_output/journal_creation_ffc013e7-07c6-46e6-a586-de4e321d0933/journal.pdf', 'metadata': {'title': 'Test Journal for AI Workflow', 'theme': 'Mindfulness and Personal Growth', 'created_at': '2025-11-10T19:55:11.656259'}}
+2025-11-10 19:55:11.656360: Phase 1 execution did not complete all tasks
+2025-11-10 20:04:43.361726: Creating Phase 1 crew with run_dir: Projects_Derived/Rattle_those_Happy_Bones_2025-11-10
+2025-11-10 20:04:43.367192: Phase 1 crew created successfully
+2025-11-10 20:05:24.381940: Processing Phase 1 crew results: {'success': True, 'pdf_path': '../LLM_output/journal_creation_6d0dcd13-a839-473a-801a-a650e169c2a5/journal.pdf', 'metadata': {'title': 'Rattle those Happy Bones', 'theme': 'Journaling for Happiness', 'created_at': '2025-11-10T20:05:24.381868'}}
+2025-11-10 20:05:24.381985: Phase 1 execution did not complete all tasks
+2025-11-10 20:20:06.565675: Creating Phase 1 crew with run_dir: Projects_Derived/be_grateful_2025-11-10
+2025-11-10 20:20:06.634678: Phase 1 crew created successfully
+2025-11-10 20:20:47.650543: Processing Phase 1 crew results: {'success': True, 'pdf_path': '../LLM_output/journal_creation_c9a9dd1a-24e9-4ac0-be02-5a4051304dbc/journal.pdf', 'metadata': {'title': 'be grateful', 'theme': 'Journaling for Gratitude', 'created_at': '2025-11-10T20:20:47.650373'}}
+2025-11-10 20:20:47.650648: Phase 1 execution did not complete all tasks
+2025-11-10 20:42:09.592449: Creating Phase 1 crew with run_dir: Projects_Derived/productive_narats_2025-11-10
+2025-11-10 20:42:09.599365: Phase 1 crew created successfully
+2025-11-10 20:42:50.613434: Processing Phase 1 crew results: {'success': True, 'pdf_path': '../LLM_output/journal_creation_1a03092a-c560-4a0c-95dd-b076405ae431/journal.pdf', 'metadata': {'title': 'productive narats', 'theme': 'Journaling for Productivity', 'created_at': '2025-11-10T20:42:50.613340'}}
+2025-11-10 20:42:50.613504: Phase 1 execution did not complete all tasks
+2025-11-10 21:09:51.255007: Creating Phase 1 crew with run_dir: Projects_Derived/Rattle_those_happy_Bones_2025-11-10
+2025-11-10 21:09:51.259946: Phase 1 crew created successfully
+2025-11-10 21:10:32.275262: Processing Phase 1 crew results: {'success': True, 'pdf_path': '../LLM_output/journal_creation_3fbcf151-4089-44d4-9dd9-70ac3027ecb7/journal.pdf', 'metadata': {'title': 'Rattle those happy Bones', 'theme': 'Journaling for Happiness', 'created_at': '2025-11-10T21:10:32.275192'}}
+2025-11-10 21:10:32.275306: Phase 1 execution did not complete all tasks
+2025-11-10 21:22:20.537994: Creating Phase 1 crew with run_dir: Projects_Derived/Take_a_shovel_and_dig_yourself_out_2025-11-10
+2025-11-10 21:22:20.543125: Phase 1 crew created successfully
+2025-11-10 21:23:04.691935: Blog summary search for Journaling for Self-Discovery: Summary: Start Self-Discovery anytime for focus; Weekday Self-Discovery eases tension; Weekend Self-Discovery refreshes
+2025-11-10 21:23:08.066631: Blog summary search for Benefits of Journaling for Self-Discovery: Summary: Start Self-Discovery anytime for focus; Weekday Self-Discovery eases tension; Weekend Self-Discovery refreshes
+2025-11-10 21:23:12.262632: Blog summary search for Techniques of Journaling for Self-Discovery: Summary: Start Self-Discovery anytime for focus; Weekday Self-Discovery eases tension; Weekend Self-Discovery refreshes
+2025-11-10 21:23:15.718625: Blog summary search for Challenges of Journaling for Self-Discovery: Summary: Start Self-Discovery anytime for focus; Weekday Self-Discovery eases tension; Weekend Self-Discovery refreshes
+2025-11-10 21:23:50.694891: Sentiment analyzed for text: Unearth the basics of journaling for self-discover..., result: {'neg': 0.083, 'neu': 0.828, 'pos': 0.089, 'compound': 0.0516}
+2025-11-10 21:24:01.214533: Sentiment analyzed for text: Learn about different journaling techniques and fi..., result: {'neg': 0.0, 'neu': 0.783, 'pos': 0.217, 'compound': 0.8176}
+2025-11-10 21:24:05.921661: Sentiment analyzed for text: Discover the benefits of journaling on weekdays to..., result: {'neg': 0.166, 'neu': 0.688, 'pos': 0.146, 'compound': 0.0823}
+2025-11-10 21:24:15.043793: Sentiment analyzed for text: Uncover how journaling on weekends can provide ref..., result: {'neg': 0.0, 'neu': 0.901, 'pos': 0.099, 'compound': 0.3182}
+2025-11-10 21:24:21.146964: Sentiment analyzed for text: Journaling isn't always a leisurely stroll in the ..., result: {'neg': 0.039, 'neu': 0.81, 'pos': 0.151, 'compound': 0.4588}
+2025-11-10 21:24:27.834366: Sentiment analyzed for text: Delve into the numerous benefits of journaling for..., result: {'neg': 0.0, 'neu': 0.646, 'pos': 0.354, 'compound': 0.8885}
+2025-11-10 21:24:33.068820: Sentiment analyzed for text: Review your journey and look ahead. Learn how to m..., result: {'neg': 0.0, 'neu': 0.88, 'pos': 0.12, 'compound': 0.3818}
+2025-11-10 21:25:41.467551: Processing Phase 1 crew results: There was an error while creating the PDF document. The error was [Errno 2] No such file or directory: '/generated_pdfs/journal_guide.pdf'. It appears the specified output path does not exist or is not accessible. Please ensure that the output path is correct and try again.

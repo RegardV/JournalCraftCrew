@@ -506,3 +506,17 @@
 2025-10-24 20:30:42.053476: Error in run_with_manager: EOF when reading a line
 2025-10-24 20:39:12.950371: Successfully initialized OpenAI GPT-4 LLM
 2025-10-24 20:43:13.131876: Successfully initialized OpenAI GPT-4 LLM
+2025-11-10 20:45:41.689614: Creating Phase 1 crew with run_dir: Projects_Derived/Debug_Test_Journal_2025-11-10
+2025-11-10 20:45:41.697269: Phase 1 crew created successfully
+2025-11-10 20:46:24.845004: Blog summary search for AI and Productivity: Summary: Start AI and Productivity anytime for focus; Weekday AI and Productivity eases tension; Weekend AI and Productivity refreshes
+2025-11-10 20:46:28.075461: Blog summary search for AI in workplace productivity: Summary: Start AI in workplace productivity anytime for focus; Weekday AI in workplace productivity eases tension; Weekend AI in workplace productivity refreshes
+2025-11-10 20:46:36.536029: Blog summary search for AI impact on productivity: Summary: Start AI impact on productivity anytime for focus; Weekday AI impact on productivity eases tension; Weekend AI impact on productivity refreshes
+2025-11-10 20:46:41.667615: Blog summary search for AI benefits for productivity: Summary: Start productivity anytime for focus; Weekday productivity eases tension; Weekend productivity refreshes
+2025-11-10 20:47:34.616735: Sentiment analyzed for text: 30-Day Journaling Guide: "The AI Productivity Blue..., result: {'neg': 0.0, 'neu': 0.913, 'pos': 0.087, 'compound': 0.9136}
+2025-11-10 20:48:26.151732: PDF generated at journal_guide.pdf
+2025-11-10 20:48:32.165499: Processing Phase 1 crew results: The professionally formatted PDF document for the "30-Day Journaling Guide: 'Unlock Your Potential with the AI Productivity Blueprint'" has been created successfully. The path to the PDF file is 'journal_guide.pdf'.
+2025-11-10 21:47:21.081877: Enhanced research generated for Journaling for Self-Discovery: 683 characters
+2025-11-10 21:47:21.081963: Enhanced research generated for Benefits of Journaling for Self-Discovery: 731 characters
+2025-11-10 21:47:21.082013: Enhanced research generated for Techniques of Journaling for Self-Discovery: 739 characters
+2025-11-10 21:47:21.082052: Enhanced research generated for Journaling for Personal Growth: 687 characters
+2025-11-10 21:47:21.082088: Enhanced research generated for Journaling for Anxiety Relief: 683 characters

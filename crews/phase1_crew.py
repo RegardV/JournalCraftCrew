@@ -60,7 +60,7 @@ def create_phase1_crew(llm, theme: str, research_depth: str, author_style: str, 
     crew = Crew(
         agents=[research_agent, content_curator_agent, editor_agent, pdf_builder_agent],
         tasks=[research_task, curation_task, editing_task, pdf_task],
-        verbose=2,  # Detailed logging
+        verbose=True,  # Detailed logging
         process="sequential"  # Explicitly use sequential process
     )
     

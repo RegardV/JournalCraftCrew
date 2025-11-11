@@ -21,3 +21,4 @@ The current JWT-based authentication system requires manual password management 
   - Configuration: Environment variables, CORS settings, Firebase configuration
 - **Home server requirements**: HTTPS setup, domain verification, Firebase console configuration
 - **Migration approach**: Existing users preserved with optional social account linking
+- **Dependencies**: Requires traditional email/password authentication to be working (see `resolve-registration-authentication-errors` change)

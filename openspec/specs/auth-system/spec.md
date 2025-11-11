@@ -157,3 +157,102 @@ The system SHALL provide comprehensive user profile management with authenticati
 - AND the system SHALL provide data export and deletion options
 - AND the system SHALL implement appropriate data retention policies
 - AND the system SHALL comply with privacy regulations and best practices
+
+### Requirement: OpenAI API Key Management
+The system SHALL provide secure API key management functionality for OpenAI integration with proper authentication and validation.
+
+#### Scenario: User configures API key in settings
+- GIVEN an authenticated user accessing settings page
+- WHEN user enters OpenAI API key and clicks save
+- THEN the system SHALL validate key format (sk- prefix, minimum length)
+- AND the system SHALL store key encrypted per user with timestamp
+- AND the system SHALL return success confirmation without exposing key
+- AND the system SHALL require authentication for all API key operations
+
+#### Scenario: User tests API key validity
+- GIVEN user enters API key in settings interface
+- WHEN user clicks "Test Key" button
+- THEN the system SHALL validate key format and basic connectivity
+- AND the system SHALL return detailed validation results
+- AND the system SHALL provide specific error messages for invalid keys
+- AND the system SHALL simulate real API validation for demo purposes
+
+#### Scenario: System manages API key security
+- GIVEN API key storage operations
+- WHEN keys are saved or retrieved
+- THEN the system SHALL encrypt keys during transmission and storage
+- AND the system SHALL provide per-user key isolation
+- AND the system SHALL never expose keys in logs or responses
+- AND the system SHALL implement proper input validation and sanitization
+
+#### Scenario: User views API key configuration status
+- GIVEN user accessing settings page
+- WHEN page loads or status is checked
+- THEN the system SHALL return configuration status without exposing key
+- AND the system SHALL show provider, last updated time, and configured status
+- AND the system SHALL require authentication for status requests
+
+### Requirement: User Settings Interface
+The system SHALL provide comprehensive user settings interface with enhanced functionality and security.
+
+#### Scenario: User accesses settings page
+- GIVEN an authenticated user navigating to Settings
+- WHEN settings page loads
+- THEN system SHALL display user profile information and account details
+- AND user SHALL see enhanced settings with API key management options
+- AND interface SHALL be responsive and accessible on all devices
+
+#### Scenario: User manages account information
+- GIVEN user viewing Settings page
+- WHEN user reviews account information
+- THEN system SHALL display user name, email, and account type
+- AND user SHALL see premium account status and available features
+- AND interface SHALL provide clear account overview and management options
+
+### Requirement: Settings API Integration
+The system SHALL provide secure API endpoints for settings management with proper authentication.
+
+#### Scenario: Frontend saves API key
+- GIVEN user submitting API key through settings form
+- WHEN frontend sends POST to /api/settings/api-key
+- THEN backend SHALL authenticate user request and validate token
+- AND system SHALL store key with timestamp and metadata per user
+- AND backend SHALL return success confirmation with proper security
+
+#### Scenario: Frontend tests API key
+- GIVEN user clicking test button in settings
+- WHEN frontend sends POST to /api/settings/test-api-key
+- THEN backend SHALL validate authentication and perform format validation
+- AND system SHALL simulate connectivity validation and return detailed results
+- AND user SHALL receive comprehensive feedback on key validity
+
+#### Scenario: Frontend retrieves API key status
+- GIVEN user loading settings page
+- WHEN frontend sends GET to /api/settings/api-key
+- THEN backend SHALL authenticate user and verify permissions
+- AND system SHALL return configuration status without exposing sensitive data
+- AND user SHALL see whether key is configured and relevant metadata
+
+### Requirement: Settings User Experience
+The system SHALL provide excellent user experience for settings management with proper feedback and guidance.
+
+#### Scenario: User receives operational feedback
+- GIVEN user performing API key operations in settings
+- WHEN operations complete or encounter issues
+- THEN system SHALL provide real-time feedback with appropriate icons
+- AND user SHALL see success, error, or loading states clearly displayed
+- AND feedback SHALL be contextually appropriate and actionable
+
+#### Scenario: User encounters operational errors
+- GIVEN settings operations failing or encountering issues
+- WHEN error conditions occur
+- THEN system SHALL provide helpful and specific error messages
+- AND user SHALL receive clear guidance on resolving issues
+- AND system SHALL maintain professional and supportive error presentation
+
+#### Scenario: User completes initial setup
+- GIVEN user successfully configuring API key and settings
+- WHEN setup operations complete successfully
+- THEN system SHALL provide confirmation and next step guidance
+- AND user SHALL understand how to use configured features
+- AND system SHALL encourage exploration of newly enabled functionality

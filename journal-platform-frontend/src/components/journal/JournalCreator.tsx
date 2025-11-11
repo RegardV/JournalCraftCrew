@@ -86,6 +86,8 @@ export const JournalCreator: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
   const [progress, setProgress] = useState<number>(0)
   const [currentStage, setCurrentStage] = useState<string>('')
+  const [currentAgent, setCurrentAgent] = useState<string>('')
+  const [logs, setLogs] = useState<Array<{ timestamp: string; level: string; agent: string; message: string }>>([])
 
   const handleGenerateJournal = useCallback(async () => {
     try {
@@ -93,6 +95,13 @@ export const JournalCreator: React.FC = () => {
       setError(null)
       setProgress(0)
       setCurrentStage('Starting AI generation...')
+      setCurrentAgent('')
+      setLogs([{
+        timestamp: new Date().toLocaleTimeString(),
+        level: 'INFO',
+        agent: 'System',
+        message: '🚀 Initializing journal creation workflow...'
+      }])
 
       const request: AIGenerationRequest = {
         theme: selectedTheme,
@@ -146,17 +155,64 @@ export const JournalCreator: React.FC = () => {
 
         if (data.type === 'connection_established') {
           console.log('Connection confirmed for job tracking')
-        } else if (data.progress_percentage !== undefined) {
-          setProgress(data.progress_percentage)
-          setCurrentStage(data.current_stage)
+        } else if (data.progress !== undefined || data.progress_percentage !== undefined) {
+          // Handle new backend format with logs
+          const progressValue = data.progress || data.progress_percentage || 0
+          const stageMessage = data.message || data.current_stage || 'Processing...'
+          const agent = data.currentAgent || 'System'
+
+          setProgress(progressValue)
+          setCurrentStage(stageMessage)
+          setCurrentAgent(agent)
+
+          // Add log entry if available
+          if (data.log || data.latestLog) {
+            const logEntry = data.log || data.latestLog
+            const timestamp = new Date().toLocaleTimeString()
+            setLogs(prev => [...prev.slice(-19), {
+              timestamp,
+              level: 'INFO',
+              agent,
+              message: logEntry
+            }])
+          }
+
+          // Add logs array if available
+          if (data.logs && Array.isArray(data.logs)) {
+            setLogs(prev => {
+              const combined = [...prev, ...data.logs]
+              // Keep only last 50 entries
+              return combined.slice(-50)
+            })
+          }
         } else if (data.status === 'completed') {
           setIsGenerating(false)
           setProgress(100)
           setCurrentStage('Journal generation completed!')
+
+          // Add completion log
+          const timestamp = new Date().toLocaleTimeString()
+          setLogs(prev => [...prev, {
+            timestamp,
+            level: 'SUCCESS',
+            agent: 'System',
+            message: '✅ Journal creation completed successfully!'
+          }])
+
           ws.close()
-        } else if (data.status === 'failed') {
+        } else if (data.status === 'failed' || data.status === 'error') {
           setIsGenerating(false)
-          setError(data.error_message || 'Generation failed')
+          setError(data.message || data.error_message || 'Generation failed')
+
+          // Add error log
+          const timestamp = new Date().toLocaleTimeString()
+          setLogs(prev => [...prev, {
+            timestamp,
+            level: 'ERROR',
+            agent: 'System',
+            message: `❌ ${data.message || data.error_message || 'Generation failed'}`
+          }])
+
           ws.close()
         }
       }
@@ -251,11 +307,50 @@ export const JournalCreator: React.FC = () => {
               {currentStage} ({progress}%)
             </div>
 
+            {/* CLI Output Display */}
+            {logs.length > 0 && (
+              <div className="mt-6">
+                <div className="bg-gray-900 rounded-lg p-4 font-mono text-sm max-h-64 overflow-y-auto">
+                  <div className="text-green-400 mb-2 font-bold">$ Journal Craft Crew CLI Output</div>
+                  <div className="space-y-1">
+                    {logs.map((log, index) => (
+                      <div key={index} className="text-gray-300 flex items-start space-x-2">
+                        <span className="text-gray-500 text-xs">{log.timestamp}</span>
+                        <span className={
+                          log.level === 'ERROR' ? 'text-red-400' :
+                          log.level === 'SUCCESS' ? 'text-green-400' :
+                          log.level === 'INFO' ? 'text-blue-400' :
+                          'text-gray-300'
+                        }>
+                          {log.level}
+                        </span>
+                        {log.agent && log.agent !== 'System' && (
+                          <span className="text-yellow-400">[{log.agent}]</span>
+                        )}
+                        <span className="text-gray-100">{log.message}</span>
+                      </div>
+                    ))}
+                  </div>
+                  {isGenerating && (
+                    <div className="flex items-center space-x-2 mt-2">
+                      <div className="animate-pulse text-green-400">█</div>
+                      <span className="text-gray-400">Processing...</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
             {isGenerating && (
               <div className="mt-4 text-center">
                 <div className="inline-flex items-center space-x-2">
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
                   <span className="text-blue-700">Generating your journal...</span>
+                  {currentAgent && (
+                    <span className="text-blue-600 text-sm ml-2">
+                      (Agent: {currentAgent})
+                    </span>
+                  )}
                 </div>
               </div>
             )}

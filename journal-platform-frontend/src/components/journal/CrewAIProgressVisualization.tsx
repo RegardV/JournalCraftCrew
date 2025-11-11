@@ -260,7 +260,7 @@ const CrewAIProgressVisualization: React.FC<CrewAIProgressProps> = ({ jobId, onC
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl max-w-6xl w-full max-h-[90vh] flex flex-col shadow-2xl">
+      <div className="bg-white rounded-2xl w-full max-w-6xl h-[85vh] flex flex-col shadow-2xl">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div className="flex items-center space-x-3">
@@ -304,7 +304,7 @@ const CrewAIProgressVisualization: React.FC<CrewAIProgressProps> = ({ jobId, onC
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 overflow-hidden flex">
+        <div className="flex-1 overflow-hidden flex min-h-0 max-h-full">
           {/* Crew & Sequence Panel */}
           <div className="w-80 border-r border-gray-200 bg-gray-50 p-4">
             <div className="space-y-4">
@@ -364,8 +364,8 @@ const CrewAIProgressVisualization: React.FC<CrewAIProgressProps> = ({ jobId, onC
           </div>
 
           {/* Output Panel */}
-          <div className="flex-1 flex flex-col">
-            <div className="p-4 border-b border-gray-200 bg-white">
+          <div className="flex-1 flex flex-col min-h-0">
+            <div className="p-4 border-b border-gray-200 bg-white flex-shrink-0">
               <div className="flex items-center justify-between">
                 <h4 className="text-sm font-semibold text-gray-700 flex items-center">
                   <FileDown className="w-4 h-4 mr-2" />
@@ -379,18 +379,18 @@ const CrewAIProgressVisualization: React.FC<CrewAIProgressProps> = ({ jobId, onC
 
             <div
               ref={outputContainerRef}
-              className="flex-1 overflow-y-auto p-4 bg-gray-900 font-mono text-sm"
+              className="flex-1 overflow-y-auto overflow-x-hidden p-4 bg-gray-900 font-mono text-sm min-h-0 max-h-full"
             >
-              <div className="space-y-2">
+              <div className="space-y-2 max-w-full">
                 {messages.map((message, index) => (
                   <div
                     key={index}
-                    className="flex items-start space-x-3 p-3 rounded-lg bg-gray-800 border border-gray-700 hover:border-gray-600 transition-colors"
+                    className="flex items-start space-x-3 p-3 rounded-lg bg-gray-800 border border-gray-700 hover:border-gray-600 transition-colors w-full max-w-full overflow-hidden"
                   >
                     <div className="mt-1 flex-shrink-0">
                       {getMessageIcon(message.type)}
                     </div>
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0 overflow-hidden">
                       <div className="flex items-center space-x-2 mb-1">
                         <span className="text-xs text-gray-500">
                           {formatTimestamp(message.timestamp)}
@@ -406,7 +406,7 @@ const CrewAIProgressVisualization: React.FC<CrewAIProgressProps> = ({ jobId, onC
                           </span>
                         )}
                       </div>
-                      <div className="text-gray-300 whitespace-pre-wrap break-words">
+                      <div className="text-gray-300 whitespace-pre-wrap break-all break-words overflow-wrap-anywhere max-w-full">
                         {message.output || message.message}
                       </div>
                     </div>

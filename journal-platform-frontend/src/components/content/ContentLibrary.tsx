@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 import {
   X,
   Download,
@@ -22,10 +24,12 @@ import {
   Copy,
   ExternalLink,
   AlertCircle,
-  RefreshCw
+  RefreshCw,
+  Plus
 } from 'lucide-react';
 import * as pdfjsLib from 'pdfjs-dist';
 import { journalAPI } from '@/lib/api';
+import JournalCreationModal from '@/components/journal/JournalCreationModal';
 
 // Configure PDF.js worker
 pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
@@ -57,6 +61,8 @@ interface ContentLibraryProps {
 }
 
 const ContentLibrary: React.FC<ContentLibraryProps> = ({ className = '' }) => {
+  const navigate = useNavigate();
+  const { token, isAuthenticated } = useAuth();
   const [contents, setContents] = useState<ContentItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -74,6 +80,81 @@ const ContentLibrary: React.FC<ContentLibraryProps> = ({ className = '' }) => {
   const [totalPages, setTotalPages] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  // Maintain a list of orphaned items that should be filtered out (persisted in localStorage)
+  const [orphanedItemIds, setOrphanedItemIds] = useState<Set<string>>(() => {
+    // Start fresh - clear any existing orphaned data since we removed fake data
+    localStorage.removeItem('orphanedJournalIds');
+    return new Set();
+  });
+
+  // Journal creation modal state
+  const [isJournalModalOpen, setIsJournalModalOpen] = useState(false);
+
+  // Handle journal creation from ContentLibrary
+  const handleJournalCreation = async (preferences: any) => {
+    try {
+      console.log('Creating journal from ContentLibrary with preferences:', preferences);
+
+      // Format preferences to match backend API structure
+      const formattedPreferences = {
+        preferences: {
+          theme: preferences.theme || preferences.selectedTheme,
+          title: preferences.title || preferences.projectTitle,
+          titleStyle: preferences.titleStyle || preferences.title_style,
+          authorStyle: preferences.authorStyle || preferences.author_style,
+          researchDepth: preferences.researchDepth || preferences.research_depth
+        }
+      };
+
+      console.log('Sending formatted request:', formattedPreferences);
+
+      // Check if user is authenticated
+      if (!isAuthenticated || !token) {
+        throw new Error('Authentication required. Please log in first.');
+      }
+
+      const response = await fetch('http://localhost:6770/api/journals/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(formattedPreferences)
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Journal creation started:', data);
+
+        // Handle both jobId and job_id response formats
+        const jobId = data.jobId || data.job_id;
+
+        // Close the modal
+        setIsJournalModalOpen(false);
+
+        // Navigate to the AI workflow page with the job ID
+        navigate(`/ai-workflow?jobId=${jobId}`);
+
+        // Refresh the library to show the new journal
+        setTimeout(() => {
+          loadJournalLibrary();
+        }, 1000);
+      } else {
+        const errorText = await response.text();
+        console.error('Failed to create journal:', errorText);
+
+        if (response.status === 401) {
+          alert('Authentication required. Please log in first.');
+        } else {
+          alert(`Failed to create journal: ${errorText}`);
+        }
+      }
+    } catch (error) {
+      console.error('Error creating journal:', error);
+      alert('Network error. Please check your connection and try again.');
+    }
+  };
+
   // Load journal library data from API
   const loadJournalLibrary = async () => {
     try {
@@ -84,32 +165,62 @@ const ContentLibrary: React.FC<ContentLibraryProps> = ({ className = '' }) => {
 
       if (response.success && response.projects) {
         // Transform backend projects to ContentItem format
-        const transformedContents: ContentItem[] = response.projects.map((project: any) => ({
-          id: project.id || project.project_id,
-          title: project.title || project.name || 'Untitled Journal',
-          description: project.description || 'Generated journal content',
-          type: 'journal' as const,
-          createdAt: project.created_at || project.date_created || new Date().toISOString(),
-          updatedAt: project.updated_at || project.last_modified || project.created_at || new Date().toISOString(),
-          author: 'CrewAI Content Team',
-          tags: project.tags || [project.theme || 'journal', 'ai-generated'],
-          filePath: project.main_file || project.file_path,
-          downloadUrl: project.main_file ? journalAPI.getDownloadUrl(project.id, project.main_file) : undefined,
-          wordCount: project.word_count,
-          pageCount: project.page_count,
-          size: project.file_size || 'Unknown',
-          status: project.status === 'completed' ? 'completed' : 'processing' as const,
-          theme: project.theme,
-          crewGenerated: true,
-          favorite: false,
-          metadata: {
-            theme: project.theme,
-            project_id: project.id,
-            files: project.files || [],
-            generation_time: project.generation_time,
-            crew_agents: project.crew_agents || ['Content Curator', 'Editor', 'PDF Builder']
-          }
-        }));
+        const transformedContents: ContentItem[] = response.projects
+          .filter((project: any) => {
+            const projectId = project.id || project.project_id;
+            // Filter out items that have been marked as orphaned
+            return !orphanedItemIds.has(projectId);
+          })
+          .map((project: any) => {
+            // Extract theme and create more descriptive title/description
+            const theme = project.theme || project.preferences?.theme || 'Journaling';
+            const titleStyle = project.preferences?.titleStyle || 'Personal Growth';
+            const authorStyle = project.preferences?.authorStyle || 'inspirational narrative';
+            const researchDepth = project.preferences?.researchDepth || 'medium';
+
+            // Create more descriptive title
+            let descriptiveTitle = project.title || project.name;
+            if (!descriptiveTitle || descriptiveTitle === 'Untitled Journal') {
+              descriptiveTitle = `${theme.charAt(0).toUpperCase() + theme.slice(1)} Journal`;
+            }
+
+            // Create more descriptive description
+            let descriptiveDescription = project.description;
+            if (!descriptiveDescription || descriptiveDescription === 'Generated journal content') {
+              descriptiveDescription = `A comprehensive ${researchDepth} journal focused on ${theme.toLowerCase()}, created with ${titleStyle} style and ${authorStyle} tone.`;
+            }
+
+            return {
+              id: project.id || project.project_id,
+              title: descriptiveTitle,
+              description: descriptiveDescription,
+              type: 'journal' as const,
+              createdAt: project.created_at || project.date_created || new Date().toISOString(),
+              updatedAt: project.updated_at || project.last_modified || project.created_at || new Date().toISOString(),
+              author: 'AI Content Team',
+              tags: project.tags || [theme.toLowerCase(), 'ai-generated', titleStyle.toLowerCase()],
+              filePath: project.main_file || project.file_path,
+              downloadUrl: project.main_file ? journalAPI.getDownloadUrl(project.id, project.main_file) : undefined,
+              wordCount: project.word_count,
+              pageCount: project.page_count,
+              size: project.file_size || 'Unknown',
+              status: project.status === 'completed' ? 'completed' : 'processing' as const,
+              theme: theme,
+              crewGenerated: true,
+              favorite: false,
+              metadata: {
+                theme: theme,
+                titleStyle: titleStyle,
+                authorStyle: authorStyle,
+                researchDepth: researchDepth,
+                project_id: project.id,
+                files: project.files || [],
+                generation_time: project.generation_time,
+                crew_agents: project.crew_agents || ['Research Specialist', 'Content Curator', 'Editor', 'PDF Builder'],
+                preferences: project.preferences || {}
+              }
+            };
+          });
 
         setContents(transformedContents);
       } else {
@@ -249,6 +360,51 @@ const ContentLibrary: React.FC<ContentLibraryProps> = ({ className = '' }) => {
     ));
   };
 
+  const handleDeleteContent = async (contentId: string, contentTitle: string) => {
+    if (window.confirm(`Are you sure you want to delete "${contentTitle}"? This action cannot be undone.`)) {
+      try {
+        // Use the universal delete endpoint that handles all project ID formats
+        const deleteUrl = `http://localhost:6770/api/library/projects/${contentId}`;
+
+        const response = await fetch(deleteUrl, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+          }
+        });
+
+        if (response.ok) {
+          // Remove from local state
+          setContents(prev => prev.filter(content => content.id !== contentId));
+          alert('Journal deleted successfully');
+        } else if (response.status === 404) {
+          // Project not found in backend - mark as orphaned and remove from UI
+          console.log(`Project ${contentId} not found in backend, marking as orphaned`);
+          const newOrphanedIds = new Set(orphanedItemIds).add(contentId);
+          setOrphanedItemIds(newOrphanedIds);
+          localStorage.setItem('orphanedJournalIds', JSON.stringify([...newOrphanedIds]));
+          setContents(prev => prev.filter(content => content.id !== contentId));
+          alert('Journal removed from library (content was already missing)');
+        } else {
+          const error = await response.json();
+          alert(`Failed to delete journal: ${error.detail || 'Unknown error'}`);
+        }
+      } catch (error) {
+        console.error('Delete error:', error);
+        // For network errors, still try to remove from UI if it's a 404-like situation
+        if (error.message && error.message.includes('404')) {
+          const newOrphanedIds = new Set(orphanedItemIds).add(contentId);
+          setOrphanedItemIds(newOrphanedIds);
+          localStorage.setItem('orphanedJournalIds', JSON.stringify([...newOrphanedIds]));
+          setContents(prev => prev.filter(content => content.id !== contentId));
+          alert('Journal removed from library (content was already missing)');
+        } else {
+          alert('Failed to delete journal. Please try again.');
+        }
+      }
+    }
+  };
+
   const ContentCard = ({ content }: { content: ContentItem }) => (
     <div className="bg-white rounded-lg border border-gray-200 hover:border-indigo-300 hover:shadow-lg transition-all duration-200 p-4 cursor-pointer group">
       <div className="flex items-start justify-between mb-3">
@@ -269,6 +425,11 @@ const ContentLibrary: React.FC<ContentLibraryProps> = ({ className = '' }) => {
             <p className="text-sm text-gray-500">
               {content.author || 'Unknown Author'}
             </p>
+            {content.metadata?.theme && (
+              <p className="text-xs text-indigo-600 font-medium capitalize">
+                Theme: {content.metadata.theme}
+              </p>
+            )}
           </div>
         </div>
         <button
@@ -362,10 +523,14 @@ const ContentLibrary: React.FC<ContentLibraryProps> = ({ className = '' }) => {
             <Download className="w-4 h-4 text-gray-600" />
           </button>
           <button
-            className="p-1 rounded hover:bg-gray-100 transition-colors"
-            title="More options"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDeleteContent(content.id, content.title);
+            }}
+            className="p-1 rounded hover:bg-red-100 hover:text-red-600 transition-colors"
+            title="Delete journal"
           >
-            <MoreVertical className="w-4 h-4 text-gray-600" />
+            <Trash2 className="w-4 h-4 text-gray-600 hover:text-red-600" />
           </button>
         </div>
       </div>
@@ -383,6 +548,13 @@ const ContentLibrary: React.FC<ContentLibraryProps> = ({ className = '' }) => {
           </p>
         </div>
         <div className="flex items-center space-x-2">
+          <button
+            onClick={() => setIsJournalModalOpen(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+          >
+            <Plus className="w-4 h-4" />
+            Create New Journal
+          </button>
           <button
             onClick={refreshLibrary}
             disabled={refreshing}
@@ -531,12 +703,21 @@ const ContentLibrary: React.FC<ContentLibraryProps> = ({ className = '' }) => {
             <FileText className="w-8 h-8 text-gray-400" />
           </div>
           <h3 className="text-lg font-medium text-gray-900 mb-2">No content found</h3>
-          <p className="text-gray-600">
+          <p className="text-gray-600 mb-4">
             {searchQuery || selectedTags.length > 0
               ? 'Try adjusting your search or filters'
               : 'Create your first journal to get started'
             }
           </p>
+          {!searchQuery && selectedTags.length === 0 && (
+            <button
+              onClick={() => setIsJournalModalOpen(true)}
+              className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors mx-auto"
+            >
+              <Plus className="w-4 h-4" />
+              Create New Journal
+            </button>
+          )}
         </div>
       ) : (
         <div className={
@@ -545,7 +726,10 @@ const ContentLibrary: React.FC<ContentLibraryProps> = ({ className = '' }) => {
             : 'space-y-4'
         }>
           {filteredContents.map(content => (
-            <div key={content.id} onClick={() => handlePreview(content)}>
+            <div key={content.id} onClick={() => {
+              console.log('Navigating to project detail for ID:', content.id)
+              navigate(`/library/projects/${content.id}`)
+            }}>
               <ContentCard content={content} />
             </div>
           ))}
@@ -708,12 +892,37 @@ const ContentLibrary: React.FC<ContentLibraryProps> = ({ className = '' }) => {
                       <p className="font-medium capitalize">{selectedItem.theme}</p>
                     </div>
                   )}
+                  {selectedItem.metadata?.titleStyle && (
+                    <div>
+                      <label className="text-sm text-gray-600">Title Style</label>
+                      <p className="font-medium capitalize">{selectedItem.metadata.titleStyle}</p>
+                    </div>
+                  )}
+                  {selectedItem.metadata?.authorStyle && (
+                    <div>
+                      <label className="text-sm text-gray-600">Writing Style</label>
+                      <p className="font-medium">{selectedItem.metadata.authorStyle}</p>
+                    </div>
+                  )}
+                  {selectedItem.metadata?.researchDepth && (
+                    <div>
+                      <label className="text-sm text-gray-600">Research Depth</label>
+                      <p className="font-medium capitalize">{selectedItem.metadata.researchDepth}</p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </div>
       )}
+
+      {/* Journal Creation Modal */}
+      <JournalCreationModal
+        isOpen={isJournalModalOpen}
+        onClose={() => setIsJournalModalOpen(false)}
+        onComplete={handleJournalCreation}
+      />
     </div>
   );
 };

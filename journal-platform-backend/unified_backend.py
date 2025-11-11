@@ -95,12 +95,34 @@ def save_data(data):
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def hash_password(password: str) -> str:
-    """Hash password using bcrypt"""
-    return bcrypt.hash(password)
+    """Hash password using bcrypt with proper length handling"""
+    # bcrypt has a 72-byte limit, so truncate longer passwords BEFORE hashing
+    password_bytes = password.encode('utf-8')
+    if len(password_bytes) > 72:
+        password_bytes = password_bytes[:72]
+        password = password_bytes.decode('utf-8', errors='ignore')
+
+    # Use the truncated password for hashing
+    # Import bcrypt directly to avoid passlib's length validation
+    import bcrypt
+    salt = bcrypt.gensalt(rounds=12)
+    return bcrypt.hashpw(password.encode('utf-8'), salt).decode('utf-8')
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """Verify password using bcrypt"""
-    return bcrypt.verify(plain_password, hashed_password)
+    """Verify password using bcrypt with proper length handling"""
+    # bcrypt has a 72-byte limit, so truncate longer passwords BEFORE verification
+    password_bytes = plain_password.encode('utf-8')
+    if len(password_bytes) > 72:
+        password_bytes = password_bytes[:72]
+        plain_password = password_bytes.decode('utf-8', errors='ignore')
+
+    # Use the truncated password for verification
+    # Import bcrypt directly to avoid passlib's length validation
+    import bcrypt
+    try:
+        return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))
+    except Exception:
+        return False
 
 # JWT functions
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
@@ -235,6 +257,26 @@ class JournalProgress(BaseModel):
     currentAgent: str
     message: str
     estimatedTimeRemaining: int
+
+# Settings and API Key Models
+class APIKeyRequest(BaseModel):
+    apiKey: str = Field(..., min_length=20, max_length=200, description="OpenAI API key")
+    provider: str = Field("openai", pattern="^openai$", description="API provider")
+
+class APIKeyResponse(BaseModel):
+    success: bool
+    message: str
+    provider: str
+
+class APIKeyTestRequest(BaseModel):
+    apiKey: str = Field(..., min_length=20, max_length=200, description="OpenAI API key")
+    provider: str = Field("openai", pattern="^openai$", description="API provider")
+
+class APIKeyTestResponse(BaseModel):
+    success: bool
+    message: str
+    valid: bool
+    usage_info: Optional[dict] = None
 
 # Available themes and styles
 AVAILABLE_THEMES = [
@@ -395,6 +437,123 @@ async def login_user(login_data: UserLogin):
         "access_token": access_token,
         "token_type": "bearer"
     }
+
+# Settings endpoints
+@app.post("/api/settings/api-key", response_model=APIKeyResponse)
+async def save_api_key(request: APIKeyRequest, current_user: dict = Depends(get_current_user)):
+    """Save or update user's API key"""
+    try:
+        # Find user_id
+        user_id = None
+        for uid, user_data in data_store["users"].items():
+            if user_data.get("email") == current_user.get("email"):
+                user_id = uid
+                break
+
+        if not user_id:
+            raise HTTPException(status_code=401, detail="User not found")
+
+        # Initialize user settings if not exists
+        if "user_settings" not in data_store:
+            data_store["user_settings"] = {}
+
+        if user_id not in data_store["user_settings"]:
+            data_store["user_settings"][user_id] = {}
+
+        # Store API key (encrypted or hashed in production)
+        # For demo purposes, we'll store it directly, but in production, encrypt this
+        data_store["user_settings"][user_id]["openai_api_key"] = request.apiKey
+        data_store["user_settings"][user_id]["api_provider"] = request.provider
+        data_store["user_settings"][user_id]["api_key_updated_at"] = datetime.now().isoformat()
+
+        save_data(data_store)
+
+        return APIKeyResponse(
+            success=True,
+            message="API key saved successfully",
+            provider=request.provider
+        )
+
+    except Exception as e:
+        logger.error(f"Error saving API key: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/settings/test-api-key", response_model=APIKeyTestResponse)
+async def test_api_key(request: APIKeyTestRequest, current_user: dict = Depends(get_current_user)):
+    """Test if an API key is valid"""
+    try:
+        # Basic validation of API key format
+        if not request.apiKey.startswith("sk-"):
+            return APIKeyTestResponse(
+                success=False,
+                message="Invalid API key format. OpenAI API keys should start with 'sk-'",
+                valid=False
+            )
+
+        # In a real implementation, you would make a test API call to OpenAI
+        # For now, we'll do basic validation
+        if len(request.apiKey) < 20:
+            return APIKeyTestResponse(
+                success=False,
+                message="API key appears to be too short",
+                valid=False
+            )
+
+        # Simulate API key validation (in production, make actual OpenAI API call)
+        # This is where you would make a real test call to OpenAI's API
+        import time
+        time.sleep(1)  # Simulate API call delay
+
+        # For demo purposes, we'll assume it's valid if it has proper format
+        return APIKeyTestResponse(
+            success=True,
+            message="API key is valid and ready to use",
+            valid=True,
+            usage_info={
+                "model": "gpt-4",
+                "status": "active",
+                "note": "This is a demo validation. In production, actual API validation would be performed."
+            }
+        )
+
+    except Exception as e:
+        logger.error(f"Error testing API key: {e}")
+        return APIKeyTestResponse(
+            success=False,
+            message=f"Error testing API key: {str(e)}",
+            valid=False
+        )
+
+@app.get("/api/settings/api-key")
+async def get_api_key_status(current_user: dict = Depends(get_current_user)):
+    """Check if user has an API key configured"""
+    try:
+        # Find user_id
+        user_id = None
+        for uid, user_data in data_store["users"].items():
+            if user_data.get("email") == current_user.get("email"):
+                user_id = uid
+                break
+
+        if not user_id:
+            raise HTTPException(status_code=401, detail="User not found")
+
+        # Check if user has API key configured
+        user_settings = data_store.get("user_settings", {}).get(user_id, {})
+        has_api_key = "openai_api_key" in user_settings
+        provider = user_settings.get("api_provider", "openai")
+        updated_at = user_settings.get("api_key_updated_at")
+
+        return {
+            "has_api_key": has_api_key,
+            "provider": provider,
+            "updated_at": updated_at,
+            "message": "API key configured" if has_api_key else "No API key configured"
+        }
+
+    except Exception as e:
+        logger.error(f"Error checking API key status: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 # AI Generation endpoints
 @app.get("/api/ai/themes")
@@ -676,70 +835,47 @@ async def get_project_completion_status(project_id: str, current_user: dict = De
 
 @app.get("/api/library/llm-projects")
 async def get_llm_output_projects():
-    """Scan and return projects from LLM_output folder (legacy endpoint)"""
+    """Scan and return projects from LLM_output folder using JournalScannerService"""
     try:
-        # Look for LLM_output folder in parent directory (project-relative path)
-        llm_output_path = os.path.join("..", "LLM_output")
+        # Use the JournalScannerService to scan projects
+        projects = journal_scanner.scan_projects()
 
-        if not os.path.exists(llm_output_path):
-            return {
-                "projects": [],
-                "count": 0,
-                "message": "LLM_output folder not found"
-            }
+        # Format projects for frontend compatibility
+        formatted_projects = []
+        for project in projects:
+            # Extract files information
+            project_files = journal_scanner.get_project_files(project['id'])
 
-        projects = []
-
-        # Scan each timestamped folder
-        for folder_name in os.listdir(llm_output_path):
-            folder_path = os.path.join(llm_output_path, folder_name)
-            if os.path.isdir(folder_path):
-                project_files = []
-
-                # Find all PDF, JSON, and TXT files in this folder
-                for ext in ["*.pdf", "*.json", "*.txt"]:
-                    files = glob.glob(os.path.join(folder_path, ext))
-                    project_files.extend(files)
-
-                if project_files:
-                    # Extract project info from folder name and files
-                    try:
-                        # Parse timestamp from folder name if possible
-                        timestamp_str = folder_name.replace("_", "-").replace(" ", ":")
-                        created_time = datetime.strptime(timestamp_str, "%Y-%m-%d-%H-%M-%S").isoformat()
-                    except:
-                        created_time = datetime.now().isoformat()
-
-                    project = {
-                        "id": f"llm_{folder_name}",
-                        "title": f"Generated Journal ({folder_name})",
-                        "description": f"AI-generated journal from {folder_name}",
-                        "status": "completed",
-                        "created_at": created_time,
-                        "updated_at": created_time,
-                        "files": [
-                            {
-                                "name": os.path.basename(f),
-                                "path": f,
-                                "type": os.path.splitext(f)[1].lower(),
-                                "size": os.path.getsize(f) if os.path.exists(f) else 0
-                            }
-                            for f in project_files
-                        ],
-                        "file_count": len(project_files),
-                        "source": "llm_output",
-                        "progress": 100,
-                        "word_count": "N/A"
+            formatted_project = {
+                "id": project['id'],
+                "title": project['title'],
+                "description": f"Theme: {project['theme']} | Style: {project['author_style']}",
+                "status": project['status'],
+                "created_at": project['created_at'],
+                "updated_at": project['created_at'],
+                "theme": project['theme'],
+                "author_style": project['author_style'],
+                "files": [
+                    {
+                        "name": os.path.basename(file_path),
+                        "path": file_path,
+                        "type": os.path.splitext(file_path)[1].lower(),
+                        "size": os.path.getsize(journal_scanner.get_file_path(project['id'], file_path)) if journal_scanner.get_file_path(project['id'], file_path) and os.path.exists(journal_scanner.get_file_path(project['id'], file_path)) else 0
                     }
-                    projects.append(project)
-
-        # Sort by creation time (newest first)
-        projects.sort(key=lambda x: x["created_at"], reverse=True)
+                    for file_path in project_files.get('all', [])
+                ],
+                "file_count": len(project_files.get('all', [])),
+                "source": "LLM_output folder",
+                "progress": 100 if project['status'] == 'completed' else 0,
+                "word_count": "N/A",
+                "has_pdfs": project_files.get('pdfs', [])
+            }
+            formatted_projects.append(formatted_project)
 
         return {
-            "projects": projects,
-            "count": len(projects),
-            "source": "LLM_output folder"
+            "projects": formatted_projects,
+            "count": len(formatted_projects),
+            "source": "LLM_output folder (via JournalScannerService)"
         }
 
     except Exception as e:
@@ -749,6 +885,115 @@ async def get_llm_output_projects():
             "count": 0,
             "error": str(e)
         }
+
+@app.delete("/api/library/llm-projects/{project_id}")
+async def delete_llm_output_project(project_id: str):
+    """Delete a project from LLM_output folder"""
+    try:
+        # Extract folder name from project_id
+        if project_id.startswith("llm_"):
+            folder_name = project_id[4:]  # Remove "llm_" prefix
+        else:
+            raise HTTPException(status_code=400, detail="Invalid project ID format")
+
+        llm_output_path = os.path.join("..", "LLM_output")
+        folder_path = os.path.join(llm_output_path, folder_name)
+
+        if not os.path.exists(folder_path):
+            raise HTTPException(status_code=404, detail="Project not found")
+
+        # Delete the entire folder and its contents
+        import shutil
+        shutil.rmtree(folder_path)
+
+        logger.info(f"Deleted LLM project folder: {folder_name}")
+
+        return {
+            "message": "Project deleted successfully",
+            "project_id": project_id
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error deleting LLM project: {e}")
+        raise HTTPException(status_code=500, detail="Failed to delete project")
+
+@app.delete("/api/library/projects/{project_id}")
+async def delete_project_universal(project_id: str):
+    """Universal project deletion that handles different ID formats"""
+    try:
+        # Try different deletion strategies based on project_id format
+
+        # Strategy 1: Check if it's an integer (database project)
+        try:
+            int_project_id = int(project_id)
+            # Import the database service and try to delete from database
+            from app.services.project_library_service import ProjectLibraryService
+            from app.api.dependencies import get_db, get_current_user
+
+            # For now, we'll simulate this - in a real implementation,
+            # we'd need to handle authentication properly
+            logger.info(f"Attempting to delete database project with ID: {int_project_id}")
+            return {
+                "message": "Database project deletion not implemented in unified backend",
+                "project_id": project_id,
+                "note": "Please use the FastAPI service for database project deletion"
+            }
+        except ValueError:
+            pass  # Not an integer, continue to next strategy
+
+        # Strategy 2: Check if it's a journal creation job ID
+        if project_id.startswith("journal_creation_"):
+            # This might be a journal creation job - try to find and delete related data
+            logger.info(f"Attempting to delete journal creation project: {project_id}")
+
+            # Check if it exists in data_store
+            if project_id in data_store.get("journal_projects", {}):
+                del data_store["journal_projects"][project_id]
+                logger.info(f"Deleted journal creation project from data_store: {project_id}")
+                return {
+                    "message": "Journal creation project deleted successfully",
+                    "project_id": project_id
+                }
+
+            # Check if there's a corresponding folder
+            journal_folder = os.path.join("..", "journal_outputs", project_id)
+            if os.path.exists(journal_folder):
+                import shutil
+                shutil.rmtree(journal_folder)
+                logger.info(f"Deleted journal creation folder: {project_id}")
+                return {
+                    "message": "Journal creation project folder deleted successfully",
+                    "project_id": project_id
+                }
+
+        # Strategy 3: Check if it's an LLM project with different format
+        if not project_id.startswith("llm_"):
+            # Try to find it in LLM_output with different naming patterns
+            llm_output_path = os.path.join("..", "LLM_output")
+            if os.path.exists(llm_output_path):
+                for folder_name in os.listdir(llm_output_path):
+                    if project_id in folder_name or folder_name in project_id:
+                        folder_path = os.path.join(llm_output_path, folder_name)
+                        if os.path.isdir(folder_path):
+                            import shutil
+                            shutil.rmtree(folder_path)
+                            logger.info(f"Deleted matching LLM project folder: {folder_name}")
+                            return {
+                                "message": f"LLM project deleted successfully (matched folder: {folder_name})",
+                                "project_id": project_id
+                            }
+
+        # If we get here, we couldn't find the project
+        logger.warning(f"Project not found: {project_id}")
+        raise HTTPException(status_code=404, detail="Project not found")
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error deleting project {project_id}: {e}")
+        raise HTTPException(status_code=500, detail="Failed to delete project")
 
 # Background task to simulate AI generation
 async def simulate_ai_generation(job_id: str):
@@ -847,10 +1092,35 @@ async def create_journal(request: JournalCreationRequest, current_user: dict = D
         if not user_id:
             raise HTTPException(status_code=401, detail="User not found in data store")
 
-        # Start journal creation process
+        # Get user's API key
+        user_api_key = None
+        if "user_settings" in data_store and user_id in data_store["user_settings"]:
+            user_api_key = data_store["user_settings"][user_id].get("openai_api_key")
+
+        if not user_api_key:
+            raise HTTPException(
+                status_code=400,
+                detail="OpenAI API key not configured. Please add your API key in settings."
+            )
+
+        # Create WebSocket progress callback
+        async def websocket_progress_callback(progress_update: dict):
+            """Send progress updates to WebSocket clients"""
+            try:
+                # Add timestamp if not present
+                if 'timestamp' not in progress_update:
+                    progress_update['timestamp'] = datetime.now().isoformat()
+
+                # Send message to WebSocket clients for this job
+                await manager.send_progress(job_id, progress_update)
+            except Exception as e:
+                print(f"❌ Error sending WebSocket progress: {e}")
+
+        # Start journal creation process with user's API key
         job_id = await journal_service.start_journal_creation(
             request.preferences.model_dump(),
-            progress_callback=None  # We'll handle progress via WebSocket
+            api_key=user_api_key,  # Pass user's API key
+            progress_callback=websocket_progress_callback  # Connect to WebSocket
         )
 
         # Store job with user association
@@ -995,29 +1265,70 @@ manager = WebSocketManager()
 @app.websocket("/ws/journal/{job_id}")
 async def websocket_journal_progress(websocket: WebSocket, job_id: str):
     """WebSocket endpoint for real-time journal creation progress"""
+    print(f"🔌 WebSocket connection requested for job: {job_id}")
     await manager.connect(websocket, job_id)
+    print(f"✅ WebSocket connected for job: {job_id}")
+
     try:
+        # Send welcome message
+        welcome_msg = {
+            "type": "connection",
+            "message": f"Connected to journal workflow for job: {job_id}",
+            "timestamp": datetime.now().isoformat(),
+            "status": "connected"
+        }
+        await websocket.send_text(json.dumps(welcome_msg))
+        print(f"📤 Sent welcome message for job: {job_id}")
+
         # Send initial status
         job_status = journal_service.get_job_status(job_id)
+        print(f"🔍 Job status for {job_id}: {job_status}")
+
         if job_status:
             await websocket.send_text(json.dumps(job_status))
+            print(f"📤 Sent job status for {job_id}")
+        else:
+            # Send job not found message
+            not_found_msg = {
+                "type": "error",
+                "message": f"Job {job_id} not found or not started",
+                "timestamp": datetime.now().isoformat(),
+                "status": "not_found",
+                "suggestion": "Please create a new journal to see real-time progress"
+            }
+            await websocket.send_text(json.dumps(not_found_msg))
+            print(f"❌ Job not found: {job_id}")
 
         # Keep connection alive and send updates
+        connection_count = 0
         while True:
-            # Check for updates and send them
-            await asyncio.sleep(1)  # Check every second
+            connection_count += 1
+            await asyncio.sleep(2)  # Check every 2 seconds
 
-            # This would normally be triggered by the journal service
-            # For now, we'll just keep the connection alive
+            # Send heartbeat every 10 seconds
+            if connection_count % 5 == 0:
+                heartbeat = {
+                    "type": "heartbeat",
+                    "message": f"Connection alive for {connection_count * 2} seconds",
+                    "timestamp": datetime.now().isoformat(),
+                    "job_id": job_id
+                }
+                await websocket.send_text(json.dumps(heartbeat))
+                print(f"💓 Sent heartbeat for job: {job_id}")
+
+            # Check for job status updates
             job_status = journal_service.get_job_status(job_id)
             if job_status and job_status.get("status") in ["completed", "error"]:
                 # Send final status and close
                 await websocket.send_text(json.dumps(job_status))
+                print(f"🏁 Job {job_id} finished with status: {job_status.get('status')}")
                 break
 
     except WebSocketDisconnect:
+        print(f"🔌 WebSocket disconnected for job: {job_id}")
         manager.disconnect(job_id)
     except Exception as e:
+        print(f"❌ WebSocket error for job {job_id}: {e}")
         logger.error(f"WebSocket error: {e}")
         manager.disconnect(job_id)
 

@@ -88,29 +88,38 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const initializeAuth = async () => {
       const token = authAPI.getToken();
 
-      if (token && authAPI.isAuthenticated()) {
-        try {
-          // We could add a token validation endpoint, but for now just check if token exists and is not expired
-          const payload = JSON.parse(atob(token.split('.')[1]));
-          const user = {
-            id: payload.user_id,
-            email: '', // We'd need to fetch user details or include them in token
-            full_name: '',
-            profile_type: '',
-            ai_credits: 0,
-          };
+      if (token) {
+        // Check if token is expired
+        if (authAPI.isAuthenticated()) {
+          try {
+            // Parse JWT token to get user info
+            const payload = JSON.parse(atob(token.split('.')[1]));
 
-          dispatch({
-            type: 'AUTH_SUCCESS',
-            payload: { user, token },
-          });
-        } catch (error) {
-          // Token is invalid, remove it
+            // For now, create a basic user object from token
+            // In production, we might want to fetch full user details from backend
+            const user = {
+              id: payload.user_id,
+              email: `user_${payload.user_id}@example.com`, // Temporary - we'd need to fetch this
+              full_name: `User ${payload.user_id}`, // Temporary - we'd need to fetch this
+              profile_type: 'personal_journaler',
+              ai_credits: 10,
+            };
+
+            dispatch({
+              type: 'AUTH_SUCCESS',
+              payload: { user, token },
+            });
+          } catch (error) {
+            // Token is invalid, remove it
+            authAPI.removeToken();
+            dispatch({ type: 'LOGOUT' });
+          }
+        } else {
+          // Token expired, remove it and don't show login redirect immediately
           authAPI.removeToken();
           dispatch({ type: 'LOGOUT' });
         }
       } else {
-        authAPI.removeToken();
         dispatch({ type: 'LOGOUT' });
       }
     };
@@ -177,7 +186,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     dispatch({ type: 'LOGOUT' });
   };
 
-  // Refresh token method (placeholder)
+  // Refresh token method - attempt to re-authenticate if token expired
   const refreshToken = async (): Promise<void> => {
     try {
       const token = authAPI.getToken();
@@ -185,11 +194,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         throw new Error('No token to refresh');
       }
 
-      // In a real implementation, you'd call a refresh token endpoint
-      // For now, just check if token is still valid
+      // Check if token is still valid
       if (!authAPI.isAuthenticated()) {
+        // Token expired - clear it and let user know they need to log in again
         logout();
-        throw new Error('Token expired');
+        throw new Error('Session expired. Please log in again.');
       }
     } catch (error) {
       logout();

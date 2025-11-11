@@ -1,0 +1,10 @@
+{
+  "left": {
+    "quote": "In the journey of life, we often find ourselves at crossroads, unsure of which path to take. It's during these moments that the wisdom of others can light our way. As the great philosopher, Socrates, once said, 'The unexamined life is not worth living.' This profound statement reminds us of the importance of introspection and the pursuit of knowledge. Just as Socrates encouraged his students to question and learn, we too must embrace the power of inquiry. Whether you're facing a personal dilemma, seeking to improve your relationships, or striving for professional growth, the answers you seek are often found within the pages of a good book. Let the insights of those who have walked before us guide you towards a more fulfilling and enlightened life. Remember, the journey of self-discovery is never-ending, and each step you take brings you closer to the person you aspire to be."
+  },
+  "right": {
+    "image": "[Image Placeholder]",
+    "title": "Unlock Your Potential: Transformative Wisdom for Life's Journey",
+    "writeup": "Are you ready to embark on a life-changing adventure? Our exclusive lead magnet, 'Unlock Your Potential: Transformative Wisdom for Life's Journey,' is your key to unlocking the secrets of personal growth and fulfillment. Imagine having access to a treasure trove of insights from the world's greatest thinkers, all curated to help you navigate life's challenges with confidence and clarity. From overcoming self-doubt to mastering the art of communication, this powerful resource will empower you to take control of your destiny. Don't let another day pass without taking the first step towards a more meaningful and purposeful life. Download your copy now and join the ranks of those who have transformed their lives through the power of wisdom. Your journey starts here – are you ready to unlock your true potential?"
+  }
+}

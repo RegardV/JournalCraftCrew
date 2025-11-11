@@ -340,8 +340,19 @@ class EmailService:
                 )
 
             # Update password
-            from app.core.security import password_manager
-            user.password_hash = password_manager.hash_password(new_password)
+            # Hash password using bcrypt with proper length handling
+            password_bytes = new_password.encode('utf-8')
+            if len(password_bytes) > 72:
+                password_bytes = password_bytes[:72]
+                new_password = password_bytes.decode('utf-8', errors='ignore')
+
+            from passlib.context import CryptContext
+            pwd_context = CryptContext(
+                schemes=["bcrypt"],
+                deprecated="auto",
+                bcrypt__rounds=12
+            )
+            user.password_hash = pwd_context.hash(new_password)
 
             # Mark reset token as used
             password_reset_result = await self.db.execute(

@@ -59,10 +59,10 @@ const RegisterPage: React.FC = () => {
 
     if (!formData.password) {
       newErrors.password = 'Password is required';
-    } else if (formData.password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters';
-    } else if (passwordStrength < 3) {
-      newErrors.password = 'Password is too weak. Please include uppercase, lowercase, numbers, and special characters.';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    } else if (passwordStrength < 2) {
+      newErrors.password = 'Password must contain at least 2 of: lowercase, uppercase, numbers, or special characters';
     }
 
     if (!formData.confirmPassword) {
@@ -230,6 +230,36 @@ const RegisterPage: React.FC = () => {
                         }`}
                       />
                     ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Password Requirements */}
+              {formData.password && (
+                <div className="mt-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                  <p className="text-xs font-medium text-gray-700 mb-2">Password Requirements:</p>
+                  <div className="space-y-1">
+                    <div className={`flex items-center text-xs ${formData.password.length >= 6 ? 'text-green-600' : 'text-gray-500'}`}>
+                      <span className="mr-2">{formData.password.length >= 6 ? '✓' : '○'}</span>
+                      At least 6 characters
+                    </div>
+                    <div className={`flex items-center text-xs ${/[a-z]/.test(formData.password) ? 'text-green-600' : 'text-gray-500'}`}>
+                      <span className="mr-2">{/[a-z]/.test(formData.password) ? '✓' : '○'}</span>
+                      Lowercase letter (optional)
+                    </div>
+                    <div className={`flex items-center text-xs ${/[A-Z]/.test(formData.password) ? 'text-green-600' : 'text-gray-500'}`}>
+                      <span className="mr-2">{/[A-Z]/.test(formData.password) ? '✓' : '○'}</span>
+                      Uppercase letter (optional)
+                    </div>
+                    <div className={`flex items-center text-xs ${/\d/.test(formData.password) ? 'text-green-600' : 'text-gray-500'}`}>
+                      <span className="mr-2">{/\d/.test(formData.password) ? '✓' : '○'}</span>
+                      Number (optional)
+                    </div>
+                    <div className={`flex items-center text-xs ${/[^a-zA-Z\d]/.test(formData.password) ? 'text-green-600' : 'text-gray-500'}`}>
+                      <span className="mr-2">{/[^a-zA-Z\d]/.test(formData.password) ? '✓' : '○'}</span>
+                      Special character (optional)
+                    </div>
+                    <p className="text-xs text-gray-500 mt-2 italic">*At least 2 of the optional requirements needed</p>
                   </div>
                 </div>
               )}

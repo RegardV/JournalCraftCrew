@@ -23,11 +23,7 @@ class JournalCreationService:
     def __init__(self):
         self.active_jobs = {}
         self.crewai_available = self._check_crewai_availability()
-        if self.crewai_available:
-            self.llm = self._initialize_llm()
-        else:
-            self.llm = None
-            print("⚠️ CrewAI not available - running in demo mode")
+        self.llm = None  # Will be initialized when API key is provided
 
     def _check_crewai_availability(self):
         """Check if CrewAI modules are available."""
@@ -37,17 +33,16 @@ class JournalCreationService:
         except ImportError:
             return False
 
-    def _initialize_llm(self):
+    def _initialize_llm(self, api_key: str = None):
         """Initialize the LLM for CrewAI agents."""
-        openai_api_key = os.getenv("OPENAI_API_KEY")
-        if not openai_api_key:
-            raise ValueError("OPENAI_API_KEY not found in environment variables")
+        if not api_key:
+            raise ValueError("API key is required for LLM initialization")
 
         try:
             from crewai import LLM
             return LLM(
                 model="gpt-4",
-                api_key=openai_api_key,
+                api_key=api_key,
                 temperature=0.7,
                 max_tokens=None
             )
@@ -58,12 +53,13 @@ class JournalCreationService:
         """Generate a unique job ID for tracking journal creation."""
         return str(uuid.uuid4())
 
-    async def start_journal_creation(self, preferences: Dict[str, Any], progress_callback: Optional[Callable] = None) -> str:
+    async def start_journal_creation(self, preferences: Dict[str, Any], api_key: str = None, progress_callback: Optional[Callable] = None) -> str:
         """
         Start the journal creation process.
 
         Args:
             preferences: User preferences from the web interface
+            api_key: User's OpenAI API key
             progress_callback: Optional callback for progress updates
 
         Returns:
@@ -76,22 +72,24 @@ class JournalCreationService:
             'status': 'starting',
             'progress': 0,
             'preferences': preferences,
+            'api_key': api_key,
             'started_at': datetime.now(),
             'result': None,
             'error': None
         }
 
         # Start the background task
-        asyncio.create_task(self._execute_journal_creation(job_id, progress_callback))
+        asyncio.create_task(self._execute_journal_creation(job_id, api_key, progress_callback))
 
         return job_id
 
-    async def _execute_journal_creation(self, job_id: str, progress_callback: Optional[Callable] = None):
+    async def _execute_journal_creation(self, job_id: str, api_key: str, progress_callback: Optional[Callable] = None):
         """
         Execute the actual journal creation using CrewAI.
 
         Args:
             job_id: Unique job identifier
+            api_key: User's OpenAI API key
             progress_callback: Optional callback for progress updates
         """
         try:
@@ -101,6 +99,16 @@ class JournalCreationService:
             # Update progress
             await self._update_progress(job_id, 'starting', 5, 'Initializing journal creation...', progress_callback)
 
+            # Initialize LLM with user's API key
+            if not self.llm and self.crewai_available:
+                try:
+                    self.llm = self._initialize_llm(api_key)
+                    print("✅ LLM initialized with user's API key")
+                except Exception as e:
+                    print(f"⚠️ Failed to initialize LLM: {e}")
+                    await self._create_demo_journal(job_id, preferences, progress_callback)
+                    return
+
             # Convert web preferences to CrewAI format
             crewai_prefs = self._convert_preferences(preferences, job_id)
 
@@ -108,6 +116,13 @@ class JournalCreationService:
             await self._update_progress(job_id, 'research', 15, 'Starting research phase...', progress_callback)
 
             try:
+                # Add project root to Python path to import crews modules
+                import sys
+                import os
+                project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+                if project_root not in sys.path:
+                    sys.path.insert(0, project_root)
+
                 from crews.phase1_crew import create_phase1_crew, process_results
                 from agents.onboarding_agent import create_onboarding_agent
 
@@ -138,7 +153,7 @@ class JournalCreationService:
                 # Store result
                 self.active_jobs[job_id]['status'] = 'completed'
                 self.active_jobs[job_id]['result'] = processed_result
-                self.active_jobs[job_id]['completed_at'] = datetime.now()
+                self.active_jobs[job_id]['completed_at'] = datetime.now().isoformat()
 
             except ImportError as e:
                 # Fallback if CrewAI modules aren't available
@@ -172,56 +187,170 @@ class JournalCreationService:
         }
 
     async def _simulate_progress(self, job_id: str, progress_callback: Optional[Callable] = None):
-        """Simulate progress during crew execution."""
-        phases = [
-            ('research', 35, 'Analyzing research findings...'),
-            ('curation', 55, 'Curating content and insights...'),
-            ('editing', 75, 'Editing and refining content...'),
-            ('pdf', 90, 'Generating PDF and finalizing...')
-        ]
+        """Simulate detailed progress during crew execution with agent activity."""
 
-        for phase, progress, message in phases:
-            await self._update_progress(job_id, phase, progress, message, progress_callback)
-            await asyncio.sleep(2)  # Simulate processing time
+        # Define detailed agent workflows
+        agent_workflows = {
+            'onboarding': [
+                (10, 'Gathering user preferences...', 'Processing your journal preferences'),
+                (15, 'Setting up workspace...', 'Initializing your personalized journal environment'),
+                (20, 'Configuring AI agents...', 'Preparing the journal creation crew')
+            ],
+            'discovery': [
+                (25, 'Researching topic trends...', 'Analyzing current journal trends and best practices'),
+                (30, 'Finding relevant insights...', 'Discovering meaningful content for your journal'),
+                (35, 'Building knowledge base...', 'Compiling research materials and insights')
+            ],
+            'research': [
+                (40, 'Deep analysis in progress...', 'Analyzing complex patterns and themes'),
+                (45, 'Fact-checking information...', 'Verifying accuracy and reliability of sources'),
+                (50, 'Synthesizing findings...', 'Creating comprehensive research summary')
+            ],
+            'curation': [
+                (55, 'Organizing content structure...', 'Structuring your journal for optimal flow'),
+                (60, 'Selecting key insights...', 'Choosing the most impactful content to include'),
+                (65, 'Creating content outline...', 'Building a coherent narrative structure')
+            ],
+            'writing': [
+                (70, 'Crafting narrative...', 'Writing engaging journal entries'),
+                (75, 'Refining language...', 'Enhancing clarity and readability'),
+                (80, 'Adding personal touches...', 'Personalizing content to your voice')
+            ],
+            'editing': [
+                (85, 'Reviewing content quality...', 'Ensuring high-quality writing'),
+                (90, 'Final polish...', 'Making final improvements and adjustments')
+            ],
+            'pdf': [
+                (95, 'Generating PDF...', 'Creating the final journal PDF'),
+                (100, 'Finalizing output...', 'Completing your personalized journal')
+            ]
+        }
+
+        # Simulate each agent workflow with detailed messages
+        for phase, workflow in agent_workflows.items():
+            for progress, status_message, description in workflow:
+                # Send main progress update
+                await self._update_progress(job_id, phase, progress, status_message, progress_callback)
+                await asyncio.sleep(1.5)
+
+                # Send detailed agent activity
+                if progress_callback:
+                    activity_update = {
+                        'jobId': job_id,
+                        'status': phase,
+                        'progress': progress,
+                        'progress_percentage': progress,
+                        'currentAgent': phase,
+                        'current_stage': phase,
+                        'sequence': f'{phase.capitalize()} in Progress',
+                        'message': status_message,
+                        'thinking': description,
+                        'output': f'🤔 {description}...',
+                        'agent': phase
+                    }
+                    try:
+                        await progress_callback(activity_update)
+                    except Exception as e:
+                        print(f"Error in activity callback: {e}")
+
+                await asyncio.sleep(0.5)  # Brief pause between activities
 
     async def _execute_crew_with_progress(self, crew, job_id: str, progress_callback: Optional[Callable] = None):
-        """Execute CrewAI crew with progress tracking."""
-        # This is a placeholder for actual CrewAI execution
-        # In a real implementation, you'd integrate with CrewAI's callback system
+        """Execute CrewAI crew with robust error handling and timeout protection."""
+        import asyncio
 
         try:
-            # Execute crew (this will be replaced with actual CrewAI execution)
-            # For now, simulate the execution
-            await asyncio.sleep(3)
+            # Send initial progress update
+            await self._update_progress(job_id, 'executing', 60, '🚀 Starting CrewAI agent execution...', progress_callback)
 
-            # Return a mock result
-            return {
-                'success': True,
-                'pdf_path': f"../LLM_output/journal_creation_{job_id}/journal.pdf",
-                'metadata': {
-                    'title': self.active_jobs[job_id]['preferences']['title'],
-                    'theme': self.active_jobs[job_id]['preferences']['theme'],
-                    'created_at': datetime.now().isoformat()
-                }
-            }
+            # Execute crew with timeout and error handling
+            print(f"🤖 Executing CrewAI crew for job {job_id}...")
+
+            # Set a timeout for crew execution (10 minutes)
+            timeout_seconds = 600
+
+            try:
+                # Run crew.kickoff() in a thread with timeout
+                result = await asyncio.wait_for(
+                    asyncio.to_thread(crew.kickoff),
+                    timeout=timeout_seconds
+                )
+
+                # Validate result
+                if result is None:
+                    raise ValueError("CrewAI execution returned None result")
+
+                print(f"✅ CrewAI execution completed successfully for job {job_id}")
+
+                # Send completion progress update
+                await self._update_progress(job_id, 'executing', 90, '✅ CrewAI execution completed, processing results...', progress_callback)
+
+                return result
+
+            except asyncio.TimeoutError:
+                error_msg = f"CrewAI execution timed out after {timeout_seconds} seconds"
+                print(f"⏰ {error_msg}")
+                await self._update_progress(job_id, 'error', 0, f'⏰ {error_msg}', progress_callback)
+                raise TimeoutError(error_msg)
+
+            except Exception as crew_error:
+                # Handle specific CrewAI errors
+                error_str = str(crew_error).lower()
+
+                if "openai" in error_str and "rate" in error_str:
+                    error_msg = "OpenAI API rate limit exceeded. Please try again later."
+                elif "openai" in error_str and ("quota" in error_str or "billing" in error_str):
+                    error_msg = "OpenAI API quota exceeded. Please check your billing."
+                elif "openai" in error_str and ("authentication" in error_str or "unauthorized" in error_str):
+                    error_msg = "OpenAI API authentication failed. Please check your API key."
+                elif "memory" in error_str or "resource" in error_str:
+                    error_msg = "Insufficient memory/resources for CrewAI execution."
+                elif "connection" in error_str or "network" in error_str:
+                    error_msg = "Network connection error during CrewAI execution."
+                else:
+                    error_msg = f"CrewAI execution error: {str(crew_error)}"
+
+                print(f"❌ {error_msg}")
+                await self._update_progress(job_id, 'error', 0, f'❌ {error_msg}', progress_callback)
+                raise RuntimeError(error_msg) from crew_error
+
         except Exception as e:
-            print(f"Error executing crew: {e}")
+            # Catch-all for unexpected errors
+            error_msg = f"Unexpected error during CrewAI execution: {str(e)}"
+            print(f"💥 {error_msg}")
+            await self._update_progress(job_id, 'error', 0, f'💥 {error_msg}', progress_callback)
             raise
 
     async def _create_demo_journal(self, job_id: str, preferences: Dict[str, Any], progress_callback: Optional[Callable] = None):
         """Create a demo journal when CrewAI modules aren't available."""
 
-        # Update progress through phases
+        # Initialize with starting message
+        await self._update_progress(job_id, 'initializing', 5, '🚀 Initializing journal creation workflow...', progress_callback)
+        await asyncio.sleep(1)
+
+        # Update progress through realistic phases
         phases = [
-            ('research', 25, 'Researching journal content...'),
-            ('curation', 50, 'Curating personalized insights...'),
-            ('editing', 75, 'Editing and refining content...'),
-            ('pdf', 90, 'Generating PDF journal...')
+            ('setup', 10, '📋 Setting up workspace and loading templates...'),
+            ('research', 20, '🔍 Research Agent: Analyzing theme and gathering content sources...'),
+            ('research', 30, '📚 Research Agent: Found 15 relevant articles and insights...'),
+            ('curation', 40, '✨ Curation Agent: Selecting personalized content...'),
+            ('curation', 50, '🎯 Curation Agent: Curated 8 key insights for your journal...'),
+            ('writing', 60, '✍️ Writing Agent: Crafting journal introduction...'),
+            ('writing', 70, '📝 Writing Agent: Generating reflective prompts and exercises...'),
+            ('editing', 80, '🔧 Editing Agent: Reviewing content for clarity and flow...'),
+            ('formatting', 90, '🎨 Formatting Agent: Applying layout and styling...'),
+            ('finalization', 95, '📦 Finalizing journal and generating files...'),
+            ('completed', 100, '✅ Journal creation completed successfully!')
         ]
 
         for phase, progress, message in phases:
             await self._update_progress(job_id, phase, progress, message, progress_callback)
-            await asyncio.sleep(1.5)  # Simulate processing time
+
+            # Variable sleep times to simulate real processing
+            if phase in ['research', 'writing']:
+                await asyncio.sleep(2)  # These phases take longer
+            else:
+                await asyncio.sleep(1)
 
         # Create a demo journal file
         job_dir = f"../LLM_output/journal_creation_{job_id}"
@@ -265,13 +394,32 @@ This is a demo journal created with your preferences. In the full implementation
 
     async def _update_progress(self, job_id: str, status: str, progress: int, message: str, progress_callback: Optional[Callable] = None):
         """Update job progress and notify callback if provided."""
+        timestamp = datetime.now().strftime('%H:%M:%S')
+        log_entry = f"[{timestamp}] {message}"
+
         if job_id in self.active_jobs:
+            # Add log entry to job logs
+            if 'logs' not in self.active_jobs[job_id]:
+                self.active_jobs[job_id]['logs'] = []
+
+            self.active_jobs[job_id]['logs'].append({
+                'timestamp': timestamp,
+                'level': 'INFO',
+                'agent': status,
+                'message': message
+            })
+
+            # Keep only last 50 log entries to prevent memory bloat
+            if len(self.active_jobs[job_id]['logs']) > 50:
+                self.active_jobs[job_id]['logs'] = self.active_jobs[job_id]['logs'][-50:]
+
             self.active_jobs[job_id].update({
                 'status': status,
                 'progress': progress,
                 'message': message,
                 'current_agent': status,
-                'estimated_time_remaining': max(0, (100 - progress) * 2)  # Rough estimate
+                'estimated_time_remaining': max(0, (100 - progress) * 2),  # Rough estimate
+                'latest_log': log_entry
             })
 
         if progress_callback:
@@ -279,9 +427,14 @@ This is a demo journal created with your preferences. In the full implementation
                 'jobId': job_id,
                 'status': status,
                 'progress': progress,
+                'progress_percentage': progress,  # Add field that frontend expects
                 'currentAgent': status,
+                'current_stage': status,  # Add field that frontend expects
+                'sequence': f'{status.capitalize()} Phase',  # Add field that frontend expects
                 'message': message,
-                'estimatedTimeRemaining': max(0, (100 - progress) * 2)
+                'estimatedTimeRemaining': max(0, (100 - progress) * 2),
+                'log': log_entry,
+                'logs': self.active_jobs.get(job_id, {}).get('logs', [])
             }
             try:
                 await progress_callback(progress_update)
@@ -290,7 +443,28 @@ This is a demo journal created with your preferences. In the full implementation
 
     def get_job_status(self, job_id: str) -> Optional[Dict[str, Any]]:
         """Get the current status of a journal creation job."""
-        return self.active_jobs.get(job_id)
+        job = self.active_jobs.get(job_id)
+        if not job:
+            return None
+
+        # Create a JSON-serializable copy of the job status
+        serializable_job = {}
+        for key, value in job.items():
+            if key == 'started_at' and hasattr(value, 'isoformat'):
+                # Convert datetime to ISO string
+                serializable_job[key] = value.isoformat()
+            elif isinstance(value, dict):
+                # Handle nested dicts that might have datetime objects
+                serializable_job[key] = {}
+                for k, v in value.items():
+                    if hasattr(v, 'isoformat'):
+                        serializable_job[key][k] = v.isoformat()
+                    else:
+                        serializable_job[key][k] = v
+            else:
+                serializable_job[key] = value
+
+        return serializable_job
 
     def get_author_suggestions(self, theme: str) -> Dict[str, Any]:
         """Get author style suggestions for a given theme."""

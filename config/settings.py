@@ -35,3 +35,9 @@ VALID_RESEARCH_DEPTHS = {
     "medium": 15,
     "deep": 25
 }
+
+# Course Topic Configuration
+COURSE_TOPIC = "Journaling for Personal Growth"
+
+# Testing Configuration
+TESTING_MODE = False  # Set to True for testing with demo data

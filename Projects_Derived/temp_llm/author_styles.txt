@@ -1,7 +1,0 @@
-[
-    {"name": "James Clear", "style": "direct actionable"},
-    {"name": "Mel Robbins", "style": "motivational"},
-    {"name": "Brené Brown", "style": "empathetic reflective"},
-    {"name": "Hal Elrod", "style": "structured inspirational"},
-    {"name": "Rachel Hollis", "style": "empowering conversational"}
-]

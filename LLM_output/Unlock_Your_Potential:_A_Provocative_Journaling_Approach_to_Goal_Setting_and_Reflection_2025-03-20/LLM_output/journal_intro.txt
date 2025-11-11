@@ -1,0 +1,10 @@
+{
+  "left": {
+    "quote": "In the journey of life, we often find ourselves at crossroads, unsure of which path to take. It's in these moments that the wisdom of those who have walked before us can light our way. As the great philosopher, Socrates, once said, 'The unexamined life is not worth living.' This profound statement reminds us that self-reflection is not just a luxury, but a necessity for a fulfilling existence. By taking the time to understand our own desires, fears, and motivations, we empower ourselves to make choices that align with our true selves. It's through this process of introspection that we can discover our passions, overcome our limitations, and ultimately, live a life that is authentically ours. So, as you stand at your own crossroads, remember to pause, reflect, and choose the path that resonates with the deepest parts of your being."
+  },
+  "right": {
+    "image": "Intro Image",
+    "title": "Embrace Your Journey",
+    "writeup": "Hey there, friend! Let's talk about something important - your journey. You know, life is like an epic adventure, full of twists and turns, challenges and triumphs. And guess what? You're the hero of your own story! It's time to embrace that role and step into your power. Sure, the path ahead might seem daunting at times, but remember, you've got what it takes to navigate it. Every experience, every setback, every victory - they're all shaping you into the incredible person you're meant to be. So, take a deep breath, trust in your abilities, and keep moving forward. Celebrate your progress, no matter how small. Surround yourself with people who lift you up and believe in your dreams. And most importantly, never forget that you are capable, worthy, and deserving of all the amazing things life has in store for you. Your journey is yours to embrace, so go out there and make it a story worth telling!"
+  }
+}

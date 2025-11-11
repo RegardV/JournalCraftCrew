@@ -1,0 +1,470 @@
+[
+  {
+    "image_id": "cover_30dayjournal",
+    "placement": "journal_cover",
+    "prompt": "Cover image for a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/cover_30dayjournal.png"
+  },
+  {
+    "image_id": "intro_30dayjournal",
+    "placement": "journal_intro_spread_right",
+    "prompt": "Intro image for a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/intro_30dayjournal.png"
+  },
+  {
+    "image_id": "day1_full_30dayjournal",
+    "placement": "journal_day_1_full",
+    "prompt": "Full-page image for Day 1 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day1_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day1_bottom_30dayjournal",
+    "placement": "journal_day_1_bottom",
+    "prompt": "Bottom image for Day 1 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day1_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day2_full_30dayjournal",
+    "placement": "journal_day_2_full",
+    "prompt": "Full-page image for Day 2 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day2_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day2_bottom_30dayjournal",
+    "placement": "journal_day_2_bottom",
+    "prompt": "Bottom image for Day 2 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day2_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day3_full_30dayjournal",
+    "placement": "journal_day_3_full",
+    "prompt": "Full-page image for Day 3 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day3_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day3_bottom_30dayjournal",
+    "placement": "journal_day_3_bottom",
+    "prompt": "Bottom image for Day 3 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day3_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day4_full_30dayjournal",
+    "placement": "journal_day_4_full",
+    "prompt": "Full-page image for Day 4 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day4_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day4_bottom_30dayjournal",
+    "placement": "journal_day_4_bottom",
+    "prompt": "Bottom image for Day 4 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day4_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day5_full_30dayjournal",
+    "placement": "journal_day_5_full",
+    "prompt": "Full-page image for Day 5 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day5_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day5_bottom_30dayjournal",
+    "placement": "journal_day_5_bottom",
+    "prompt": "Bottom image for Day 5 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day5_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day6_full_30dayjournal",
+    "placement": "journal_day_6_full",
+    "prompt": "Full-page image for Day 6 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day6_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day6_bottom_30dayjournal",
+    "placement": "journal_day_6_bottom",
+    "prompt": "Bottom image for Day 6 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day6_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day7_full_30dayjournal",
+    "placement": "journal_day_7_full",
+    "prompt": "Full-page image for Day 7 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day7_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day7_bottom_30dayjournal",
+    "placement": "journal_day_7_bottom",
+    "prompt": "Bottom image for Day 7 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day7_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day8_full_30dayjournal",
+    "placement": "journal_day_8_full",
+    "prompt": "Full-page image for Day 8 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day8_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day8_bottom_30dayjournal",
+    "placement": "journal_day_8_bottom",
+    "prompt": "Bottom image for Day 8 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day8_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day9_full_30dayjournal",
+    "placement": "journal_day_9_full",
+    "prompt": "Full-page image for Day 9 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day9_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day9_bottom_30dayjournal",
+    "placement": "journal_day_9_bottom",
+    "prompt": "Bottom image for Day 9 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day9_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day10_full_30dayjournal",
+    "placement": "journal_day_10_full",
+    "prompt": "Full-page image for Day 10 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day10_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day10_bottom_30dayjournal",
+    "placement": "journal_day_10_bottom",
+    "prompt": "Bottom image for Day 10 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day10_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day11_full_30dayjournal",
+    "placement": "journal_day_11_full",
+    "prompt": "Full-page image for Day 11 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day11_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day11_bottom_30dayjournal",
+    "placement": "journal_day_11_bottom",
+    "prompt": "Bottom image for Day 11 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day11_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day12_full_30dayjournal",
+    "placement": "journal_day_12_full",
+    "prompt": "Full-page image for Day 12 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day12_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day12_bottom_30dayjournal",
+    "placement": "journal_day_12_bottom",
+    "prompt": "Bottom image for Day 12 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day12_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day13_full_30dayjournal",
+    "placement": "journal_day_13_full",
+    "prompt": "Full-page image for Day 13 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day13_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day13_bottom_30dayjournal",
+    "placement": "journal_day_13_bottom",
+    "prompt": "Bottom image for Day 13 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day13_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day14_full_30dayjournal",
+    "placement": "journal_day_14_full",
+    "prompt": "Full-page image for Day 14 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day14_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day14_bottom_30dayjournal",
+    "placement": "journal_day_14_bottom",
+    "prompt": "Bottom image for Day 14 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day14_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day15_full_30dayjournal",
+    "placement": "journal_day_15_full",
+    "prompt": "Full-page image for Day 15 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day15_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day15_bottom_30dayjournal",
+    "placement": "journal_day_15_bottom",
+    "prompt": "Bottom image for Day 15 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day15_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day16_full_30dayjournal",
+    "placement": "journal_day_16_full",
+    "prompt": "Full-page image for Day 16 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day16_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day16_bottom_30dayjournal",
+    "placement": "journal_day_16_bottom",
+    "prompt": "Bottom image for Day 16 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day16_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day17_full_30dayjournal",
+    "placement": "journal_day_17_full",
+    "prompt": "Full-page image for Day 17 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day17_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day17_bottom_30dayjournal",
+    "placement": "journal_day_17_bottom",
+    "prompt": "Bottom image for Day 17 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day17_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day18_full_30dayjournal",
+    "placement": "journal_day_18_full",
+    "prompt": "Full-page image for Day 18 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day18_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day18_bottom_30dayjournal",
+    "placement": "journal_day_18_bottom",
+    "prompt": "Bottom image for Day 18 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day18_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day19_full_30dayjournal",
+    "placement": "journal_day_19_full",
+    "prompt": "Full-page image for Day 19 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day19_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day19_bottom_30dayjournal",
+    "placement": "journal_day_19_bottom",
+    "prompt": "Bottom image for Day 19 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day19_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day20_full_30dayjournal",
+    "placement": "journal_day_20_full",
+    "prompt": "Full-page image for Day 20 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day20_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day20_bottom_30dayjournal",
+    "placement": "journal_day_20_bottom",
+    "prompt": "Bottom image for Day 20 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day20_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day21_full_30dayjournal",
+    "placement": "journal_day_21_full",
+    "prompt": "Full-page image for Day 21 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day21_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day21_bottom_30dayjournal",
+    "placement": "journal_day_21_bottom",
+    "prompt": "Bottom image for Day 21 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day21_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day22_full_30dayjournal",
+    "placement": "journal_day_22_full",
+    "prompt": "Full-page image for Day 22 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day22_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day22_bottom_30dayjournal",
+    "placement": "journal_day_22_bottom",
+    "prompt": "Bottom image for Day 22 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day22_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day23_full_30dayjournal",
+    "placement": "journal_day_23_full",
+    "prompt": "Full-page image for Day 23 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day23_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day23_bottom_30dayjournal",
+    "placement": "journal_day_23_bottom",
+    "prompt": "Bottom image for Day 23 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day23_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day24_full_30dayjournal",
+    "placement": "journal_day_24_full",
+    "prompt": "Full-page image for Day 24 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day24_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day24_bottom_30dayjournal",
+    "placement": "journal_day_24_bottom",
+    "prompt": "Bottom image for Day 24 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day24_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day25_full_30dayjournal",
+    "placement": "journal_day_25_full",
+    "prompt": "Full-page image for Day 25 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day25_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day25_bottom_30dayjournal",
+    "placement": "journal_day_25_bottom",
+    "prompt": "Bottom image for Day 25 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day25_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day26_full_30dayjournal",
+    "placement": "journal_day_26_full",
+    "prompt": "Full-page image for Day 26 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day26_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day26_bottom_30dayjournal",
+    "placement": "journal_day_26_bottom",
+    "prompt": "Bottom image for Day 26 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day26_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day27_full_30dayjournal",
+    "placement": "journal_day_27_full",
+    "prompt": "Full-page image for Day 27 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day27_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day27_bottom_30dayjournal",
+    "placement": "journal_day_27_bottom",
+    "prompt": "Bottom image for Day 27 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day27_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day28_full_30dayjournal",
+    "placement": "journal_day_28_full",
+    "prompt": "Full-page image for Day 28 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day28_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day28_bottom_30dayjournal",
+    "placement": "journal_day_28_bottom",
+    "prompt": "Bottom image for Day 28 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day28_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day29_full_30dayjournal",
+    "placement": "journal_day_29_full",
+    "prompt": "Full-page image for Day 29 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day29_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day29_bottom_30dayjournal",
+    "placement": "journal_day_29_bottom",
+    "prompt": "Bottom image for Day 29 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day29_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "day30_full_30dayjournal",
+    "placement": "journal_day_30_full",
+    "prompt": "Full-page image for Day 30 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day30_full_30dayjournal.png"
+  },
+  {
+    "image_id": "day30_bottom_30dayjournal",
+    "placement": "journal_day_30_bottom",
+    "prompt": "Bottom image for Day 30 of a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/day30_bottom_30dayjournal.png"
+  },
+  {
+    "image_id": "certificate_30dayjournal",
+    "placement": "journal_certificate",
+    "prompt": "Certificate image for a 30-day Journaling for Goal setting and Reflection journal in empowering conversational style",
+    "path": "media/certificate_30dayjournal.png"
+  },
+  {
+    "image_id": "cover_leadmagnet",
+    "placement": "lead_magnet_cover",
+    "prompt": "Cover image for a 6-day Journaling for Goal setting and Reflection lead magnet in empowering conversational style",
+    "path": "media/cover_leadmagnet.png"
+  },
+  {
+    "image_id": "intro_leadmagnet",
+    "placement": "lead_magnet_intro_spread_right",
+    "prompt": "Intro image for a 6-day Journaling for Goal setting and Reflection lead magnet in empowering conversational style",
+    "path": "media/intro_leadmagnet.png"
+  },
+  {
+    "image_id": "day1_full_leadmagnet",
+    "placement": "lead_magnet_day_1_full",
+    "prompt": "Full-page image for Day 1 of a 6-day Journaling for Goal setting and Reflection lead magnet in empowering conversational style",
+    "path": "media/day1_full_leadmagnet.png"
+  },
+  {
+    "image_id": "day1_bottom_leadmagnet",
+    "placement": "lead_magnet_day_1_bottom",
+    "prompt": "Bottom image for Day 1 of a 6-day Journaling for Goal setting and Reflection lead magnet in empowering conversational style",
+    "path": "media/day1_bottom_leadmagnet.png"
+  },
+  {
+    "image_id": "day2_full_leadmagnet",
+    "placement": "lead_magnet_day_2_full",
+    "prompt": "Full-page image for Day 2 of a 6-day Journaling for Goal setting and Reflection lead magnet in empowering conversational style",
+    "path": "media/day2_full_leadmagnet.png"
+  },
+  {
+    "image_id": "day2_bottom_leadmagnet",
+    "placement": "lead_magnet_day_2_bottom",
+    "prompt": "Bottom image for Day 2 of a 6-day Journaling for Goal setting and Reflection lead magnet in empowering conversational style",
+    "path": "media/day2_bottom_leadmagnet.png"
+  },
+  {
+    "image_id": "day3_full_leadmagnet",
+    "placement": "lead_magnet_day_3_full",
+    "prompt": "Full-page image for Day 3 of a 6-day Journaling for Goal setting and Reflection lead magnet in empowering conversational style",
+    "path": "media/day3_full_leadmagnet.png"
+  },
+  {
+    "image_id": "day3_bottom_leadmagnet",
+    "placement": "lead_magnet_day_3_bottom",
+    "prompt": "Bottom image for Day 3 of a 6-day Journaling for Goal setting and Reflection lead magnet in empowering conversational style",
+    "path": "media/day3_bottom_leadmagnet.png"
+  },
+  {
+    "image_id": "day4_full_leadmagnet",
+    "placement": "lead_magnet_day_4_full",
+    "prompt": "Full-page image for Day 4 of a 6-day Journaling for Goal setting and Reflection lead magnet in empowering conversational style",
+    "path": "media/day4_full_leadmagnet.png"
+  },
+  {
+    "image_id": "day4_bottom_leadmagnet",
+    "placement": "lead_magnet_day_4_bottom",
+    "prompt": "Bottom image for Day 4 of a 6-day Journaling for Goal setting and Reflection lead magnet in empowering conversational style",
+    "path": "media/day4_bottom_leadmagnet.png"
+  },
+  {
+    "image_id": "day5_full_leadmagnet",
+    "placement": "lead_magnet_day_5_full",
+    "prompt": "Full-page image for Day 5 of a 6-day Journaling for Goal setting and Reflection lead magnet in empowering conversational style",
+    "path": "media/day5_full_leadmagnet.png"
+  },
+  {
+    "image_id": "day5_bottom_leadmagnet",
+    "placement": "lead_magnet_day_5_bottom",
+    "prompt": "Bottom image for Day 5 of a 6-day Journaling for Goal setting and Reflection lead magnet in empowering conversational style",
+    "path": "media/day5_bottom_leadmagnet.png"
+  },
+  {
+    "image_id": "day6_full_leadmagnet",
+    "placement": "lead_magnet_day_6_full",
+    "prompt": "Full-page image for Day 6 of a 6-day Journaling for Goal setting and Reflection lead magnet in empowering conversational style",
+    "path": "media/day6_full_leadmagnet.png"
+  },
+  {
+    "image_id": "day6_bottom_leadmagnet",
+    "placement": "lead_magnet_day_6_bottom",
+    "prompt": "Bottom image for Day 6 of a 6-day Journaling for Goal setting and Reflection lead magnet in empowering conversational style",
+    "path": "media/day6_bottom_leadmagnet.png"
+  },
+  {
+    "image_id": "certificate_leadmagnet",
+    "placement": "lead_magnet_certificate",
+    "prompt": "Certificate image for a 6-day Journaling for Goal setting and Reflection lead magnet in empowering conversational style",
+    "path": "media/certificate_leadmagnet.png"
+  }
+]

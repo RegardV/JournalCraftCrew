@@ -1,0 +1,180 @@
+{
+  "users": {
+    "user_265277520cb5": {
+      "id": "user_265277520cb5",
+      "email": "test@example.com",
+      "full_name": "Test User",
+      "profile_type": "personal_journaler",
+      "ai_credits": 10,
+      "hashed_password": "$2b$12$a/XjFoZ7meXnY2RJPOgPCeJB2gujlfxId.ueTvu2/MWlm25qyT1ha",
+      "created_at": 1761736384.6738687
+    },
+    "user_5f554ee7bb4b": {
+      "id": "user_5f554ee7bb4b",
+      "email": "frontend@test.com",
+      "full_name": "Frontend Test User",
+      "profile_type": "personal_journaler",
+      "ai_credits": 8,
+      "hashed_password": "$2b$12$Q8OV6DVtGpWYBsLoYPOxJec0qZvLH.f6rmOXCnChyMFMrQxaGtWEW",
+      "created_at": 1761737363.1545768
+    },
+    "user_815dc41e03c1": {
+      "id": "user_815dc41e03c1",
+      "email": "webhook-test@example.com",
+      "full_name": "WebSocket Test User",
+      "profile_type": "personal_journaler",
+      "ai_credits": 9,
+      "hashed_password": "$2b$12$TuEHppmu0CbD0LBj0PGdjeCfxCsoQCsGQpzJ.TJfD/0Kc.GbN/xz.",
+      "created_at": 1761738451.7124312
+    },
+    "user_ab9f47f9a082": {
+      "id": "user_ab9f47f9a082",
+      "email": "journaluser@example.com",
+      "full_name": "Journal Test User",
+      "profile_type": "personal_journaler",
+      "ai_credits": 10,
+      "hashed_password": "$2b$12$KT/bE333557e8r7yuKynUuxOeMFAc.Ko0p6ArAfLpe0b/ON6kvGoe",
+      "created_at": 1761852770.70891
+    },
+    "user_e81cac228345": {
+      "id": "user_e81cac228345",
+      "email": "regardv4life@gmail.com",
+      "full_name": "Regard Vermeulen",
+      "profile_type": "personal_journaler",
+      "ai_credits": 10,
+      "hashed_password": "$2b$12$AhHwGsqAWGioOzYQDJXijeWSiiZteu0dFitn3NlKVF5Dbqrg4Xd2W",
+      "created_at": 1761855062.3305671
+    },
+    "user_6c9604c24ee4": {
+      "id": "user_6c9604c24ee4",
+      "email": "testuser@example.com",
+      "full_name": "Test User",
+      "profile_type": "personal_journaler",
+      "ai_credits": 10,
+      "hashed_password": "$2b$12$AkoJcvzOd7YnbviNN.vnOuWp/1R3RZ7t6hkfC6O2WDYA2uAM.KMEy",
+      "created_at": 1762023364.7680032
+    }
+  },
+  "projects": {
+    "project_2b532876b51d": {
+      "id": "project_2b532876b51d",
+      "user_id": "user_815dc41e03c1",
+      "title": "Daily_Reflection Mindfulness Journal",
+      "theme": "mindfulness",
+      "description": "Testing real-time WebSocket progress",
+      "status": "completed",
+      "created_at": 1761738482.9757283,
+      "updated_at": 1761738482.9757288,
+      "customization": {
+        "layout": "single-column",
+        "font_size": "medium",
+        "color_scheme": "default",
+        "paper_type": "standard",
+        "binding_type": "perfect"
+      },
+      "pages_count": 30,
+      "word_count": 15000,
+      "export_formats": [
+        "pdf",
+        "epub",
+        "kdp"
+      ]
+    },
+    "project_0c2b683489ce": {
+      "id": "project_0c2b683489ce",
+      "user_id": "user_5f554ee7bb4b",
+      "title": "Daily_Reflection Mindfulness Journal",
+      "theme": "mindfulness",
+      "description": null,
+      "status": "completed",
+      "created_at": 1762344123.7677412,
+      "updated_at": 1762344123.7677414,
+      "customization": {
+        "layout": "single-column",
+        "font_size": "medium",
+        "color_scheme": "default",
+        "paper_type": "standard",
+        "binding_type": "perfect"
+      },
+      "pages_count": 30,
+      "word_count": 15000,
+      "export_formats": [
+        "pdf",
+        "epub",
+        "kdp"
+      ]
+    },
+    "project_b840148e5efc": {
+      "id": "project_b840148e5efc",
+      "user_id": "user_5f554ee7bb4b",
+      "title": "Inspirational Mindfulness Journal",
+      "theme": "mindfulness",
+      "description": null,
+      "status": "completed",
+      "created_at": 1762367212.3515441,
+      "updated_at": 1762367212.3515446,
+      "customization": {
+        "layout": "single-column",
+        "font_size": "medium",
+        "color_scheme": "default",
+        "paper_type": "standard",
+        "binding_type": "perfect"
+      },
+      "pages_count": 30,
+      "word_count": 15000,
+      "export_formats": [
+        "pdf",
+        "epub",
+        "kdp"
+      ]
+    }
+  },
+  "sessions": {},
+  "ai_jobs": {
+    "job_6bbf41d88fa2": {
+      "id": "job_6bbf41d88fa2",
+      "user_id": "user_815dc41e03c1",
+      "status": "completed",
+      "theme": "mindfulness",
+      "title_style": "daily_reflection",
+      "description": "Testing real-time WebSocket progress",
+      "progress": 100,
+      "created_at": 1761738468.9664752,
+      "current_stage": "Complete!"
+    },
+    "40b88733-8403-4160-aa00-920e5f25b1f8": {
+      "user_id": "user_ab9f47f9a082",
+      "preferences": {
+        "theme": "Journaling for Anxiety",
+        "title": "My Mindfulness Journal",
+        "titleStyle": "Catchy Questions",
+        "authorStyle": "empathetic research-driven",
+        "researchDepth": "medium"
+      },
+      "status": "started",
+      "created_at": "2025-10-30T21:48:00.635164"
+    },
+    "job_0ca41f2cf3ce": {
+      "id": "job_0ca41f2cf3ce",
+      "user_id": "user_5f554ee7bb4b",
+      "status": "completed",
+      "theme": "mindfulness",
+      "title_style": "daily_reflection",
+      "description": null,
+      "progress": 100,
+      "created_at": 1762344109.7576122,
+      "current_stage": "Complete!"
+    },
+    "job_dfbb0438d28a": {
+      "id": "job_dfbb0438d28a",
+      "user_id": "user_5f554ee7bb4b",
+      "status": "completed",
+      "theme": "mindfulness",
+      "title_style": "inspirational",
+      "description": null,
+      "progress": 100,
+      "created_at": 1762367198.3400533,
+      "current_stage": "Complete!"
+    }
+  }
+}

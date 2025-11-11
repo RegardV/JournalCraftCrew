@@ -11,8 +11,15 @@ import RegisterPage from '@/pages/auth/RegisterPage';
 import ForgotPasswordPage from '@/pages/auth/ForgotPasswordPage';
 import TermsPage from '@/pages/legal/TermsPage';
 import PrivacyPage from '@/pages/legal/PrivacyPage';
+import ProfilePage from '@/pages/profile/ProfilePage';
+import ProjectsPage from '@/pages/projects/ProjectsPage';
+import ThemesPage from '@/pages/themes/ThemesPage';
+import TemplatesPage from '@/pages/templates/TemplatesPage';
+import SubscriptionPage from '@/pages/subscription/SubscriptionPage';
 import ConnectionStatus from '@/components/ui/ConnectionStatus';
 import PerformanceMonitor from '@/components/ui/PerformanceMonitor';
+import ProjectDetail from '@/components/projects/ProjectDetail';
+import AIWorkflowPage from '@/pages/ai-workflow/AIWorkflowPage';
 
 // Authenticated routes component
 function AuthenticatedRoutes() {
@@ -97,6 +104,100 @@ function AuthenticatedRoutes() {
   );
 }
 
+// Authenticated wrapper components for new routes
+function ProfilePageWrapper() {
+  const { isAuthenticated } = useAuth();
+  if (!isAuthenticated) {
+    return <Navigate to="/auth/login" replace />;
+  }
+  return <ProfilePage />;
+}
+
+function ProjectsPageWrapper() {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  // Show loading while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen gradient-bg flex items-center justify-center">
+        <div className="loading-spinner"></div>
+      </div>
+    );
+  }
+
+  // Redirect to dashboard if authenticated - the projects functionality is in the dashboard
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  // If not authenticated, redirect to login
+  return <Navigate to="/auth/login" replace />;
+}
+
+function ThemesPageWrapper() {
+  const { isAuthenticated } = useAuth();
+  if (!isAuthenticated) {
+    return <Navigate to="/auth/login" replace />;
+  }
+  return <ThemesPage />;
+}
+
+function TemplatesPageWrapper() {
+  const { isAuthenticated } = useAuth();
+  if (!isAuthenticated) {
+    return <Navigate to="/auth/login" replace />;
+  }
+  return <TemplatesPage />;
+}
+
+function SubscriptionPageWrapper() {
+  const { isAuthenticated } = useAuth();
+  if (!isAuthenticated) {
+    return <Navigate to="/auth/login" replace />;
+  }
+  return <SubscriptionPage />;
+}
+
+function ProjectDetailWrapper() {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  // Show loading while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen gradient-bg flex items-center justify-center">
+        <div className="loading-spinner"></div>
+      </div>
+    );
+  }
+
+  // Redirect to login if not authenticated
+  if (!isAuthenticated) {
+    return <Navigate to="/auth/login" replace />;
+  }
+
+  return <ProjectDetail />;
+}
+
+function AIWorkflowPageWrapper() {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  // Show loading while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen gradient-bg flex items-center justify-center">
+        <div className="loading-spinner"></div>
+      </div>
+    );
+  }
+
+  // Redirect to login if not authenticated
+  if (!isAuthenticated) {
+    return <Navigate to="/auth/login" replace />;
+  }
+
+  return <AIWorkflowPage />;
+}
+
 // Main App component with routing
 function App() {
   return (
@@ -115,6 +216,13 @@ function App() {
 
           {/* Protected Routes */}
           <Route path="/dashboard/*" element={<AuthenticatedRoutes />} />
+          <Route path="/profile" element={<ProfilePageWrapper />} />
+          <Route path="/projects" element={<ProjectsPageWrapper />} />
+          <Route path="/library/projects/:id" element={<ProjectDetailWrapper />} />
+          <Route path="/ai-workflow" element={<AIWorkflowPageWrapper />} />
+          <Route path="/themes" element={<ThemesPageWrapper />} />
+          <Route path="/templates" element={<TemplatesPageWrapper />} />
+          <Route path="/subscription" element={<SubscriptionPageWrapper />} />
 
           {/* Default redirect */}
           <Route path="*" element={<Navigate to="/" replace />} />

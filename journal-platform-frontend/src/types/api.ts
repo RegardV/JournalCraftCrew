@@ -132,6 +132,15 @@ export interface WebSocketProgressMessage {
   project_id?: string;
   message?: string;
   timestamp: number;
+  currentAgent?: string;
+  log?: string;
+  logs?: Array<{
+    timestamp: string;
+    level: string;
+    agent: string;
+    message: string;
+  }>;
+  estimatedTimeRemaining?: number;
 }
 
 // API Error Types
@@ -191,6 +200,15 @@ export interface JournalCreationState {
     status: string;
     progress: number;
     stage: string;
+    currentAgent?: string;
+    logs?: Array<{
+      timestamp: string;
+      level: string;
+      agent: string;
+      message: string;
+    }>;
+    latestLog?: string;
+    estimatedTimeRemaining?: number;
   } | null;
   error: string | null;
 }
