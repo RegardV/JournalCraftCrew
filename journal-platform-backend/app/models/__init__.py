@@ -18,6 +18,9 @@ from .auth_tokens import (
     EmailVerification, PasswordReset, RefreshToken, OAuthAccount,
     LoginAttempt, SecurityEvent
 )
+from .inventory import (
+    InventoryTeamActivity, InventoryGenerationContext, QuickAction, ActivityType
+)
 
 # Export all models for easy importing
 __all__ = [
@@ -49,4 +52,10 @@ __all__ = [
     "OAuthAccount",
     "LoginAttempt",
     "SecurityEvent",
+
+    # Inventory entities
+    "InventoryTeamActivity",
+    "InventoryGenerationContext",
+    "QuickAction",
+    "ActivityType",
 ]

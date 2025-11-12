@@ -28,13 +28,12 @@ const navigation = [
   { name: 'My Journals', href: '/dashboard?view=library', icon: BookOpenIcon, current: false },
   { name: 'Themes', href: '/themes', icon: PaintBrushIcon, current: false },
   { name: 'Templates', href: '/templates', icon: DocumentTextIcon, current: false },
-  { name: 'Collaborations', href: '/collaborations', icon: UserGroupIcon, current: false },
   { name: 'Analytics', href: '/dashboard?view=analytics', icon: ChartBarIcon, current: false },
 ];
 
 const secondaryNavigation = [
   { name: 'Settings', href: '/settings', icon: CogIcon },
-  { name: 'AI Assistant', href: '/ai-assistant', icon: SparklesIcon },
+  { name: 'AI Assistant', href: '/ai-workflow', icon: SparklesIcon },
 ];
 
 const recentProjects = [
@@ -80,7 +79,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, className }) => {
           {/* Quick Actions */}
           <div className="p-6 border-b border-color-border bg-gradient-to-br from-color-bg-muted to-white">
             <Button className="w-full justify-start btn-primary shadow-lg hover:shadow-xl" asChild>
-              <a href="/projects/new" className="flex items-center gap-3">
+              <a href="/ai-workflow" className="flex items-center gap-3">
                 <PlusIcon className="h-5 w-5" />
                 <div className="text-left">
                   <div className="font-medium">Create New Journal</div>

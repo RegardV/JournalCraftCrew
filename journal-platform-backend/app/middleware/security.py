@@ -112,6 +112,7 @@ def setup_cors_middleware(app) -> None:
         allow_origins=[
             "http://localhost:3000",   # Production build
             "http://localhost:5173",   # Development server
+            "http://localhost:5174",   # Development server (alternate port)
             "https://yourdomain.com"   # Production domain
         ],
         allow_credentials=True,

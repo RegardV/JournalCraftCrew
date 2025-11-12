@@ -22,10 +22,9 @@ import {
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { projectAPI } from '@/lib/api';
-import JournalCreationModal from '@/components/journal/JournalCreationModal';
 import JournalProgress from '@/components/journal/JournalProgress';
 import ContentLibrary from '@/components/content/ContentLibrary';
-import CrewAIOnboarding from '@/components/onboarding/CrewAIOnboarding';
+import UnifiedJournalCreator from '@/components/journal/UnifiedJournalCreator';
 
 interface DashboardProps {
   user?: {
@@ -72,8 +71,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
   }>>([]);
 
   // Journal creation state
-  const [isJournalModalOpen, setIsJournalModalOpen] = useState(false);
-  const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
+  const [showUnifiedCreator, setShowUnifiedCreator] = useState(false);
   const [activeJobId, setActiveJobId] = useState<string | null>(null);
   const [userPreferences, setUserPreferences] = useState<any>(null);
 
@@ -135,7 +133,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
   }, [isAuthenticated, token]);
 
   const handleCreateJournal = () => {
-    setIsJournalModalOpen(true);
+    setShowUnifiedCreator(true);
   };
 
   const handleJournalCreation = async (preferences: any) => {
@@ -161,33 +159,37 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
         throw new Error('Authentication required. Please log in first.');
       }
 
-      const response = await fetch('http://localhost:6770/api/journals/create', {
+      // Close unified creator and navigate to workflow progress
+      setShowUnifiedCreator(false);
+
+      // Start CrewAI workflow through new unified system
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/crewai/start-workflow`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(formattedPreferences)
+        body: JSON.stringify({
+          user_preferences: preferences
+        })
       });
 
       if (response.ok) {
         const data = await response.json();
-        console.log('Journal creation started:', data);
-        // Handle both jobId and job_id response formats
-        const jobId = data.jobId || data.job_id;
-        setActiveJobId(jobId);
-        setIsJournalModalOpen(false);
+        console.log('CrewAI workflow started:', data);
 
-        // Navigate to the AI workflow page with the job ID
-        navigate(`/ai-workflow?jobId=${jobId}`);
+        // Navigate to the AI workflow page with the workflow ID
+        navigate(`/ai-workflow/${data.workflow_id}`, {
+          state: { workflowData: data }
+        });
       } else {
         const errorText = await response.text();
-        console.error('Failed to create journal:', errorText);
+        console.error('Failed to start CrewAI workflow:', errorText);
 
         if (response.status === 401) {
           alert('Authentication required. Please log in first.');
         } else {
-          alert(`Failed to create journal: ${errorText}`);
+          alert(`Failed to start journal creation: ${errorText}`);
         }
       }
     } catch (error) {
@@ -615,12 +617,21 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
   }
 
   if (activeView === 'analytics') {
+    // Calculate analytics data
+    const completedProjects = recentProjects.filter(p => p.status === 'completed' || p.progress === 100);
+    const inProgressProjects = recentProjects.filter(p => p.status === 'in_progress' || (p.progress > 0 && p.progress < 100));
+    const totalWords = recentProjects.reduce((total, project) => {
+      const words = parseInt(project.wordCount) || 0;
+      return total + words;
+    }, 0);
+    const avgWordsPerProject = recentProjects.length > 0 ? Math.round(totalWords / recentProjects.length) : 0;
+
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-heading">Analytics</h1>
-            <p className="text-gray-600">Track your journal creation progress and insights</p>
+            <h1 className="text-heading">Analytics Dashboard</h1>
+            <p className="text-gray-600">Track your journal creation progress and writing insights</p>
           </div>
           <button
             onClick={() => setActiveView('dashboard')}
@@ -630,116 +641,234 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
           </button>
         </div>
 
+        {/* Main Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="content-card">
+          <div className="content-card hover-lift">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Total Journals</p>
-                <p className="text-2xl font-bold text-gray-900">{recentProjects.length}</p>
+                <p className="text-3xl font-bold text-gray-900">{recentProjects.length}</p>
+                <p className="text-xs text-gray-500 mt-1">All time creations</p>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
-                <BookOpen className="w-6 h-6 text-white" />
+              <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                <BookOpen className="w-7 h-7 text-white" />
               </div>
             </div>
           </div>
 
-          <div className="content-card">
+          <div className="content-card hover-lift">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Completed</p>
-                <p className="text-2xl font-bold text-gray-900">
-                  {recentProjects.filter(p => p.status === 'completed' || p.progress === 100).length}
+                <p className="text-3xl font-bold text-gray-900">{completedProjects.length}</p>
+                <p className="text-xs text-green-600 mt-1">
+                  {recentProjects.length > 0 ? `${Math.round((completedProjects.length / recentProjects.length) * 100)}% completion rate` : 'No projects yet'}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center">
-                <CheckCircleIcon className="w-6 h-6 text-white" />
+              <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
+                <CheckCircleIcon className="w-7 h-7 text-white" />
               </div>
             </div>
           </div>
 
-          <div className="content-card">
+          <div className="content-card hover-lift">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">In Progress</p>
-                <p className="text-2xl font-bold text-gray-900">
-                  {recentProjects.filter(p => p.status === 'in_progress' || (p.progress > 0 && p.progress < 100)).length}
-                </p>
+                <p className="text-3xl font-bold text-gray-900">{inProgressProjects.length}</p>
+                <p className="text-xs text-yellow-600 mt-1">Active projects</p>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center">
-                <Clock className="w-6 h-6 text-white" />
+              <div className="w-14 h-14 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg">
+                <Clock className="w-7 h-7 text-white" />
               </div>
             </div>
           </div>
 
-          <div className="content-card">
+          <div className="content-card hover-lift">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Total Words</p>
-                <p className="text-2xl font-bold text-gray-900">
-                  {recentProjects.reduce((total, project) => {
-                    const words = parseInt(project.wordCount) || 0;
-                    return total + words;
-                  }, 0)}
-                </p>
+                <p className="text-3xl font-bold text-gray-900">{totalWords.toLocaleString()}</p>
+                <p className="text-xs text-purple-600 mt-1">~{avgWordsPerProject} avg per journal</p>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
-                <FileText className="w-6 h-6 text-white" />
+              <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                <FileText className="w-7 h-7 text-white" />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="content-card">
-          <h3 className="text-subheading font-semibold mb-6">Project Breakdown</h3>
-          {recentProjects.length === 0 ? (
-            <div className="text-center py-12">
-              <div className="w-16 h-16 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <BarChart3 className="w-8 h-8 text-gray-400" />
-              </div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-2">No data yet</h4>
-              <p className="text-gray-600">Start creating journals to see your analytics here</p>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {recentProjects.map((project) => (
-                <div
-                  key={project.id}
-                  className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
+        {/* Usage Insights */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="content-card">
+            <h3 className="text-subheading font-semibold mb-6 flex items-center gap-2">
+              <TrendingUp className="w-5 h-5 text-green-600" />
+              Usage Insights
+            </h3>
+
+            {recentProjects.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="w-16 h-16 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <BarChart3 className="w-8 h-8 text-gray-400" />
+                </div>
+                <h4 className="text-lg font-semibold text-gray-900 mb-2">Start Creating Journals</h4>
+                <p className="text-gray-600 mb-4">Begin your AI-powered journaling journey to see your writing analytics here</p>
+                <a
+                  href="/ai-workflow"
+                  className="btn btn-primary inline-flex items-center gap-2"
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
-                      <FileText className="w-5 h-5 text-white" />
+                  <Sparkles className="w-4 h-4" />
+                  Create Your First Journal
+                </a>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {/* Project Status Distribution */}
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-3">Project Status</h4>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Completed</span>
+                      <span className="text-sm font-medium">{completedProjects.length} journals</span>
                     </div>
-                    <div>
-                      <h4 className="font-medium text-gray-900">{project.title}</h4>
-                      <p className="text-sm text-gray-600">{project.description}</p>
-                      <div className="flex items-center gap-4 mt-1 text-xs text-gray-500">
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div
+                        className="bg-gradient-to-r from-green-500 to-green-600 h-2 rounded-full"
+                        style={{ width: `${recentProjects.length > 0 ? (completedProjects.length / recentProjects.length) * 100 : 0}%` }}
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">In Progress</span>
+                      <span className="text-sm font-medium">{inProgressProjects.length} journals</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div
+                        className="bg-gradient-to-r from-yellow-500 to-orange-600 h-2 rounded-full"
+                        style={{ width: `${recentProjects.length > 0 ? (inProgressProjects.length / recentProjects.length) * 100 : 0}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Writing Statistics */}
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-3">Writing Statistics</h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-4 bg-gray-50 rounded-lg">
+                      <div className="text-2xl font-bold text-gray-900">{avgWordsPerProject.toLocaleString()}</div>
+                      <div className="text-sm text-gray-600">Avg Words/Journal</div>
+                    </div>
+                    <div className="p-4 bg-gray-50 rounded-lg">
+                      <div className="text-2xl font-bold text-gray-900">{totalWords.toLocaleString()}</div>
+                      <div className="text-sm text-gray-600">Total Words Written</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Recent Activity Timeline */}
+          <div className="content-card">
+            <h3 className="text-subheading font-semibold mb-6 flex items-center gap-2">
+              <Activity className="w-5 h-5 text-blue-600" />
+              Recent Activity
+            </h3>
+
+            {recentProjects.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Activity className="w-8 h-8 text-blue-400" />
+                </div>
+                <h4 className="text-lg font-semibold text-gray-900 mb-2">No Activity Yet</h4>
+                <p className="text-gray-600">Your journal creation activity will appear here</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {recentProjects.slice(0, 5).map((project, index) => (
+                  <div key={project.id} className="flex gap-3">
+                    <div className={`w-2 h-2 rounded-full mt-2 flex-shrink-0 ${
+                      project.status === 'completed' || project.progress === 100
+                        ? 'bg-green-500'
+                        : 'bg-yellow-500'
+                    }`} />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-gray-900 truncate">{project.title}</p>
+                      <p className="text-sm text-gray-600 truncate">{project.description}</p>
+                      <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
                         <span>{project.wordCount} words</span>
                         <span>•</span>
                         <span>{project.lastEdit}</span>
+                        <span>•</span>
+                        <span className={`font-medium ${
+                          project.status === 'completed' || project.progress === 100
+                            ? 'text-green-600'
+                            : 'text-yellow-600'
+                        }`}>
+                          {project.status === 'completed' || project.progress === 100 ? 'Completed' : 'In Progress'}
+                        </span>
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <button
-                      onClick={() => handleProjectStatus(project.id)}
-                      className="p-2 hover:bg-gray-200 rounded-lg transition-colors"
-                      title="View status"
-                    >
-                      <Eye className="w-4 h-4 text-gray-600" />
-                    </button>
-                    <button
-                      onClick={() => handleDeleteProject(project.id, project.title)}
-                      className="p-2 hover:bg-red-100 hover:text-red-600 rounded-lg transition-colors"
-                      title="Delete project"
-                    >
-                      <Trash2 className="w-4 h-4 text-gray-600 hover:text-red-600" />
-                    </button>
-                  </div>
+                ))}
+
+                {recentProjects.length > 5 && (
+                  <button
+                    onClick={() => setActiveView('library')}
+                    className="text-sm text-blue-600 hover:text-blue-700 font-medium mt-2"
+                  >
+                    View all {recentProjects.length} projects →
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="content-card">
+          <h3 className="text-subheading font-semibold mb-6">Quick Actions</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <a
+              href="/ai-workflow"
+              className="p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-indigo-500 hover:bg-indigo-50 transition-all group"
+            >
+              <div className="flex flex-col items-center gap-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Sparkles className="w-6 h-6 text-white" />
                 </div>
-              ))}
-            </div>
-          )}
+                <span className="font-medium">Create New Journal</span>
+                <span className="text-sm text-gray-600">Generate AI-powered content</span>
+              </div>
+            </a>
+
+            <button
+              onClick={() => setActiveView('library')}
+              className="p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition-all group"
+            >
+              <div className="flex flex-col items-center gap-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <BookOpen className="w-6 h-6 text-white" />
+                </div>
+                <span className="font-medium">Browse Library</span>
+                <span className="text-sm text-gray-600">View all your journals</span>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setActiveView('active-projects')}
+              className="p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-yellow-500 hover:bg-yellow-50 transition-all group"
+            >
+              <div className="flex flex-col items-center gap-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Clock className="w-6 h-6 text-white" />
+                </div>
+                <span className="font-medium">Active Projects</span>
+                <span className="text-sm text-gray-600">Track in-progress journals</span>
+              </div>
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -835,15 +964,16 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
               </div>
               <h4 className="text-xl font-semibold text-gray-900 mb-3">No Active Projects</h4>
               <p className="text-gray-600 mb-8 max-w-md mx-auto">
-                You don't have any projects in progress right now. Create a new journal or check your completed projects in the library.
+                You don't have any projects in progress right now. Start a new AI-powered journal or check your completed projects.
               </p>
               <div className="flex justify-center gap-3">
-                <button
-                  onClick={() => handleCreateJournal()}
-                  className="btn btn-primary"
+                <a
+                  href="/ai-workflow"
+                  className="btn btn-primary flex items-center gap-2"
                 >
-                  Create New Journal
-                </button>
+                  <Sparkles className="w-4 h-4" />
+                  Start AI Generation
+                </a>
                 <button
                   onClick={() => setActiveView('library')}
                   className="btn btn-outline"
@@ -1128,21 +1258,11 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
         </div>
       </div>
 
-      {/* Journal Creation Modal */}
-      <JournalCreationModal
-        isOpen={isJournalModalOpen}
-        onClose={() => setIsJournalModalOpen(false)}
-        onComplete={handleJournalCreation}
-      />
-
-      {/* CrewAI Progress Visualization - Now using full-page approach at /ai-workflow */}
-
-      {/* CrewAI Onboarding Modal */}
-      {isOnboardingOpen && userPreferences && (
-        <CrewAIOnboarding
-          preferences={userPreferences}
-          onOnboardingComplete={handleOnboardingComplete}
-          onClose={() => setIsOnboardingOpen(false)}
+      {/* Unified Journal Creator - Replaces all old creation modals */}
+      {showUnifiedCreator && (
+        <UnifiedJournalCreator
+          onComplete={handleJournalCreation}
+          onClose={() => setShowUnifiedCreator(false)}
         />
       )}
     </div>

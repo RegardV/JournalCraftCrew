@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Bars3Icon, XMarkIcon, UserCircleIcon, BellIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/components/ui/Button';
 import type { User } from '@/types';
@@ -44,18 +45,18 @@ const Header: React.FC<HeaderProps> = ({ user, onMenuToggle, isMobileMenuOpen })
         <nav className="hidden lg:flex items-center gap-8">
           {[
             { name: 'Dashboard', href: '/dashboard' },
-            { name: 'My Journals', href: '/projects' },
+            { name: 'My Journals', href: '/dashboard?view=library' },
             { name: 'Themes', href: '/themes' },
             { name: 'Templates', href: '/templates' },
           ].map((item) => (
-            <a
+            <Link
               key={item.name}
-              href={item.href}
+              to={item.href}
               className="relative text-sm font-medium text-color-text-light hover:text-color-primary transition-colors duration-200 group"
             >
               {item.name}
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-color-primary transition-all duration-300 group-hover:w-full"></span>
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -119,24 +120,24 @@ const Header: React.FC<HeaderProps> = ({ user, onMenuToggle, isMobileMenuOpen })
                       { name: 'Settings', href: '/settings', icon: '⚙️' },
                       { name: 'Subscription', href: '/subscription', icon: '💎' },
                     ].map((item) => (
-                      <a
+                      <Link
                         key={item.name}
-                        href={item.href}
+                        to={item.href}
                         className="flex items-center gap-3 px-4 py-3 text-sm text-color-text-light hover:bg-color-bg-muted hover:text-color-text rounded-xl transition-all duration-200"
                       >
                         <span className="text-base">{item.icon}</span>
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
 
                     <div className="border-t border-color-border mt-2 pt-2">
-                      <a
-                        href="/logout"
+                      <Link
+                        to="/logout"
                         className="flex items-center gap-3 px-4 py-3 text-sm text-color-error hover:bg-red-50 rounded-xl transition-all duration-200"
                       >
                         <span className="text-base">🚪</span>
                         Sign Out
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -150,14 +151,14 @@ const Header: React.FC<HeaderProps> = ({ user, onMenuToggle, isMobileMenuOpen })
                 asChild
                 className="hover:border-color-primary hover:text-color-primary"
               >
-                <a href="/login">Sign In</a>
+                <Link to="/login">Sign In</Link>
               </Button>
               <Button
                 size="sm"
                 asChild
                 className="btn-primary shadow-lg hover:shadow-xl"
               >
-                <a href="/register">Get Started</a>
+                <Link to="/register">Get Started</Link>
               </Button>
             </div>
           )}

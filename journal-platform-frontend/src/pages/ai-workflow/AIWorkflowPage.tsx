@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate, useParams } from 'react-router-dom';
 import {
   X,
   CheckCircle,
@@ -40,8 +40,12 @@ interface CrewAIMessage {
 
 const AIWorkflowPage: React.FC = () => {
   const [searchParams] = useSearchParams();
-  const jobId = searchParams.get('jobId');
+  const { workflowId } = useParams<{ workflowId: string }>();
+  const jobId = searchParams.get('jobId'); // Legacy support
   const navigate = useNavigate();
+
+  // Use workflowId from URL params, fallback to jobId from search params
+  const actualWorkflowId = workflowId || jobId;
 
   const [messages, setMessages] = useState<CrewAIMessage[]>([]);
   const [socket, setSocket] = useState<WebSocket | null>(null);
@@ -193,18 +197,19 @@ const AIWorkflowPage: React.FC = () => {
   }, [messages]);
 
   useEffect(() => {
-    if (!jobId) {
-      // Redirect to dashboard if no job ID provided
+    if (!actualWorkflowId) {
+      // Redirect to dashboard if no workflow ID provided
       navigate('/dashboard');
       return;
     }
 
-    const wsUrl = `ws://localhost:6770/ws/journal/${jobId}`;
-    console.log('Connecting to WebSocket:', wsUrl);
+    // Use CrewAI WebSocket endpoint for actual workflow tracking
+    const wsUrl = `${process.env.REACT_APP_API_URL?.replace('http', 'ws') || 'ws://localhost:8000'}/ws/${actualWorkflowId}`;
+    console.log('Connecting to CrewAI WebSocket:', wsUrl);
     const ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {
-      console.log('WebSocket connected for AI workflow:', jobId);
+      console.log('CrewAI WebSocket connected for workflow:', actualWorkflowId);
       setIsConnected(true);
       setWorkflowStarted(true);
       setMessages(prev => [...prev, {
@@ -370,7 +375,7 @@ const AIWorkflowPage: React.FC = () => {
         ws.close();
       }
     };
-  }, [jobId, currentAgent, currentCrew, currentSequence, overallProgress]);
+  }, [actualWorkflowId, currentAgent, currentCrew, currentSequence, overallProgress]);
 
   const formatTimestamp = (date: Date) => {
     return date.toLocaleTimeString('en-US', {

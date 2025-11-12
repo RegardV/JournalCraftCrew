@@ -87,23 +87,39 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     const initializeAuth = async () => {
       const token = authAPI.getToken();
+      const storedUser = localStorage.getItem('user_data');
 
       if (token) {
         // Check if token is expired
         if (authAPI.isAuthenticated()) {
           try {
-            // Parse JWT token to get user info
-            const payload = JSON.parse(atob(token.split('.')[1]));
+            let user = null;
 
-            // For now, create a basic user object from token
-            // In production, we might want to fetch full user details from backend
-            const user = {
-              id: payload.user_id,
-              email: `user_${payload.user_id}@example.com`, // Temporary - we'd need to fetch this
-              full_name: `User ${payload.user_id}`, // Temporary - we'd need to fetch this
-              profile_type: 'personal_journaler',
-              ai_credits: 10,
-            };
+            // Try to use stored user data first
+            if (storedUser) {
+              try {
+                user = JSON.parse(storedUser);
+              } catch (parseError) {
+                console.error('Failed to parse stored user data:', parseError);
+                localStorage.removeItem('user_data');
+              }
+            }
+
+            // If no stored user data, create a basic user from token (fallback)
+            if (!user) {
+              const payload = JSON.parse(atob(token.split('.')[1]));
+              user = {
+                id: payload.user_id,
+                email: payload.email || `user_${payload.user_id}@example.com`,
+                full_name: payload.full_name || payload.name || `User ${payload.user_id}`,
+                profile_type: payload.profile_type || 'personal_journaler',
+                ai_credits: payload.ai_credits || 10,
+                subscription: payload.subscription || 'free',
+              };
+
+              // Store the user data for future use
+              localStorage.setItem('user_data', JSON.stringify(user));
+            }
 
             dispatch({
               type: 'AUTH_SUCCESS',
@@ -112,11 +128,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           } catch (error) {
             // Token is invalid, remove it
             authAPI.removeToken();
+            localStorage.removeItem('user_data');
             dispatch({ type: 'LOGOUT' });
           }
         } else {
-          // Token expired, remove it and don't show login redirect immediately
+          // Token expired, remove it and user data
           authAPI.removeToken();
+          localStorage.removeItem('user_data');
           dispatch({ type: 'LOGOUT' });
         }
       } else {
@@ -135,15 +153,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const response = await authAPI.login({ email, password });
       authAPI.setToken(response.access_token);
 
-      // For now, create a basic user object from the token
+      // Extract user data from the JWT token payload
       const payload = JSON.parse(atob(response.access_token.split('.')[1]));
       const user = {
         id: payload.user_id,
-        email,
-        full_name: 'User', // This would be fetched from user profile endpoint
-        profile_type: 'personal_journaler',
-        ai_credits: 10,
+        email: payload.email || email,
+        full_name: payload.full_name || payload.name || email.split('@')[0],
+        profile_type: payload.profile_type || 'personal_journaler',
+        ai_credits: payload.ai_credits || 10,
+        subscription: payload.subscription || 'free',
       };
+
+      // Store user data in localStorage to maintain session
+      localStorage.setItem('user_data', JSON.stringify(user));
 
       dispatch({
         type: 'AUTH_SUCCESS',
@@ -165,6 +187,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       if (response.access_token && response.user) {
         authAPI.setToken(response.access_token);
+        // Store user data in localStorage
+        localStorage.setItem('user_data', JSON.stringify(response.user));
         dispatch({
           type: 'AUTH_SUCCESS',
           payload: { user: response.user, token: response.access_token },
@@ -183,6 +207,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Logout method
   const logout = (): void => {
     authAPI.removeToken();
+    localStorage.removeItem('user_data');
     dispatch({ type: 'LOGOUT' });
   };
 

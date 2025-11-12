@@ -20,6 +20,7 @@ import ConnectionStatus from '@/components/ui/ConnectionStatus';
 import PerformanceMonitor from '@/components/ui/PerformanceMonitor';
 import ProjectDetail from '@/components/projects/ProjectDetail';
 import AIWorkflowPage from '@/pages/ai-workflow/AIWorkflowPage';
+import SettingsPage from '@/pages/settings/SettingsPage';
 
 // Authenticated routes component
 function AuthenticatedRoutes() {
@@ -158,6 +159,14 @@ function SubscriptionPageWrapper() {
   return <SubscriptionPage />;
 }
 
+function SettingsPageWrapper() {
+  const { isAuthenticated } = useAuth();
+  if (!isAuthenticated) {
+    return <Navigate to="/auth/login" replace />;
+  }
+  return <SettingsPage />;
+}
+
 function ProjectDetailWrapper() {
   const { isAuthenticated, isLoading } = useAuth();
 
@@ -220,9 +229,11 @@ function App() {
           <Route path="/projects" element={<ProjectsPageWrapper />} />
           <Route path="/library/projects/:id" element={<ProjectDetailWrapper />} />
           <Route path="/ai-workflow" element={<AIWorkflowPageWrapper />} />
+          <Route path="/ai-workflow/:workflowId" element={<AIWorkflowPageWrapper />} />
           <Route path="/themes" element={<ThemesPageWrapper />} />
           <Route path="/templates" element={<TemplatesPageWrapper />} />
           <Route path="/subscription" element={<SubscriptionPageWrapper />} />
+          <Route path="/settings" element={<SettingsPageWrapper />} />
 
           {/* Default redirect */}
           <Route path="*" element={<Navigate to="/" replace />} />

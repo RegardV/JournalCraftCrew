@@ -12,7 +12,7 @@ from contextlib import asynccontextmanager
 from app.core.config import settings
 from app.core.database import init_db, close_db, db_manager
 from app.api.dependencies import get_db
-from app.api.routes import auth, users, projects, themes, exports, ai_generation, websocket_endpoints, project_library
+from app.api.routes import auth, users, projects, themes, exports, ai_generation, websocket_endpoints, project_library, onboarding, crewai_workflow, journal_content_analysis
 
 # Configure logging
 logging.basicConfig(
@@ -60,6 +60,9 @@ app.include_router(exports.router, prefix="/api/export", tags=["Export Service"]
 app.include_router(ai_generation.router, prefix="/api/ai", tags=["AI Generation"])
 app.include_router(websocket_endpoints.router, tags=["WebSocket"])
 app.include_router(project_library.router, prefix="/api", tags=["Project Library"])
+app.include_router(onboarding.router, prefix="/api/onboarding", tags=["Onboarding Agent"])
+app.include_router(crewai_workflow.router, prefix="/api/crewai", tags=["CrewAI Workflow"])
+app.include_router(journal_content_analysis.router, prefix="/api/journal-content", tags=["Journal Content Analysis"])
 
 # Global exception handler
 @app.exception_handler(Exception)
@@ -124,7 +127,9 @@ async def root():
             "export": "/api/export",
             "ai_generation": "/api/ai",
             "websocket": "/ws",
-            "project_library": "/api/library"
+            "project_library": "/api/library",
+            "onboarding": "/api/onboarding",
+            "crewai_workflow": "/api/crewai"
         }
     }
 
