@@ -1,0 +1,78 @@
+[
+  {
+    "session_id": "session_1763062237",
+    "start_time": "2025-11-13T21:30:37.570796",
+    "end_time": "2025-11-13T21:30:51.318852",
+    "status": "closed",
+    "current_task": "Starting orchestrator",
+    "assigned_agent": null,
+    "progress": 0,
+    "log_entries": [
+      {
+        "timestamp": "2025-11-13 21:30:37",
+        "message": "Started coding session: session_1763062237",
+        "type": "info"
+      },
+      {
+        "timestamp": "2025-11-13 21:30:37",
+        "message": "Starting Orchestrator Dashboard on port 6771",
+        "type": "info"
+      },
+      {
+        "timestamp": "2025-11-13 21:30:37",
+        "message": "Dashboard available at: http://localhost:6771",
+        "type": "info"
+      },
+      {
+        "timestamp": "2025-11-13 21:30:37",
+        "message": "Journal Craft Crew Frontend: http://localhost:5173",
+        "type": "info"
+      },
+      {
+        "timestamp": "2025-11-13 21:30:37",
+        "message": "\ud83d\udd12 Backend API: https://localhost:6770 (SSL/TLS Enabled)",
+        "type": "info"
+      }
+    ],
+    "work_directory": "/home/alf/Documents/7.CodeProjects/Journal Craft Crew/orchestrator_dashboard",
+    "focus_area": null,
+    "files_modified": [],
+    "tasks_completed": [],
+    "commands_executed": [],
+    "servers_running": {
+      "backend": false,
+      "frontend": false
+    },
+    "notes": "",
+    "context": {},
+    "last_server_states": {
+      "backend": {
+        "running": true,
+        "port": 6770,
+        "pid": 1976949,
+        "cpu": 1.2,
+        "memory": 0.47093066499715047,
+        "url": "https://localhost:6770",
+        "ssl_enabled": true,
+        "uptime": 2147.62926197052,
+        "status": "running",
+        "last_check": "2025-11-13T21:30:51.225140"
+      },
+      "frontend": {
+        "running": false,
+        "port": 5173,
+        "pid": null,
+        "cpu": 0,
+        "memory": 0,
+        "url": "http://localhost:5173",
+        "ssl_enabled": false,
+        "uptime": null,
+        "status": "stopped",
+        "last_check": "2025-11-13T21:30:51.225166"
+      }
+    },
+    "git_branch": "main",
+    "python_venv": "/home/alf/Documents/7.CodeProjects/Journal Craft Crew/orchestrator_venv",
+    "total_duration": 0
+  }
+]

@@ -1,0 +1,312 @@
+{
+  "summary": {
+    "total_tests": 30,
+    "passed": 29,
+    "failed": 1,
+    "success_rate": 96.66666666666667,
+    "login_redirects": 0
+  },
+  "results": [
+    {
+      "component": "Frontend Root",
+      "button_name": "Home Page",
+      "destination": "/",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Backend API",
+      "button_name": "Health Check",
+      "destination": "/health",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Backend API",
+      "button_name": "API Documentation",
+      "destination": "/docs",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Header Navigation",
+      "button_name": "Dashboard",
+      "destination": "/dashboard",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Header Navigation",
+      "button_name": "My Journals",
+      "destination": "/dashboard?view=library",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Header Navigation",
+      "button_name": "Themes",
+      "destination": "/themes",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Header Navigation",
+      "button_name": "Templates",
+      "destination": "/templates",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Header Navigation",
+      "button_name": "Profile",
+      "destination": "/profile",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Header Navigation",
+      "button_name": "Settings",
+      "destination": "/settings",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Header Navigation",
+      "button_name": "Subscription",
+      "destination": "/subscription",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Header Navigation",
+      "button_name": "Sign Out",
+      "destination": "/logout",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Header Navigation",
+      "button_name": "Sign In",
+      "destination": "/login",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Header Navigation",
+      "button_name": "Get Started",
+      "destination": "/register",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Sidebar Navigation",
+      "button_name": "Create New Journal",
+      "destination": "/ai-workflow",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Sidebar Navigation",
+      "button_name": "Dashboard",
+      "destination": "/dashboard",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Sidebar Navigation",
+      "button_name": "My Journals",
+      "destination": "/dashboard?view=library",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Sidebar Navigation",
+      "button_name": "Themes",
+      "destination": "/themes",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Sidebar Navigation",
+      "button_name": "Templates",
+      "destination": "/templates",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Sidebar Navigation",
+      "button_name": "Analytics",
+      "destination": "/dashboard?view=analytics",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Sidebar Navigation",
+      "button_name": "Settings",
+      "destination": "/settings",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Sidebar Navigation",
+      "button_name": "AI Assistant",
+      "destination": "/ai-workflow",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Dashboard",
+      "button_name": "AI Workflow Link",
+      "destination": "/ai-workflow",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Dashboard",
+      "button_name": "Create Journal Buttons",
+      "destination": "/ai-workflow",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Authentication Pages",
+      "button_name": "Login Page",
+      "destination": "/auth/login",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Authentication Pages",
+      "button_name": "Register Page",
+      "destination": "/auth/register",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Authentication Pages",
+      "button_name": "Forgot Password",
+      "destination": "/auth/forgot-password",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Backend API",
+      "button_name": "Projects API",
+      "destination": "/api/library/projects",
+      "status": "FAIL",
+      "response_code": 403,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Backend API",
+      "button_name": "Auth Status",
+      "destination": "/api/auth/status",
+      "status": "PASS",
+      "response_code": 404,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Backend API",
+      "button_name": "Themes API",
+      "destination": "/api/ai/themes",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    },
+    {
+      "component": "Backend API",
+      "button_name": "Title Styles API",
+      "destination": "/api/ai/title-styles",
+      "status": "PASS",
+      "response_code": 200,
+      "error": null,
+      "is_login_redirect": false,
+      "timestamp": "2025-11-12 21:47:23"
+    }
+  ],
+  "generated_at": "2025-11-12 21:47:23"
+}

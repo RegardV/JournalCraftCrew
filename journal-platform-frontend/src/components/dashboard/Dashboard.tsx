@@ -163,7 +163,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
       setShowUnifiedCreator(false);
 
       // Start CrewAI workflow through new unified system
-      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/crewai/start-workflow`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:6770'}/api/crewai/start-workflow`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

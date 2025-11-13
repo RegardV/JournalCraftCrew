@@ -16,7 +16,7 @@ import {
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import EnhancedWebOnboardingAgent from '../onboarding/EnhancedWebOnboardingAgent';
-import CrewAIWorkflowProgress from '../projects/CrewAIWorkflowProgress';
+import CrewAIWorkflowProgress from './CrewAIWorkflowProgress';
 import {
   Sparkles,
   Rocket,
@@ -124,7 +124,7 @@ const UnifiedJournalCreator: React.FC<JournalCreatorProps> = ({ className }) => 
     try {
       // Start CrewAI workflow
       const token = localStorage.getItem('access_token');
-      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/crewai/start-workflow`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:6770'}/api/crewai/start-workflow`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

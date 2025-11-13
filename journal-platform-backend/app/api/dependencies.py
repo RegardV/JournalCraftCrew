@@ -4,7 +4,7 @@ Phase 3: Backend Development
 """
 
 from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPBearer as FastAPIHTTPBearer
+from fastapi.security import HTTPBearer as FastAPIHTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Optional, AsyncGenerator
@@ -40,12 +40,12 @@ async def __call__(self, request):
 
 # Dependency function to get current authenticated user
 async def get_current_user(
-    token: str = Depends(HTTPBearer()),
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(HTTPBearer(auto_error=False)),
     db: AsyncSession = Depends(get_db)
 ) -> Optional[dict]:
     """Get current authenticated user from JWT token"""
     try:
-        credentials = await token
+        # Allow missing credentials for optional endpoints
         if not credentials or not credentials.credentials:
             raise HTTPException(
                 status_code=401,
@@ -139,3 +139,39 @@ async def get_current_user_ws(
             status_code=401,
             detail="Authentication failed"
         )
+
+# Optional dependency function - doesn't raise exceptions for missing credentials
+async def get_current_user_optional(
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(HTTPBearer(auto_error=False)),
+    db: AsyncSession = Depends(get_db)
+) -> Optional[dict]:
+    """Get current authenticated user from JWT token (optional)"""
+    try:
+        # Return None for missing credentials
+        if not credentials or not credentials.credentials:
+            return None
+
+        # Get auth service
+        from app.services.auth_service import AuthService
+        auth_service = AuthService(db)
+
+        # Get user from token
+        user = await auth_service.get_current_user_from_token(credentials.credentials)
+        if not user:
+            return None
+
+        return {
+            "id": user.id,
+            "email": user.email,
+            "full_name": user.full_name,
+            "subscription": user.subscription,
+            "is_active": user.is_active,
+            "is_verified": user.is_verified,
+            "created_at": user.created_at,
+            "updated_at": user.updated_at,
+            "preferences": user.preferences
+        }
+
+    except Exception as e:
+        logger.warning(f"Optional authentication failed: {e}")
+        return None

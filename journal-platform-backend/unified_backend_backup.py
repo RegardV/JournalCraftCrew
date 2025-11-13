@@ -1570,27 +1570,9 @@ async def websocket_journal_progress(websocket: WebSocket, job_id: str):
 
 if __name__ == "__main__":
     import uvicorn
-
-    # SSL Certificate paths
-    SSL_CERT_PATH = "/home/alf/Documents/7.CodeProjects/Journal Craft Crew/ssl/journal_crew.crt"
-    SSL_KEY_PATH = "/home/alf/Documents/7.CodeProjects/Journal Craft Crew/ssl/journal_crew.key"
-
-    # Check if SSL certificates exist
-    ssl_enabled = os.path.exists(SSL_CERT_PATH) and os.path.exists(SSL_KEY_PATH)
-
-    if ssl_enabled:
-        print("🔒 Starting Journal Craft Crew Unified Backend Server - HTTPS Enabled")
-        print(f"📍 SSL Certificate: {SSL_CERT_PATH}")
-        print(f"🔑 SSL Private Key: {SSL_KEY_PATH}")
-        print("📍 Secure Backend: https://localhost:6770")
-        print("📍 Health Check: https://localhost:6770/health")
-        print("🔒 P1 Security: SSL/TLS, HSTS, CSP, XSS Protection Enabled")
-    else:
-        print("🚀 Starting Journal Craft Crew Unified Backend Server - HTTP Mode")
-        print("⚠️  SSL certificates not found - running in HTTP mode")
-        print("📍 Backend: http://localhost:6770")
-        print("📍 Health Check: http://localhost:6770/health")
-
+    print("🚀 Starting Journal Craft Crew Unified Backend Server")
+    print("📍 Backend: http://localhost:6770")
+    print("📍 Health Check: http://localhost:6770/health")
     print("📍 Frontend: http://localhost:5173")
     print("📋 Available Endpoints:")
     print("   - Authentication: /api/auth/register, /api/auth/login")
@@ -1605,23 +1587,11 @@ if __name__ == "__main__":
     print("   - WebSocket: /ws/job/{job_id}, /ws/journal/{job_id} (real-time progress)")
     print("   - 🤖 CrewAI WebSocket: /ws/crewai/{workflow_id} (9-agent progress)")
     print("   - Data Persistence: File-based storage with security")
-    if ssl_enabled:
-        print("   - 🔒 SSL/TLS: Full HTTPS encryption enabled")
-        print("   - 🛡️ P1 Security: Hardened with security headers")
     print("🎯 Unified Backend Ready!")
 
-    # Configure uvicorn with SSL if available
-    uvicorn_config = {
-        "app": app,
-        "host": "0.0.0.0",
-        "port": 6770,
-        "log_level": "info"
-    }
-
-    if ssl_enabled:
-        uvicorn_config.update({
-            "ssl_certfile": SSL_CERT_PATH,
-            "ssl_keyfile": SSL_KEY_PATH
-        })
-
-    uvicorn.run(**uvicorn_config)
+    uvicorn.run(
+        app,
+        host="0.0.0.0",
+        port=6770,
+        log_level="info"
+    )

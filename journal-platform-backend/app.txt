@@ -38,3 +38,10 @@
 2025-11-10 21:24:27.834366: Sentiment analyzed for text: Delve into the numerous benefits of journaling for..., result: {'neg': 0.0, 'neu': 0.646, 'pos': 0.354, 'compound': 0.8885}
 2025-11-10 21:24:33.068820: Sentiment analyzed for text: Review your journey and look ahead. Learn how to m..., result: {'neg': 0.0, 'neu': 0.88, 'pos': 0.12, 'compound': 0.3818}
 2025-11-10 21:25:41.467551: Processing Phase 1 crew results: There was an error while creating the PDF document. The error was [Errno 2] No such file or directory: '/generated_pdfs/journal_guide.pdf'. It appears the specified output path does not exist or is not accessible. Please ensure that the output path is correct and try again.
+2025-11-11 19:02:27.924875: Creating Phase 1 crew with run_dir: Projects_Derived/Goals_For_Hitting_the_target_2025-11-11
+2025-11-11 19:02:27.934667: Phase 1 crew created successfully
+2025-11-11 19:03:10.577635: Blog summary search for Journaling for Goal Setting: Summary: Start Goal Setting anytime for focus; Weekday Goal Setting eases tension; Weekend Goal Setting refreshes
+2025-11-11 19:03:21.830943: Blog summary search for Benefits of Journaling for Goal Setting: Summary: Start Goal Setting anytime for focus; Weekday Goal Setting eases tension; Weekend Goal Setting refreshes
+2025-11-11 19:03:26.440280: Blog summary search for Techniques of Journaling for Goal Setting: Summary: Start Goal Setting anytime for focus; Weekday Goal Setting eases tension; Weekend Goal Setting refreshes
+2025-11-11 19:03:30.952777: Blog summary search for Challenges of Journaling for Goal Setting: Summary: Start Goal Setting anytime for focus; Weekday Goal Setting eases tension; Weekend Goal Setting refreshes
+2025-11-11 19:04:18.849697: Sentiment analyzed for text: Title: "Goals For Hitting the Target: A 30-Day Jou..., result: {'neg': 0.033, 'neu': 0.738, 'pos': 0.228, 'compound': 0.9964}

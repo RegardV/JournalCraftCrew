@@ -43,10 +43,11 @@ class AICrewService:
             "learning_education", "philosophy_reflection", "nature_environment", "art_culture"
         ]
 
-        # Check for OpenAI API key
+        # Check for OpenAI API key - now required for operation
         self.openai_api_key = os.getenv("OPENAI_API_KEY")
         if not self.openai_api_key:
-            logger.warning("⚠️ OPENAI_API_KEY not found. AI generation will be in demo mode.")
+            logger.error("❌ OPENAI_API_KEY not found. AI generation requires a valid OpenAI API key.")
+            raise ValueError("OPENAI_API_KEY environment variable is required for AI journal generation")
 
     async def generate_journal_content(
         self,
@@ -78,10 +79,9 @@ class AICrewService:
             if theme not in self.available_themes:
                 raise ValueError(f"Theme '{theme}' not available. Choose from: {self.available_themes}")
 
-            # Check for demo mode (no OpenAI API key)
+            # Validate OpenAI API key is available
             if not self.openai_api_key:
-                logger.info("🎭 Running in demo mode - generating sample content")
-                return await self._generate_demo_content(user_id, theme, title_style, author_style, research_depth, custom_prompt, start_time)
+                raise ValueError("OpenAI API key is required for journal content generation")
 
             # Create specialized agents
             researcher = self._create_research_agent(theme, research_depth)
@@ -343,105 +343,8 @@ class AICrewService:
         return self.available_themes.copy()
 
     async def get_user_theme_usage(self, user_id: int) -> Dict[str, int]:
-        """Get statistics about user's theme usage (placeholder for future implementation)"""
-        # This would typically query a database
-        return {
-            "personal_growth": 5,
-            "mindfulness": 3,
-            "travel_adventure": 2,
-            "technology_innovation": 4
-        }
+        """Get statistics about user's theme usage"""
+        # Query database for actual user theme usage statistics
+        # For now, return empty dict until database integration is complete
+        return {}
 
-    async def _generate_demo_content(
-        self,
-        user_id: int,
-        theme: str,
-        title_style: str,
-        author_style: str,
-        research_depth: str,
-        custom_prompt: Optional[str],
-        start_time: datetime
-    ) -> Dict[str, Any]:
-        """Generate demo content when OpenAI API key is not available"""
-
-        # Demo content templates for different themes
-        demo_content = {
-            "personal_growth": {
-                "title": "Reflecting on My Journey of Personal Growth",
-                "content": """Today I find myself contemplating the beautiful journey of personal growth that has unfolded over these past months. Each step forward, no matter how small, has contributed to the person I'm becoming.
-
-I've learned that growth isn't always linear. There are days when I feel unstoppable, making progress in leaps and bounds. Other days, I'm reminded that patience and self-compassion are essential companions on this path.
-
-The practice of journaling has become my anchor, providing clarity and perspective. Through these pages, I've discovered patterns in my thinking, celebrated victories I might have otherwise overlooked, and found the courage to face areas that need attention.
-
-As I continue this journey, I'm grateful for the reminder that every experience—whether challenging or joyful—contains an opportunity for growth. Today, I choose to embrace both the process and the progress, knowing that each moment contributes to my ongoing evolution."""
-            },
-            "mindfulness": {
-                "title": "Finding Peace in the Present Moment",
-                "content": """In the quiet moments of today, I discovered the profound beauty of simply being present. The world often rushes us forward, but today I chose to pause, breathe, and fully inhabit the now.
-
-Mindfulness has taught me that peace isn't found in the absence of chaos, but in our ability to remain centered amidst it. Today brought its share of challenges, yet by returning to my breath and grounding myself in the present, I found a steady calm that carried me through.
-
-I noticed the way sunlight filters through the leaves outside my window, the warmth of my morning tea cup in my hands, the gentle rhythm of my own heartbeat. These small, present moments became anchors of gratitude and awareness.
-
-This practice of being present isn't always easy—my mind still wanders to tomorrow's worries and yesterday's regrets. But each time I gently guide my attention back to now, I'm strengthening my capacity for peace and clarity.
-
-Today, I'm reminded that the present moment is all we truly have, and within it lies an infinite well of peace and wisdom."""
-            },
-            "travel_adventure": {
-                "title": "Wanderlust: The Call of Distant Horizons",
-                "content": """Today my heart is filled with the familiar ache of wanderlust—that beautiful longing for places I've never been and experiences I've yet to discover. There's something magical about the anticipation of adventure that stirs the soul.
-
-I find myself daydreaming about cobblestone streets in ancient cities, the taste of unfamiliar cuisines, the sound of languages I don't yet understand. These dreams aren't just about escape; they're about expansion—expanding my understanding of the world and myself.
-
-Travel has always been my greatest teacher. It has taught me resilience when plans go awry, humility when faced with cultures vastly different from my own, and joy in the simple connections that transcend language barriers.
-
-Even when I can't physically travel, I carry the spirit of adventure within me. Every day offers opportunities to explore—whether it's trying a new recipe, taking a different route home, or striking up a conversation with a stranger.
-
-Today, I celebrate this eternal call to explore, knowing that the world is vast and full of wonders waiting to be discovered."""
-            },
-            "technology_innovation": {
-                "title": "Embracing the Digital Revolution with Mindful Innovation",
-                "content": """Today I find myself marveling at the rapid pace of technological change that surrounds us. We're living in an era of unprecedented innovation, where yesterday's science fiction becomes today's reality.
-
-What excites me most isn't just the technology itself, but the potential it holds for solving some of our world's most pressing challenges. From artificial intelligence that can accelerate medical research to sustainable energy solutions that could reshape our future, we're witnessing innovation that could redefine what's possible.
-
-Yet with this incredible progress comes responsibility. I believe in approaching technology with both enthusiasm and thoughtful consideration. How can we harness these tools while staying connected to our humanity? How do we ensure that innovation serves the greater good?
-
-As someone who loves both technology and reflection, I see the importance of balancing forward momentum with mindful intention. Today, I'm grateful to be living in this time of incredible change, and I'm committed to being both an active participant and a thoughtful observer of this digital revolution.
-
-The future is being written now, and we all have a role to play in shaping it with wisdom and vision."""
-            }
-        }
-
-        # Get demo content for the theme or use a default
-        theme_content = demo_content.get(theme, demo_content["personal_growth"])
-
-        # Apply custom prompt modifications if provided
-        if custom_prompt:
-            theme_content["content"] += f"\n\nSpecial Note: {custom_prompt}"
-
-        # Calculate timing
-        end_time = datetime.now()
-        generation_time = (end_time - start_time).total_seconds()
-
-        # Generate metadata
-        word_count = len(theme_content["content"].split())
-        mood = self._analyze_mood(theme_content["content"], theme)
-        tags = self._generate_tags(theme, theme_content["content"])
-
-        return {
-            "title": theme_content["title"],
-            "content": theme_content["content"],
-            "raw_ai_content": f"[DEMO MODE] Generated sample content for theme: {theme}",
-            "theme": theme,
-            "generated_at": end_time.isoformat(),
-            "generation_time": generation_time,
-            "word_count": word_count,
-            "mood": mood,
-            "tags": tags,
-            "agents_used": ["demo_generator"],
-            "research_depth": research_depth,
-            "prompt": custom_prompt,
-            "demo_mode": True
-        }

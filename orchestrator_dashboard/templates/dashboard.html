@@ -1,0 +1,2291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 Journal Craft Crew - Orchestrator Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            color: #4a5568;
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #48bb78;
+            animation: pulse 2s infinite;
+        }
+
+        .header-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .header-info span {
+            background: #f7fafc;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #2d3748;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h2 {
+            color: #4a5568;
+            font-size: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-icon {
+            font-size: 24px;
+        }
+
+        .server-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .server-controls-enhanced {
+            margin-top: 20px;
+        }
+
+        .server-control-group {
+            background: rgba(66, 153, 225, 0.1);
+            border: 1px solid rgba(66, 153, 225, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .server-control-group h4 {
+            margin: 0 0 10px 0;
+            color: #4299e1;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .button-group .btn {
+            flex: 1;
+            min-width: 100px;
+            font-size: 14px;
+            padding: 8px 12px;
+        }
+
+        .btn {
+            background: #4299e1;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: #3182ce;
+            transform: translateY(-2px);
+        }
+
+        .btn.success {
+            background: #48bb78;
+        }
+
+        .btn.success:hover {
+            background: #38a169;
+        }
+
+        .btn.warning {
+            background: #ed8936;
+        }
+
+        .btn.warning:hover {
+            background: #dd6b20;
+        }
+
+        .btn.danger {
+            background: #f56565;
+        }
+
+        .btn.danger:hover {
+            background: #e53e3e;
+        }
+
+        .btn:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .status-item {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #cbd5e0;
+        }
+
+        .status-item.active {
+            border-left-color: #48bb78;
+        }
+
+        .status-item.warning {
+            border-left-color: #ed8936;
+        }
+
+        .status-item.error {
+            border-left-color: #f56565;
+        }
+
+        .status-label {
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 5px;
+        }
+
+        .status-value {
+            font-size: 14px;
+            color: #718096;
+        }
+
+        /* Enhanced Server Status Details */
+        .status-details {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            font-size: 12px;
+        }
+
+        .detail-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            color: #4a5568;
+            min-width: 60px;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: #2d3748;
+            text-align: right;
+        }
+
+        .detail-value.ssl-enabled {
+            color: #38a169;
+        }
+
+        .detail-value.ssl-disabled {
+            color: #e53e3e;
+        }
+
+        .detail-link {
+            color: #3182ce;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .detail-link:hover {
+            color: #2c5282;
+            text-decoration: underline;
+        }
+
+        /* Enhanced Session Management Styles */
+        .session-details {
+            margin-bottom: 15px;
+        }
+
+        .session-controls {
+            margin-top: 15px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 15px;
+        }
+
+        .session-controls .button-group {
+            margin-bottom: 10px;
+        }
+
+        .session-history {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .session-history h3 {
+            margin-bottom: 15px;
+            color: #2d3748;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .session-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border-left: 4px solid #4299e1;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .session-item:hover {
+            border-left-color: #3182ce;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .session-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .session-item-id {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 14px;
+        }
+
+        .session-item-date {
+            font-size: 12px;
+            color: #718096;
+        }
+
+        .session-item-details {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            font-size: 12px;
+            color: #4a5568;
+        }
+
+        .session-item-detail {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .session-item-detail strong {
+            color: #2d3748;
+        }
+
+        .continue-btn {
+            background: #38a169;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .continue-btn:hover {
+            background: #2f855a;
+        }
+
+        .session-info {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .log-container {
+            background: #2d3748;
+            color: #e2e8f0;
+            border-radius: 10px;
+            padding: 15px;
+            height: 200px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .log-entry {
+            margin-bottom: 5px;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .log-timestamp {
+            color: #68d391;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4299e1, #48bb78);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .agent-card {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            border-top: 3px solid #cbd5e0;
+            transition: all 0.3s ease;
+        }
+
+        .agent-card.active {
+            border-top-color: #48bb78;
+        }
+
+        .agent-card.busy {
+            border-top-color: #ed8936;
+        }
+
+        .agent-card.error {
+            border-top-color: #f56565;
+        }
+
+        .agent-name {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .agent-status {
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 10px;
+        }
+
+        .agent-progress {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .agent-progress-fill {
+            height: 100%;
+            background: #48bb78;
+            transition: width 0.3s ease;
+        }
+
+        .link-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 15px;
+            padding: 25px;
+            display: block;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .link-card h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .link-card p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        /* Tab Navigation Styles */
+        .tab-navigation {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 15px;
+        }
+
+        .tab-btn {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            color: #4a5568;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover {
+            background: #edf2f7;
+            border-color: #cbd5e0;
+        }
+
+        .tab-btn.active {
+            background: #4299e1;
+            color: white;
+            border-color: #4299e1;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Proposal Card Styles */
+        .proposal-card {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 5px solid #cbd5e0;
+            transition: all 0.3s ease;
+        }
+
+        .proposal-card.priority-P1 {
+            border-left-color: #e53e3e;
+        }
+
+        .proposal-card.priority-P2 {
+            border-left-color: #ed8936;
+        }
+
+        .proposal-card.priority-P3 {
+            border-left-color: #4299e1;
+        }
+
+        .proposal-card.priority-P4 {
+            border-left-color: #38b2ac;
+        }
+
+        .proposal-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .proposal-title {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 16px;
+            flex: 1;
+        }
+
+        .proposal-status {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .proposal-status.approved {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .proposal-status.in_progress {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        .proposal-status.proposed {
+            background: #feebc8;
+            color: #744210;
+        }
+
+        .proposal-description {
+            color: #4a5568;
+            font-size: 14px;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .proposal-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #718096;
+        }
+
+        /* Sprint Card Styles */
+        .sprint-card {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-top: 5px solid #4299e1;
+        }
+
+        .sprint-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .sprint-title {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 18px;
+        }
+
+        .sprint-duration {
+            background: #edf2f7;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            color: #4a5568;
+        }
+
+        .team-assignments {
+            margin-top: 15px;
+        }
+
+        .team-assignment {
+            background: #e6fffa;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid #38b2ac;
+        }
+
+        .team-assignment strong {
+            color: #234e52;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .team-assignment span {
+            color: #2c7a7b;
+            font-size: 14px;
+        }
+
+        /* Workflow Log Styles */
+        .workflow-log {
+            background: #2d3748;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+
+        .workflow-entry {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-left: 3px solid #4299e1;
+        }
+
+        .workflow-timestamp {
+            color: #68d391;
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        .workflow-event {
+            color: #fbd38d;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .workflow-description {
+            color: #e2e8f0;
+            font-size: 13px;
+        }
+
+        /* Auth Request Styles */
+        .auth-request {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .auth-request.pending {
+            border-color: #ed8936;
+        }
+
+        .auth-request.approved {
+            border-color: #48bb78;
+        }
+
+        .auth-request.rejected {
+            border-color: #f56565;
+        }
+
+        .auth-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .auth-type {
+            background: #edf2f7;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .auth-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 12px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-approve {
+            background: #48bb78;
+            color: white;
+        }
+
+        .btn-reject {
+            background: #f56565;
+            color: white;
+        }
+
+        /* Form Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2d3748;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #4299e1;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>
+                🤖 Journal Craft Crew Orchestrator Dashboard
+                <span class="status-indicator"></span>
+            </h1>
+            <div class="header-info">
+                <span>🚀 Development Session Control</span>
+                <span>📋 Proposals & Workflows</span>
+                <span>⚙️ Server Management</span>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="tab-navigation">
+                <button class="tab-btn active" onclick="showTab('overview')">📊 Overview</button>
+                <button class="tab-btn" onclick="showTab('proposals')">📋 Proposals</button>
+                <button class="tab-btn" onclick="showTab('sprints')">🏃 Sprints</button>
+                <button class="tab-btn" onclick="showTab('workflow')">🔄 Workflow Logs</button>
+                <button class="tab-btn" onclick="showTab('auth')">🔐 Authorization</button>
+            </div>
+        </div>
+
+        <!-- Overview Tab Content -->
+        <div id="overview-tab" class="tab-content active">
+            <div class="dashboard-grid">
+                <!-- Enhanced Session Management -->
+                <div class="card">
+                    <h2>
+                        <span class="card-icon">💻</span>
+                        Development Session Management
+                    </h2>
+
+                    <!-- Current Session Info -->
+                    <div id="current-session-info">
+                        {% if session %}
+                        <div class="session-details">
+                            <div class="session-info">
+                                <div class="status-label">🔑 Session ID:</div>
+                                <div class="status-value">{{ session.session_id }}</div>
+                            </div>
+                            <div class="session-info">
+                                <div class="status-label">🕐 Started:</div>
+                                <div class="status-value">{{ session.start_time }}</div>
+                            </div>
+                            <div class="session-info">
+                                <div class="status-label">📋 Current Task:</div>
+                                <div class="status-value">{{ session.current_task }}</div>
+                            </div>
+                            {% if session.focus_area %}
+                            <div class="session-info">
+                                <div class="status-label">🎯 Focus Area:</div>
+                                <div class="status-value">{{ session.focus_area }}</div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Session Control Buttons -->
+                        <div class="session-controls">
+                            <div class="button-group">
+                                <button class="btn warning" onclick="closeSession()" id="closeSessionBtn">
+                                    📦 Close Session
+                                </button>
+                                <button class="btn" onclick="showSessionHistory()">
+                                    📚 Session History
+                                </button>
+                            </div>
+                            <div class="button-group">
+                                <button class="btn success" onclick="startSession()">
+                                    🚀 Start New Session
+                                </button>
+                            </div>
+                        </div>
+
+                        {% else %}
+                        <div class="session-info">
+                            <div class="status-value">No active session</div>
+                        </div>
+
+                        <div class="session-controls">
+                            <div class="button-group">
+                                <button class="btn" onclick="showSessionHistory()">
+                                    📚 Session History
+                                </button>
+                            </div>
+                            <div class="button-group">
+                                <button class="btn success" onclick="startSession()">
+                                    🚀 Start New Session
+                                </button>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Session History (Hidden by default) -->
+                    <div id="session-history" class="session-history" style="display: none;">
+                        <h3>📚 Previous Sessions</h3>
+                        <div id="session-history-list">
+                            <!-- Sessions will be loaded here -->
+                        </div>
+                        <div class="button-group">
+                            <button class="btn" onclick="hideSessionHistory()">❌ Close History</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Server Status -->
+                <div class="card">
+                    <h2>
+                        <span class="card-icon">🖥️</span>
+                        Server Status
+                    </h2>
+                    <div class="status-grid">
+                        <!-- Backend Enhanced Status -->
+                        <div class="status-item {{ 'active' if server_status.backend.running else '' }}">
+                            <div class="status-label">🔒 Backend (Port 6770) - HTTPS/SSL</div>
+                            <div class="status-value">{{ '🟢 Running' if server_status.backend.running else '🔴 Stopped' }}</div>
+                            {% if server_status.backend.running %}
+                            <div class="status-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Status:</span>
+                                    <span class="detail-value">{{ server_status.backend.status }}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">SSL:</span>
+                                    <span class="detail-value {{ 'ssl-enabled' if server_status.backend.ssl_enabled else 'ssl-disabled' }}">
+                                        {{ '🔒 Enabled' if server_status.backend.ssl_enabled else '🔓 Disabled' }}
+                                    </span>
+                                </div>
+                                {% if server_status.backend.pid %}
+                                <div class="detail-item">
+                                    <span class="detail-label">PID:</span>
+                                    <span class="detail-value">{{ server_status.backend.pid }}</span>
+                                </div>
+                                {% endif %}
+                                {% if server_status.backend.cpu %}
+                                <div class="detail-item">
+                                    <span class="detail-label">CPU:</span>
+                                    <span class="detail-value">{{ "%.1f"|format(server_status.backend.cpu) }}%</span>
+                                </div>
+                                {% endif %}
+                                {% if server_status.backend.memory %}
+                                <div class="detail-item">
+                                    <span class="detail-label">Memory:</span>
+                                    <span class="detail-value">{{ "%.1f"|format(server_status.backend.memory) }}%</span>
+                                </div>
+                                {% endif %}
+                                {% if server_status.backend.uptime %}
+                                <div class="detail-item">
+                                    <span class="detail-label">Uptime:</span>
+                                    <span class="detail-value">{{ server_status.backend.uptime }}</span>
+                                </div>
+                                {% endif %}
+                                <div class="detail-item">
+                                    <span class="detail-label">URL:</span>
+                                    <a href="{{ server_status.backend.url }}" target="_blank" class="detail-link">{{ server_status.backend.url }}</a>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Frontend Enhanced Status -->
+                        <div class="status-item {{ 'active' if server_status.frontend.running else '' }}">
+                            <div class="status-label">🌐 Frontend (Port 5173)</div>
+                            <div class="status-value">{{ '🟢 Running' if server_status.frontend.running else '🔴 Stopped' }}</div>
+                            {% if server_status.frontend.running %}
+                            <div class="status-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Status:</span>
+                                    <span class="detail-value">{{ server_status.frontend.status }}</span>
+                                </div>
+                                {% if server_status.frontend.pid %}
+                                <div class="detail-item">
+                                    <span class="detail-label">PID:</span>
+                                    <span class="detail-value">{{ server_status.frontend.pid }}</span>
+                                </div>
+                                {% endif %}
+                                {% if server_status.frontend.cpu %}
+                                <div class="detail-item">
+                                    <span class="detail-label">CPU:</span>
+                                    <span class="detail-value">{{ "%.1f"|format(server_status.frontend.cpu) }}%</span>
+                                </div>
+                                {% endif %}
+                                {% if server_status.frontend.memory %}
+                                <div class="detail-item">
+                                    <span class="detail-label">Memory:</span>
+                                    <span class="detail-value">{{ "%.1f"|format(server_status.frontend.memory) }}%</span>
+                                </div>
+                                {% endif %}
+                                {% if server_status.frontend.uptime %}
+                                <div class="detail-item">
+                                    <span class="detail-label">Uptime:</span>
+                                    <span class="detail-value">{{ server_status.frontend.uptime }}</span>
+                                </div>
+                                {% endif %}
+                                <div class="detail-item">
+                                    <span class="detail-label">URL:</span>
+                                    <a href="{{ server_status.frontend.url }}" target="_blank" class="detail-link">{{ server_status.frontend.url }}</a>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Orchestrator Status -->
+                        <div class="status-item active">
+                            <div class="status-label">🎛️ Orchestrator (Port 6771)</div>
+                            <div class="status-value">🟢 Running</div>
+                            <div class="status-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">URL:</span>
+                                    <a href="http://localhost:6771" target="_blank" class="detail-link">http://localhost:6771</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="server-controls-enhanced">
+                        <!-- Backend Controls -->
+                        <div class="server-control-group">
+                            <h4>🔒 Backend Server (Port 6770)</h4>
+                            <div class="button-group">
+                                <button class="btn success" onclick="startBackend()">🚀 Start</button>
+                                <button class="btn warning" onclick="restartBackend()">🔄 Restart</button>
+                                <button class="btn danger" onclick="stopBackend()">🛑 Stop</button>
+                            </div>
+                        </div>
+
+                        <!-- Frontend Controls -->
+                        <div class="server-control-group">
+                            <h4>🌐 Frontend Server (Port 5173)</h4>
+                            <div class="button-group">
+                                <button class="btn success" onclick="startFrontend()">🚀 Start</button>
+                                <button class="btn warning" onclick="restartFrontend()">🔄 Restart</button>
+                                <button class="btn danger" onclick="stopFrontend()">🛑 Stop</button>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="server-control-group">
+                            <h4>⚡ Quick Actions</h4>
+                            <div class="button-group">
+                                <button class="btn" onclick="startServers()">🚀 Start All</button>
+                                <button class="btn warning" onclick="restartServers()">🔄 Restart All</button>
+                                <button class="btn danger" onclick="stopServers()">🛑 Stop All</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Agent Status -->
+                <div class="card">
+                    <h2>
+                        <span class="card-icon">🤖</span>
+                        Dev Agents Status
+                    </h2>
+                    {% if orchestrator_agent %}
+                    <div class="agents-grid">
+                        {% for agent_name, agent_data in orchestrator_agent.agent_processes.items() %}
+                        <div class="agent-card {{ agent_data.status }}">
+                            <div class="agent-name">{{ agent_name }}</div>
+                            <div class="agent-status">{{ agent_data.status.upper() }}: {{ agent_data.task or 'Idle' }}</div>
+                            <div class="agent-progress">
+                                <div class="agent-progress-fill" style="width: {{ agent_data.progress }}%">
+                                    {{ agent_data.progress }}%
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="status-item">
+                        <div class="status-label">Orchestrator Agent:</div>
+                        <div class="status-value">Not initialized</div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- System Info -->
+                <div class="card">
+                    <h2>
+                        <span class="card-icon">📊</span>
+                        System Information
+                    </h2>
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <div class="status-label">CPU Usage</div>
+                            <div class="status-value">{{ "%.1f"|format(system_info.cpu_usage) }}%</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-label">Memory Usage</div>
+                            <div class="status-value">{{ "%.1f"|format(system_info.memory_usage) }}%</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-label">Disk Usage</div>
+                            <div class="status-value">{{ "%.1f"|format(system_info.disk_usage) }}%</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-label">Processes</div>
+                            <div class="status-value">{{ system_info.processes }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Journal Frontend Link -->
+                <a href="/journal-frontend" class="link-card">
+                    <h3>📝 Journal Craft Crew Frontend</h3>
+                    <p>Access the user-facing journal creation platform</p>
+                    <div id="frontend-status">Checking status...</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Proposals Tab Content -->
+        <div id="proposals-tab" class="tab-content">
+            <div class="card">
+                <h2>
+                    <span class="card-icon">📋</span>
+                    Master Proposals Management
+                </h2>
+                <div style="margin-bottom: 20px;">
+                    <button class="btn" onclick="createProposalModal()">➕ Create New Proposal</button>
+                    <button class="btn" onclick="refreshProposals()">🔄 Refresh</button>
+                </div>
+                <div id="proposals-list">
+                    <!-- Proposals will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Sprints Tab Content -->
+        <div id="sprints-tab" class="tab-content">
+            <div class="card">
+                <h2>
+                    <span class="card-icon">🏃</span>
+                    Sprint Management
+                </h2>
+                <div style="margin-bottom: 20px;">
+                    <button class="btn" onclick="createSprintModal()">➕ Create New Sprint</button>
+                    <button class="btn" onclick="refreshSprints()">🔄 Refresh</button>
+                </div>
+                <div id="sprints-list">
+                    <!-- Sprints will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Workflow Tab Content -->
+        <div id="workflow-tab" class="tab-content">
+            <div class="card">
+                <h2>
+                    <span class="card-icon">🔄</span>
+                    Workflow Activity Logs
+                </h2>
+                <div style="margin-bottom: 20px;">
+                    <button class="btn" onclick="refreshWorkflowLogs()">🔄 Refresh</button>
+                    <button class="btn" onclick="clearWorkflowLogs()">🗑️ Clear Logs</button>
+                </div>
+                <div id="workflow-logs">
+                    <!-- Workflow logs will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Authorization Tab Content -->
+        <div id="auth-tab" class="tab-content">
+            <div class="card">
+                <h2>
+                    <span class="card-icon">🔐</span>
+                    Authorization Requests
+                </h2>
+                <div style="margin-bottom: 20px;">
+                    <button class="btn" onclick="createAuthRequestModal()">➕ New Auth Request</button>
+                    <button class="btn" onclick="refreshAuthRequests()">🔄 Refresh</button>
+                </div>
+                <div id="auth-requests">
+                    <!-- Auth requests will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Log -->
+        <div class="card">
+            <h2>
+                <span class="card-icon">📝</span>
+                System Activity Log
+            </h2>
+            <div class="log-container" id="log-container">
+                <!-- Log entries will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Modals for forms -->
+        <div id="proposal-modal" class="modal">
+            <div class="modal-content">
+                <h3>➕ Create New Proposal</h3>
+                <form id="proposal-form">
+                    <div class="form-group">
+                        <label class="form-label">Title:</label>
+                        <input type="text" class="form-input" id="proposal-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description:</label>
+                        <textarea class="form-textarea" id="proposal-description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Priority:</label>
+                        <select class="form-select" id="proposal-priority" required>
+                            <option value="P1">P1 - Critical</option>
+                            <option value="P2">P2 - High</option>
+                            <option value="P3">P3 - Medium</option>
+                            <option value="P4">P4 - Low</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Created By:</label>
+                        <input type="text" class="form-input" id="proposal-created-by" value="orchestrator">
+                    </div>
+                    <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                        <button type="button" class="btn" onclick="closeModal('proposal-modal')">Cancel</button>
+                        <button type="submit" class="btn success">Create Proposal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="sprint-modal" class="modal">
+            <div class="modal-content">
+                <h3>🏃 Create New Sprint</h3>
+                <form id="sprint-form">
+                    <div class="form-group">
+                        <label class="form-label">Title:</label>
+                        <input type="text" class="form-input" id="sprint-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description:</label>
+                        <textarea class="form-textarea" id="sprint-description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Duration (Days):</label>
+                        <input type="number" class="form-input" id="sprint-duration" value="14" min="1" max="30" required>
+                    </div>
+                    <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                        <button type="button" class="btn" onclick="closeModal('sprint-modal')">Cancel</button>
+                        <button type="submit" class="btn success">Create Sprint</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="auth-modal" class="modal">
+            <div class="modal-content">
+                <h3>🔐 Create Authorization Request</h3>
+                <form id="auth-form">
+                    <div class="form-group">
+                        <label class="form-label">Request Type:</label>
+                        <select class="form-select" id="auth-type" required>
+                            <option value="api_access">API Access</option>
+                            <option value="deployment">Deployment</option>
+                            <option value="system_change">System Change</option>
+                            <option value="security_review">Security Review</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description:</label>
+                        <textarea class="form-textarea" id="auth-description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Requested By:</label>
+                        <input type="text" class="form-input" id="auth-requested-by" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Priority:</label>
+                        <select class="form-select" id="auth-priority" required>
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                            <option value="critical">Critical</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                        <button type="button" class="btn" onclick="closeModal('auth-modal')">Cancel</button>
+                        <button type="submit" class="btn success">Create Request</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let updateInterval;
+
+        // Tab Navigation
+        function showTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+
+            // Update button states
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Load tab-specific data
+            switch(tabName) {
+                case 'proposals':
+                    refreshProposals();
+                    break;
+                case 'sprints':
+                    refreshSprints();
+                    break;
+                case 'workflow':
+                    refreshWorkflowLogs();
+                    break;
+                case 'auth':
+                    refreshAuthRequests();
+                    break;
+            }
+        }
+
+        // Proposal Functions
+        function refreshProposals() {
+            fetch('/api/proposals')
+                .then(response => response.json())
+                .then(data => {
+                    displayProposals(data.proposals);
+                })
+                .catch(error => {
+                    console.error('Error fetching proposals:', error);
+                });
+        }
+
+        function displayProposals(proposals) {
+            const container = document.getElementById('proposals-list');
+            if (!container) return;
+
+            if (proposals.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #718096;">No proposals found. Create your first proposal!</p>';
+                return;
+            }
+
+            container.innerHTML = proposals.map(proposal => `
+                <div class="proposal-card priority-${proposal.priority}">
+                    <div class="proposal-header">
+                        <div class="proposal-title">${proposal.title}</div>
+                        <div class="proposal-status ${proposal.status}">${proposal.status.replace('_', ' ')}</div>
+                    </div>
+                    <div class="proposal-description">${proposal.description}</div>
+                    <div class="proposal-meta">
+                        <span>Priority: ${proposal.priority} | Created: ${new Date(proposal.created_at).toLocaleDateString()}</span>
+                        <span>Assigned: ${proposal.assigned_agent || 'Unassigned'} | Progress: ${proposal.progress}%</span>
+                    </div>
+                    ${proposal.status === 'proposed' ? `
+                        <div class="auth-actions">
+                            <button class="btn-small btn-approve" onclick="approveProposal(${proposal.id})">✅ Approve</button>
+                            <button class="btn-small btn-reject" onclick="rejectProposal(${proposal.id})">❌ Reject</button>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        function createProposalModal() {
+            document.getElementById('proposal-modal').style.display = 'block';
+        }
+
+        function approveProposal(proposalId) {
+            fetch(`/api/proposals/${proposalId}/approve`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    addLogEntry(`Approved proposal ID: ${proposalId}`);
+                    refreshProposals();
+                }
+            })
+            .catch(error => {
+                addLogEntry(`Error approving proposal: ${error.message}`, 'error');
+            });
+        }
+
+        // Sprint Functions
+        function refreshSprints() {
+            fetch('/api/sprints')
+                .then(response => response.json())
+                .then(data => {
+                    displaySprints(data.sprints);
+                })
+                .catch(error => {
+                    console.error('Error fetching sprints:', error);
+                });
+        }
+
+        function displaySprints(sprints) {
+            const container = document.getElementById('sprints-list');
+            if (!container) return;
+
+            if (sprints.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #718096;">No active sprints. Create your first sprint!</p>';
+                return;
+            }
+
+            container.innerHTML = sprints.map(sprint => `
+                <div class="sprint-card">
+                    <div class="sprint-header">
+                        <div class="sprint-title">${sprint.title}</div>
+                        <div class="sprint-duration">${sprint.duration_days} days</div>
+                    </div>
+                    <div style="margin-bottom: 10px;">${sprint.description}</div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Status:</strong> ${sprint.status.replace('_', ' ')} |
+                        <strong>Progress:</strong> ${sprint.progress}%
+                    </div>
+                    <div class="team-assignments">
+                        <strong>Team Assignments:</strong>
+                        ${Object.entries(sprint.team_assignments || {}).map(([agent, task]) => `
+                            <div class="team-assignment">
+                                <strong>${agent}:</strong>
+                                <span>${task}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function createSprintModal() {
+            document.getElementById('sprint-modal').style.display = 'block';
+        }
+
+        // Workflow Functions
+        function refreshWorkflowLogs() {
+            fetch('/api/workflow/logs')
+                .then(response => response.json())
+                .then(data => {
+                    displayWorkflowLogs(data.logs);
+                })
+                .catch(error => {
+                    console.error('Error fetching workflow logs:', error);
+                });
+        }
+
+        function displayWorkflowLogs(logs) {
+            const container = document.getElementById('workflow-logs');
+            if (!container) return;
+
+            if (logs.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #718096;">No workflow activity logged yet.</p>';
+                return;
+            }
+
+            container.innerHTML = `<div class="workflow-log">
+                ${logs.reverse().map(log => `
+                    <div class="workflow-entry">
+                        <div class="workflow-timestamp">[${new Date(log.timestamp).toLocaleString()}]</div>
+                        <div class="workflow-event">${log.event_type.toUpperCase()}</div>
+                        <div class="workflow-description">${log.description}</div>
+                        ${log.agent_name ? `<div style="color: #a0aec0; font-size: 11px;">Agent: ${log.agent_name}</div>` : ''}
+                    </div>
+                `).join('')}
+            </div>`;
+        }
+
+        function createWorkflowLogEntry(eventType, description, agentName = null) {
+            fetch('/api/workflow/log', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    event_type: eventType,
+                    description: description,
+                    agent_name: agentName
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && document.getElementById('workflow-tab').classList.contains('active')) {
+                    refreshWorkflowLogs();
+                }
+            });
+        }
+
+        // Authorization Functions
+        function refreshAuthRequests() {
+            fetch('/api/auth/requests')
+                .then(response => response.json())
+                .then(data => {
+                    displayAuthRequests(data.requests);
+                })
+                .catch(error => {
+                    console.error('Error fetching auth requests:', error);
+                });
+        }
+
+        function displayAuthRequests(requests) {
+            const container = document.getElementById('auth-requests');
+            if (!container) return;
+
+            if (requests.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #718096;">No authorization requests found.</p>';
+                return;
+            }
+
+            container.innerHTML = requests.map(request => `
+                <div class="auth-request ${request.status}">
+                    <div class="auth-header">
+                        <div>
+                            <strong>${request.request_type.replace('_', ' ').toUpperCase()}</strong>
+                            <div style="margin-top: 5px;">${request.description}</div>
+                        </div>
+                        <div class="auth-type">${request.priority}</div>
+                    </div>
+                    <div style="font-size: 12px; color: #718096; margin-top: 10px;">
+                        Requested by: ${request.requested_by} | Created: ${new Date(request.created_at).toLocaleDateString()}
+                    </div>
+                    ${request.status === 'pending' ? `
+                        <div class="auth-actions">
+                            <button class="btn-small btn-approve" onclick="reviewAuthRequest(${request.id}, 'approve')">✅ Approve</button>
+                            <button class="btn-small btn-reject" onclick="reviewAuthRequest(${request.id}, 'reject')">❌ Reject</button>
+                        </div>
+                    ` : `
+                        <div style="margin-top: 10px; font-size: 12px;">
+                            <strong>Status:</strong> ${request.status}
+                            ${request.reviewed_by ? `| Reviewed by: ${request.reviewed_by}` : ''}
+                        </div>
+                    `}
+                </div>
+            `).join('');
+        }
+
+        function createAuthRequestModal() {
+            document.getElementById('auth-modal').style.display = 'block';
+        }
+
+        function reviewAuthRequest(requestId, action) {
+            const comments = prompt(`Enter comments for ${action}ing this request:`);
+            if (comments === null) return;
+
+            fetch(`/api/auth/requests/${requestId}/review`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: action,
+                    comments: comments,
+                    reviewed_by: 'orchestrator'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    addLogEntry(`Authorization request ${action}ed: ${comments}`);
+                    refreshAuthRequests();
+                }
+            })
+            .catch(error => {
+                addLogEntry(`Error reviewing auth request: ${error.message}`, 'error');
+            });
+        }
+
+        // Modal Functions
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function updateStatus() {
+            // Update session status
+            fetch('/api/session/status')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Session status:', data);
+                })
+                .catch(error => {
+                    console.error('Error fetching session status:', error);
+                });
+
+            // Update server status
+            fetch('/api/servers/status')
+                .then(response => response.json())
+                .then(data => {
+                    updateServerStatusDisplay(data);
+                    updateFrontendStatus(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching server status:', error);
+                });
+
+            // Update orchestrator status
+            fetch('/api/orchestrator/status')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Orchestrator status:', data);
+                })
+                .catch(error => {
+                    console.error('Error fetching orchestrator status:', error);
+                });
+
+            // Update system info
+            fetch('/api/system/info')
+                .then(response => response.json())
+                .then(data => {
+                    updateSystemInfo(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching system info:', error);
+                });
+        }
+
+        function updateServerStatusDisplay(data) {
+            const statusItems = document.querySelectorAll('.status-item');
+            statusItems.forEach(item => {
+                const label = item.querySelector('.status-label');
+                if (label && label.textContent.includes('Backend')) {
+                    const value = item.querySelector('.status-value');
+                    value.textContent = data.backend.running ? '🟢 Running' : '🔴 Stopped';
+                    item.className = 'status-item ' + (data.backend.running ? 'active' : '');
+                }
+                if (label && label.textContent.includes('Frontend')) {
+                    const value = item.querySelector('.status-value');
+                    value.textContent = data.frontend.running ? '🟢 Running' : '🔴 Stopped';
+                    item.className = 'status-item ' + (data.frontend.running ? 'active' : '');
+                }
+            });
+        }
+
+        function updateFrontendStatus(data) {
+            const statusDiv = document.getElementById('frontend-status');
+            if (statusDiv) {
+                statusDiv.textContent = data.frontend.running ? '✅ Available' : '⚠️ Not Running';
+            }
+        }
+
+        function updateSystemInfo(data) {
+            // Update system info display
+            const systemItems = document.querySelectorAll('.status-grid .status-item');
+            if (systemItems.length >= 5) {
+                systemItems[0].querySelector('.status-value').textContent = data.cpu_usage.toFixed(1) + '%';
+                systemItems[1].querySelector('.status-value').textContent = data.memory_usage.toFixed(1) + '%';
+                systemItems[2].querySelector('.status-value').textContent = data.disk_usage.toFixed(1) + '%';
+                systemItems[3].querySelector('.status-value').textContent = data.processes;
+            }
+        }
+
+        function addLogEntry(message, type = 'info') {
+            const logContainer = document.getElementById('log-container');
+            if (logContainer) {
+                const timestamp = new Date().toLocaleTimeString();
+                const entry = document.createElement('div');
+                entry.className = 'log-entry';
+                entry.innerHTML = `<span class="log-timestamp">[${timestamp}]</span> ${message}`;
+                logContainer.insertBefore(entry, logContainer.firstChild);
+
+                // Keep only last 20 entries
+                while (logContainer.children.length > 20) {
+                    logContainer.removeChild(logContainer.lastChild);
+                }
+            }
+        }
+
+        function startSession() {
+            fetch('/api/session/start', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    addLogEntry(`Started coding session: ${data.session_id}`);
+                    setTimeout(() => location.reload(), 1000);
+                }
+            })
+            .catch(error => {
+                addLogEntry(`Error starting session: ${error.message}`, 'error');
+            });
+        }
+
+        // Enhanced Session Management Functions
+        function closeSession() {
+            if (!confirm('Are you sure you want to close this session? This will save all session data for future use.')) {
+                return;
+            }
+
+            fetch('/api/session/close', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    addLogEntry(`Session closed: ${data.session_id}`);
+                    addLogEntry(`Total sessions saved: ${data.total_sessions}`);
+                    alert(`Session ${data.session_id} closed and saved successfully!`);
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    alert(`Error closing session: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                addLogEntry(`Error closing session: ${error.message}`, 'error');
+                alert(`Error closing session: ${error.message}`);
+            });
+        }
+
+        function showSessionHistory() {
+            fetch('/api/session/history')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    displaySessionHistory(data.sessions);
+                } else {
+                    alert(`Error loading session history: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                addLogEntry(`Error loading session history: ${error.message}`, 'error');
+                alert(`Error loading session history: ${error.message}`);
+            });
+        }
+
+        function hideSessionHistory() {
+            document.getElementById('session-history').style.display = 'none';
+        }
+
+        function displaySessionHistory(sessions) {
+            const historyDiv = document.getElementById('session-history-list');
+            const historyContainer = document.getElementById('session-history');
+
+            if (sessions.length === 0) {
+                historyDiv.innerHTML = '<p>No previous sessions found.</p>';
+                historyContainer.style.display = 'block';
+                return;
+            }
+
+            historyDiv.innerHTML = sessions.map(session => {
+                const startDate = new Date(session.start_time).toLocaleString();
+                const endDate = session.end_time ? new Date(session.end_time).toLocaleString() : 'Still active';
+                const duration = session.total_duration ? `${session.total_duration} min` : 'N/A';
+                const gitBranch = session.git_branch ? session.git_branch : 'N/A';
+
+                return `
+                    <div class="session-item" onclick="continueSession('${session.session_id}')">
+                        <div class="session-item-header">
+                            <span class="session-item-id">${session.session_id}</span>
+                            <span class="session-item-date">${startDate}</span>
+                        </div>
+                        <div class="session-item-details">
+                            <div class="session-item-detail">
+                                <strong>Duration:</strong> ${duration}
+                            </div>
+                            <div class="session-item-detail">
+                                <strong>Task:</strong> ${session.current_task || 'N/A'}
+                            </div>
+                            <div class="session-item-detail">
+                                <strong>Branch:</strong> ${gitBranch}
+                            </div>
+                            <div class="session-item-detail">
+                                <strong>Status:</strong> ${session.status}
+                            </div>
+                        </div>
+                        <button class="continue-btn" onclick="event.stopPropagation(); continueSession('${session.session_id}')">
+                            🔄 Continue
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            historyContainer.style.display = 'block';
+        }
+
+        function continueSession(sessionId) {
+            if (!confirm(`Continue from session ${sessionId}? This will create a new session based on the previous one.`)) {
+                return;
+            }
+
+            fetch(`/api/session/continue/${sessionId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    addLogEntry(`Continued from session: ${sessionId}`);
+                    addLogEntry(`New session created: ${data.session_id}`);
+                    addLogEntry(`Work directory: ${data.work_directory}`);
+
+                    if (data.git_branch) {
+                        addLogEntry(`Git branch: ${data.git_branch}`);
+                    }
+
+                    alert(`Successfully continued from session ${sessionId}!\nNew session ID: ${data.session_id}`);
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    alert(`Error continuing session: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                addLogEntry(`Error continuing session: ${error.message}`, 'error');
+                alert(`Error continuing session: ${error.message}`);
+            });
+        }
+
+        function updateSession() {
+            const data = {
+                current_task: getCurrentTask(),
+                focus_area: getFocusArea(),
+                notes: getSessionNotes(),
+                context: getSessionContext()
+            };
+
+            fetch('/api/session/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    console.error('Error updating session:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error updating session:', error);
+            });
+        }
+
+        // Helper functions for session data collection
+        function getCurrentTask() {
+            const taskInput = document.getElementById('current-task-input');
+            return taskInput ? taskInput.value : '';
+        }
+
+        function getFocusArea() {
+            const focusInput = document.getElementById('focus-area-input');
+            return focusInput ? focusInput.value : '';
+        }
+
+        function getSessionNotes() {
+            const notesInput = document.getElementById('session-notes-input');
+            return notesInput ? notesInput.value : '';
+        }
+
+        function getSessionContext() {
+            // Collect any context information from the current UI
+            const serverStatus = getCurrentServerStatus();
+            return {
+                server_states: serverStatus,
+                timestamp: new Date().toISOString()
+            };
+        }
+
+        function getCurrentServerStatus() {
+            const serverItems = document.querySelectorAll('.status-item');
+            const status = {};
+
+            serverItems.forEach(item => {
+                const label = item.querySelector('.status-label');
+                if (label) {
+                    const labelText = label.textContent;
+                    const valueElement = item.querySelector('.status-value');
+                    if (valueElement) {
+                        status[labelText] = valueElement.textContent;
+                    }
+                }
+            });
+
+            return status;
+        }
+
+        function startServers() {
+            const button = event.target;
+            button.disabled = true;
+            button.textContent = '⏳ Starting...';
+
+            addLogEntry('Starting Journal Craft Crew servers...');
+
+            fetch('/api/servers/start', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    addLogEntry(`Servers started successfully - Backend: ${data.backend ? '✅' : '❌'}, Frontend: ${data.frontend ? '✅' : '❌'}`);
+                } else {
+                    addLogEntry(`Partial server start: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                addLogEntry(`Error starting servers: ${error.message}`, 'error');
+            })
+            .finally(() => {
+                button.disabled = false;
+                button.textContent = '🚀 Start Servers';
+                setTimeout(updateStatus, 2000);
+            });
+        }
+
+        function restartServers() {
+            const button = event.target;
+            button.disabled = true;
+            button.textContent = '🔄 Restarting...';
+
+            addLogEntry('Restarting Journal Craft Crew servers...');
+
+            fetch('/api/servers/restart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    addLogEntry(`Servers restarted successfully - Backend: ${data.backend ? '✅' : '❌'}, Frontend: ${data.frontend ? '✅' : '❌'}`);
+                } else {
+                    addLogEntry(`Partial server restart: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                addLogEntry(`Error restarting servers: ${error.message}`, 'error');
+            })
+            .finally(() => {
+                button.disabled = false;
+                button.textContent = '🔄 Restart Servers';
+                setTimeout(updateStatus, 2000);
+            });
+        }
+
+        function stopServers() {
+            const button = event.target;
+            button.disabled = true;
+            button.textContent = '⏹ Stopping...';
+
+            addLogEntry('Stopping Journal Craft Crew servers...');
+
+            fetch('/api/servers/stop', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    addLogEntry('Servers stopped successfully');
+                } else {
+                    addLogEntry(`Error stopping servers: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                addLogEntry(`Error stopping servers: ${error.message}`, 'error');
+            })
+            .finally(() => {
+                button.disabled = false;
+                button.textContent = '🛑 Stop Servers';
+                setTimeout(updateStatus, 2000);
+            });
+        }
+
+        // Individual Server Control Functions
+        function startBackend() {
+            fetch('/api/servers/backend/start', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    addLogEntry('✅ Backend server started successfully');
+                } else {
+                    addLogEntry('❌ Failed to start backend server: ' + data.message);
+                }
+                updateStatus();
+            })
+            .catch(error => {
+                addLogEntry('❌ Error starting backend server: ' + error);
+            });
+        }
+
+        function stopBackend() {
+            fetch('/api/servers/backend/stop', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    addLogEntry('✅ Backend server stopped successfully');
+                } else {
+                    addLogEntry('❌ Failed to stop backend server: ' + data.message);
+                }
+                updateStatus();
+            })
+            .catch(error => {
+                addLogEntry('❌ Error stopping backend server: ' + error);
+            });
+        }
+
+        function restartBackend() {
+            fetch('/api/servers/backend/restart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    addLogEntry('✅ Backend server restarted successfully');
+                } else {
+                    addLogEntry('❌ Failed to restart backend server: ' + data.message);
+                }
+                updateStatus();
+            })
+            .catch(error => {
+                addLogEntry('❌ Error restarting backend server: ' + error);
+            });
+        }
+
+        function startFrontend() {
+            fetch('/api/servers/frontend/start', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    addLogEntry('✅ Frontend server started successfully');
+                } else {
+                    addLogEntry('❌ Failed to start frontend server: ' + data.message);
+                }
+                updateStatus();
+            })
+            .catch(error => {
+                addLogEntry('❌ Error starting frontend server: ' + error);
+            });
+        }
+
+        function stopFrontend() {
+            fetch('/api/servers/frontend/stop', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    addLogEntry('✅ Frontend server stopped successfully');
+                } else {
+                    addLogEntry('❌ Failed to stop frontend server: ' + data.message);
+                }
+                updateStatus();
+            })
+            .catch(error => {
+                addLogEntry('❌ Error stopping frontend server: ' + error);
+            });
+        }
+
+        function restartFrontend() {
+            fetch('/api/servers/frontend/restart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    addLogEntry('✅ Frontend server restarted successfully');
+                } else {
+                    addLogEntry('❌ Failed to restart frontend server: ' + data.message);
+                }
+                updateStatus();
+            })
+            .catch(error => {
+                addLogEntry('❌ Error restarting frontend server: ' + error);
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            addLogEntry('Orchestrator Dashboard loaded successfully');
+
+            // Update status every 10 seconds
+            updateStatus();
+            updateInterval = setInterval(updateStatus, 10000);
+
+            // Check frontend status
+            fetch('/api/journal-frontend')
+                .then(response => response.json())
+                .then(data => {
+                    const statusDiv = document.getElementById('frontend-status');
+                    if (statusDiv) {
+                        statusDiv.textContent = data.status;
+                    }
+                });
+        });
+
+        // Form Event Handlers
+        document.getElementById('proposal-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = {
+                title: document.getElementById('proposal-title').value,
+                description: document.getElementById('proposal-description').value,
+                priority: document.getElementById('proposal-priority').value,
+                created_by: document.getElementById('proposal-created-by').value
+            };
+
+            fetch('/api/proposals', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    addLogEntry(`Created new proposal: ${formData.title}`);
+                    closeModal('proposal-modal');
+                    refreshProposals();
+                    // Reset form
+                    this.reset();
+                } else {
+                    alert('Error creating proposal');
+                }
+            })
+            .catch(error => {
+                addLogEntry(`Error creating proposal: ${error.message}`, 'error');
+            });
+        });
+
+        document.getElementById('sprint-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = {
+                title: document.getElementById('sprint-title').value,
+                description: document.getElementById('sprint-description').value,
+                duration_days: parseInt(document.getElementById('sprint-duration').value)
+            };
+
+            fetch('/api/sprints', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    addLogEntry(`Created new sprint: ${formData.title}`);
+                    closeModal('sprint-modal');
+                    refreshSprints();
+                    // Reset form
+                    this.reset();
+                    document.getElementById('sprint-duration').value = '14';
+                } else {
+                    alert('Error creating sprint');
+                }
+            })
+            .catch(error => {
+                addLogEntry(`Error creating sprint: ${error.message}`, 'error');
+            });
+        });
+
+        document.getElementById('auth-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = {
+                request_type: document.getElementById('auth-type').value,
+                description: document.getElementById('auth-description').value,
+                requested_by: document.getElementById('auth-requested-by').value,
+                priority: document.getElementById('auth-priority').value
+            };
+
+            fetch('/api/auth/requests', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    addLogEntry(`Created auth request: ${formData.description}`);
+                    closeModal('auth-modal');
+                    refreshAuthRequests();
+                    // Reset form
+                    this.reset();
+                    document.getElementById('auth-priority').value = 'medium';
+                } else {
+                    alert('Error creating auth request');
+                }
+            })
+            .catch(error => {
+                addLogEntry(`Error creating auth request: ${error.message}`, 'error');
+            });
+        });
+
+        // Close modals when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            addLogEntry('Orchestrator Dashboard loaded successfully');
+
+            // Update status every 10 seconds
+            updateStatus();
+            updateInterval = setInterval(updateStatus, 10000);
+
+            // Check frontend status
+            fetch('/api/journal-frontend')
+                .then(response => response.json())
+                .then(data => {
+                    const statusDiv = document.getElementById('frontend-status');
+                    if (statusDiv) {
+                        statusDiv.textContent = data.status;
+                    }
+                });
+        });
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', function() {
+            if (updateInterval) {
+                clearInterval(updateInterval);
+            }
+        });
+    </script>
+</body>
+</html>

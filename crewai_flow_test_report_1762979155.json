@@ -1,0 +1,67 @@
+{
+  "test_summary": {
+    "total_tests": 11,
+    "successful_tests": 2,
+    "failed_tests": 3,
+    "success_rate": 18.181818181818183,
+    "workflow_id": null,
+    "test_timestamp": "2025-11-12T22:25:55.311543"
+  },
+  "detailed_results": [
+    {
+      "timestamp": "2025-11-12 22:25:55",
+      "status": "INFO",
+      "message": "\ud83d\ude80 Starting Complete CrewAI Journal Creation Flow Test"
+    },
+    {
+      "timestamp": "2025-11-12 22:25:55",
+      "status": "INFO",
+      "message": "============================================================"
+    },
+    {
+      "timestamp": "2025-11-12 22:25:55",
+      "status": "INFO",
+      "message": "\ud83d\udd0d Testing server connectivity..."
+    },
+    {
+      "timestamp": "2025-11-12 22:25:55",
+      "status": "SUCCESS",
+      "message": "\u2705 Backend server is healthy"
+    },
+    {
+      "timestamp": "2025-11-12 22:25:55",
+      "status": "SUCCESS",
+      "message": "\u2705 Frontend server is healthy"
+    },
+    {
+      "timestamp": "2025-11-12 22:25:55",
+      "status": "INFO",
+      "message": "\ud83d\udd10 Testing authentication..."
+    },
+    {
+      "timestamp": "2025-11-12 22:25:55",
+      "status": "INFO",
+      "message": "\u2139\ufe0f User already exists, proceeding to login"
+    },
+    {
+      "timestamp": "2025-11-12 22:25:55",
+      "status": "ERROR",
+      "message": "\u274c Login failed: 400"
+    },
+    {
+      "timestamp": "2025-11-12 22:25:55",
+      "status": "ERROR",
+      "message": "Response: {\"error\":{\"message\":\"Request validation failed\",\"code\":\"VALIDATION_ERROR\",\"error_id\":\"689767da-217e-42fe-bd6d-8feed74a4e0a\",\"timestamp\":\"2025-11-12T20:25:55.310944\",\"details\":{\"validation_errors\":[{\"field\":\"body -> email\",\"message\":\"value is not a valid email address: The part after the @-sign is a special-use or reserved name that cannot be used with email.\",\"type\":\"value_error\"}]}}}"
+    },
+    {
+      "timestamp": "2025-11-12 22:25:55",
+      "status": "ERROR",
+      "message": "\u274c Authentication failed. Aborting test."
+    },
+    {
+      "timestamp": "2025-11-12 22:25:55",
+      "status": "INFO",
+      "message": "\ud83d\udccb Generating test report..."
+    }
+  ]
+}
