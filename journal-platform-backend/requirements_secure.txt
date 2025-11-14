@@ -15,7 +15,7 @@ psycopg2-binary==2.9.7
 
 # Authentication & Security (Security Updates Applied)
 PyJWT[cryptography]==2.10.1
-python-multipart==0.0.7
+python-multipart==0.0.18
 passlib[bcrypt]==1.7.4
 
 # Background Jobs & Messaging
