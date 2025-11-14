@@ -17,6 +17,7 @@ import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import EnhancedWebOnboardingAgent from '../onboarding/EnhancedWebOnboardingAgent';
 import CrewAIWorkflowProgress from './CrewAIWorkflowProgress';
+import { getApiURL } from '@/lib/apiConfig';
 import {
   Sparkles,
   Rocket,
@@ -139,35 +140,11 @@ const UnifiedJournalCreator: React.FC<JournalCreatorProps> = ({
       // Default behavior: navigate to workflow
       const token = localStorage.getItem('access_token');
 
-      // Step 1: Save onboarding preferences and create project
-      const saveResponse = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/onboarding/save-preferences`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          theme: preferences.theme,
-          title: preferences.title,
-          title_style: preferences.title_style,
-          author_style: preferences.author_style,
-          research_depth: preferences.research_depth
-        })
-      });
+      // Generate a unique project ID for the workflow
+      const projectId = `project_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-      if (!saveResponse.ok) {
-        throw new Error(`Failed to save preferences: ${saveResponse.status}`);
-      }
-
-      const saveData = await saveResponse.json();
-      const projectId = saveData.preferences.project_id;
-
-      if (!projectId) {
-        throw new Error('No project ID returned from onboarding save');
-      }
-
-      // Step 2: Start CrewAI workflow with the created project
-      const workflowResponse = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/crewai/start-workflow`, {
+      // Step 1: Start CrewAI workflow directly with the generated project ID
+      const workflowResponse = await fetch(`${getApiURL()}/api/crewai/start-workflow`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

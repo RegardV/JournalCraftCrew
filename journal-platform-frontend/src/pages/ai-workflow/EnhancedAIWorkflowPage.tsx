@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useNavigate, useParams } from 'react-router-dom';
-import { getJobWebSocketURL } from '@/lib/apiConfig';
+import { getJobWebSocketURL, getApiURL } from '@/lib/apiConfig';
 import {
   X,
   CheckCircle2,
@@ -106,6 +106,50 @@ const EnhancedAIWorkflowPage: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Save completed journal to library
+  const saveCompletedJournal = async (completionData: any) => {
+    try {
+      const token = localStorage.getItem('access_token');
+      if (!token) {
+        console.error('No authentication token found');
+        return;
+      }
+
+      // Extract journal content from completion data or agent outputs
+      const journalContent = completionData.output ||
+        agents.find(agent => agent.output)?.output ||
+        'Journal created successfully by AI agents.';
+
+      const journalData = {
+        title: `AI Journal ${new Date().toLocaleDateString()}`,
+        content: journalContent,
+        theme: 'ai-generated',
+        workflow_id: actualWorkflowId,
+        completion_time: new Date().toISOString(),
+        agents_completed: agents.filter(a => a.status === 'completed').length
+      };
+
+      const response = await fetch(`${getApiURL()}/api/journals/create`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(journalData)
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Journal saved successfully:', result);
+        // Optionally update UI to show save success
+      } else {
+        console.error('Failed to save journal:', response.status);
+      }
+    } catch (error) {
+      console.error('Error saving completed journal:', error);
+    }
+  };
+
   // WebSocket connection
   useEffect(() => {
     if (!actualWorkflowId) return;
@@ -169,6 +213,8 @@ const EnhancedAIWorkflowPage: React.FC = () => {
             setIsCompleted(true);
             setOverallProgress(100);
             setAgents(prev => prev.map(agent => ({ ...agent, status: 'completed', progress: 100 })));
+            // Automatically save completed workflow to journal library
+            await saveCompletedJournal(data);
             break;
 
           case 'error':
