@@ -1,0 +1,117 @@
+{
+  "name": "Journal Craft Crew - Development Environment",
+
+  // Docker configuration for Codespaces
+  "dockerComposeFile": "../docker-compose.dev.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+
+  // Custom ports for development services
+  "forwardPorts": [5173, 6770, 6771, 8000],
+  "portsAttributes": {
+    "5173": {
+      "label": "Frontend",
+      "onAutoForward": "notify"
+    },
+    "6770": {
+      "label": "Backend API",
+      "onAutoForward": "notify"
+    },
+    "6771": {
+      "label": "Dashboard",
+      "onAutoForward": "notify"
+    },
+    "8000": {
+      "label": "Backend Alt",
+      "onAutoForward": "notify"
+    }
+  },
+
+  // Visual Studio Code extensions to install
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.flake8",
+        "ms-python.black-formatter",
+        "bradlc.vscode-tailwindcss",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "ms-vscode.vscode-json",
+        "redhat.vscode-yaml",
+        "ms-vscode.vscode-typescript-next",
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "ms-azuretools.vscode-docker"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": false,
+        "python.linting.flake8Enabled": true,
+        "python.formatting.provider": "black",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.organizeImports": true
+        },
+        "typescript.preferences.importModuleSpecifier": "relative",
+        "tailwindCSS.includeLanguages": {
+          "typescript": "javascript",
+          "typescriptreact": "html"
+        }
+      }
+    }
+  },
+
+  // Post-creation commands
+  "postCreateCommand": "/workspace/setup-journal-crew.sh --codespaces",
+
+  // Environment variables for Codespaces
+  "remoteEnv": {
+    "CODESPACES": "true",
+    "PYTHONPATH": "/workspace/journal-platform-backend",
+    "NODE_ENV": "development"
+  },
+
+  // Mount secrets for production keys
+  "secrets": {
+    "OPENAI_API_KEY": {
+      "description": "OpenAI API key for AI content generation",
+      "documentationUrl": "https://platform.openai.com/api-keys"
+    }
+  },
+
+  // Lifecycle scripts
+  "onCreateCommand": "echo '🚀 Journal Craft Crew Codespace setup starting...'",
+  "postStartCommand": "echo '✅ Development environment ready!' && ./start-journal-crew.sh --codespaces",
+
+  // Security and permissions
+  "remoteUser": "codespace",
+  "updateRemoteUserUID": true,
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/workspace,type=bind"
+  ],
+
+  // Features to include
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.12",
+      "installTools": true
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "18",
+      "nodeGypDependencies": true
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "latest",
+      "ppa": false
+    }
+  },
+
+  // Global configuration
+  "globalVariables": {
+    "UV_VERSION": "latest",
+    "NODE_VERSION": "18"
+  }
+}

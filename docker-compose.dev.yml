@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+      target: development
+
+    # Environment variables
+    environment:
+      - CODESPACES=true
+      - PYTHONPATH=/workspace/journal-platform-backend
+      - NODE_ENV=development
+      - DATABASE_URL=sqlite:///./journal_crew.db
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - SECRET_KEY=dev-secret-key-change-in-production
+
+    # Mount workspace volume
+    volumes:
+      - .:/workspace:cached
+
+    # Port forwarding for development services
+    ports:
+      - "5173:5173"  # Frontend
+      - "6770:6770"  # Backend API
+      - "6771:6771"  # Dashboard
+      - "8000:8000"  # Backend alternate
+
+    # Keep container running
+    command: sleep infinity
+
+    # User configuration
+    user: codespace
+
+    # Working directory
+    working_dir: /workspace
+
+  # Optional: PostgreSQL for production-like development
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=journal_platform
+      - POSTGRES_USER=dev_user
+      - POSTGRES_PASSWORD=dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    profiles: ["postgres"]
+
+  # Optional: Redis for caching and sessions
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    profiles: ["redis"]
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  default:
+    name: journal-crew-dev

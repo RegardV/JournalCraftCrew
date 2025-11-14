@@ -1,0 +1,84 @@
+# =============================================================================
+# Journal Craft Crew Backend - Production Dockerfile
+# =============================================================================
+# Multi-stage build for optimized Python production deployment
+
+# Base Stage
+FROM python:3.12-slim AS base
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    # Build tools
+    build-essential \
+    curl \
+    # SSL and security
+    openssl \
+    ca-certificates \
+    # Other utilities
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install UV for modern Python dependency management
+RUN pip install --no-cache-dir uv
+
+# Builder Stage
+FROM base AS builder
+
+WORKDIR /app
+
+# Copy dependency files
+COPY requirements_final_secure.txt pyproject.toml ./
+
+# Install dependencies using UV
+RUN uv pip install --system -r requirements_final_secure.txt
+
+# Production Stage
+FROM base AS production
+
+# Create non-root user
+RUN groupadd -r appuser && useradd -r -g appuser appuser
+
+# Set working directory
+WORKDIR /app
+
+# Copy installed packages from builder
+COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
+
+# Copy application code
+COPY . .
+
+# Create necessary directories
+RUN mkdir -p /app/logs /app/uploads /app/ssl && \
+    chown -R appuser:appuser /app
+
+# Install any additional production-only dependencies
+RUN uv pip install --system \
+    gunicorn \
+    supervisor
+
+# Copy supervisor configuration
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Create health check script
+RUN echo '#!/bin/bash' > /usr/local/bin/healthcheck.sh && \
+    echo 'curl -kfsS https://localhost:6770/health || exit 1' >> /usr/local/bin/healthcheck.sh && \
+    chmod +x /usr/local/bin/healthcheck.sh
+
+# Switch to non-root user
+USER appuser
+
+# Expose port
+EXPOSE 6770
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD /usr/local/bin/healthcheck.sh
+
+# Start application with supervisor
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

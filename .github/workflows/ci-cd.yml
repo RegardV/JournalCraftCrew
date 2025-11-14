@@ -1,0 +1,488 @@
+# =============================================================================
+# Journal Craft Crew - CI/CD Pipeline
+# =============================================================================
+# Automated testing, building, and deployment
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
+  pull_request:
+    branches: [main, develop]
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+        - staging
+        - production
+
+# Environment variables
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  # Security and Code Quality Checks
+  security:
+    name: Security & Quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+      - name: Check for secrets
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: main
+          head: HEAD
+
+  # Frontend Testing and Building
+  frontend-test:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: journal-platform-frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./journal-platform-frontend
+        run: npm ci
+
+      - name: Run ESLint
+        working-directory: ./journal-platform-frontend
+        run: npm run lint
+
+      - name: Run TypeScript check
+        working-directory: ./journal-platform-frontend
+        run: npm run type-check
+
+      - name: Run unit tests
+        working-directory: ./journal-platform-frontend
+        run: npm run test:unit
+
+      - name: Run integration tests
+        working-directory: ./journal-platform-frontend
+        run: npm run test:integration
+
+      - name: Build frontend
+        working-directory: ./journal-platform-frontend
+        run: npm run build
+
+  # Backend Testing and Building
+  backend-test:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_USER: test_user
+          POSTGRES_DB: test_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install UV
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      - name: Install dependencies
+        working-directory: ./journal-platform-backend
+        run: |
+          uv pip install --system -r requirements_final_secure.txt
+          uv pip install --system pytest pytest-cov pytest-asyncio
+
+      - name: Run code quality checks
+        working-directory: ./journal-platform-backend
+        run: |
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          mypy app/ --ignore-missing-imports
+          black --check .
+
+      - name: Run unit tests
+        working-directory: ./journal-platform-backend
+        env:
+          DATABASE_URL: postgresql+asyncpg://test_user:test_password@localhost:5432/test_db
+          REDIS_URL: redis://localhost:6379
+          OPENAI_API_KEY: test_key
+        run: |
+          pytest tests/unit/ -v --cov=app --cov-report=xml
+
+      - name: Run integration tests
+        working-directory: ./journal-platform-backend
+        env:
+          DATABASE_URL: postgresql+asyncpg://test_user:test_password@localhost:5432/test_db
+          REDIS_URL: redis://localhost:6379
+          OPENAI_API_KEY: test_key
+        run: |
+          pytest tests/integration/ -v
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./journal-platform-backend/coverage.xml
+          flags: backend
+          name: backend-coverage
+
+  # Build and Push Docker Images
+  build-and-push:
+    name: Build & Push Images
+    runs-on: ubuntu-latest
+    needs: [frontend-test, backend-test]
+    if: github.event_name != 'pull_request'
+    outputs:
+      frontend-digest: ${{ steps.build-frontend.outputs.digest }}
+      backend-digest: ${{ steps.build-backend.outputs.digest }}
+      image-tag: ${{ steps.meta.outputs.tags }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix={{branch}}-
+
+      - name: Build and push frontend image
+        id: build-frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./journal-platform-frontend
+          file: ./journal-platform-frontend/Dockerfile.prod
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-frontend:${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and push backend image
+        id: build-backend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./journal-platform-backend
+          file: ./journal-platform-backend/Dockerfile.prod
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-backend:${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # Deploy to Staging
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [build-and-push]
+    if: github.ref == 'refs/heads/develop' || github.event.inputs.environment == 'staging'
+    environment: staging
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to staging server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.STAGING_HOST }}
+          username: ${{ secrets.STAGING_USER }}
+          key: ${{ secrets.STAGING_SSH_KEY }}
+          script: |
+            cd /opt/journal-crew-staging
+            echo "Deploying new version..."
+
+            # Pull latest images
+            docker compose -f docker-compose.prod.yml pull
+
+            # Update environment variables
+            echo "FRONTEND_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-frontend:${{ needs.build-and-push.outputs.image-tag }}" > .env
+            echo "BACKEND_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-backend:${{ needs.build-and-push.outputs.image-tag }}" >> .env
+
+            # Deploy with zero downtime
+            docker compose -f docker-compose.prod.yml up -d --no-deps frontend backend
+            docker compose -f docker-compose.prod.yml up -d
+
+            # Wait for health checks
+            sleep 30
+
+            # Run database migrations
+            docker compose -f docker-compose.prod.yml exec backend alembic upgrade head
+
+            # Clean up old images
+            docker image prune -f
+
+            echo "Deployment completed successfully!"
+
+      - name: Run smoke tests
+        run: |
+          sleep 60  # Wait for services to start
+          curl -f https://staging.journalcraftcrew.com/health || exit 1
+          curl -f https://staging.journalcraftcrew.com/ || exit 1
+
+  # Deploy to Production
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [build-and-push]
+    if: github.ref == 'refs/heads/main' || github.event_name == 'release' || github.event.inputs.environment == 'production'
+    environment: production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create deployment notification
+        uses: 8398a7/action-slack@v3
+        with:
+          status: custom
+          custom_payload: |
+            {
+              text: "🚀 *Journal Craft Crew Production Deployment Started*",
+              attachments: [{
+                color: "warning",
+                fields: [{
+                  title: "Commit",
+                  value: "${{ github.sha }}",
+                  short: true
+                }, {
+                  title: "Branch",
+                  value: "${{ github.ref_name }}",
+                  short: true
+                }, {
+                  title: "Triggered By",
+                  value: "${{ github.actor }}",
+                  short: true
+                }]
+              }]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Deploy to production server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.PRODUCTION_HOST }}
+          username: ${{ secrets.PRODUCTION_USER }}
+          key: ${{ secrets.PRODUCTION_SSH_KEY }}
+          script: |
+            cd /opt/journal-crew-production
+
+            # Create backup before deployment
+            echo "Creating backup..."
+            ./scripts/backup.sh
+
+            # Pull latest images
+            docker compose -f docker-compose.prod.yml pull
+
+            # Update environment variables
+            echo "FRONTEND_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-frontend:${{ needs.build-and-push.outputs.image-tag }}" > .env
+            echo "BACKEND_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-backend:${{ needs.build-and-push.outputs.image-tag }}" >> .env
+
+            # Blue-green deployment
+            echo "Starting blue-green deployment..."
+            docker compose -f docker-compose.prod.yml -f docker-compose.green.yml up -d
+
+            # Wait for green environment to be healthy
+            echo "Waiting for health checks..."
+            sleep 60
+
+            # Run database migrations
+            docker compose -f docker-compose.green.yml exec backend alembic upgrade head
+
+            # Switch traffic to green
+            echo "Switching traffic to green environment..."
+            ./scripts/switch-to-green.sh
+
+            # Stop blue environment
+            docker compose -f docker-compose.blue.yml down
+
+            echo "Deployment completed successfully!"
+
+      - name: Run production smoke tests
+        run: |
+          sleep 60
+          curl -f https://journalcraftcrew.com/health || exit 1
+          curl -f https://journalcraftcrew.com/ || exit 1
+
+      - name: Create deployment success notification
+        if: success()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: success
+          text: "✅ *Production Deployment Successful*"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Create deployment failure notification
+        if: failure()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: failure
+          text: "❌ *Production Deployment Failed*"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  # Performance Testing
+  performance-test:
+    name: Performance Tests
+    runs-on: ubuntu-latest
+    needs: [deploy-staging]
+    if: github.ref == 'refs/heads/develop'
+    strategy:
+      matrix:
+        scenario: [load, stress, spike]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install K6
+        run: |
+          sudo gpg -k
+          sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update
+          sudo apt-get install k6
+
+      - name: Run performance tests
+        run: |
+          k6 run --out json=results.json tests/performance/${{ matrix.scenario }}.js
+
+      - name: Upload performance results
+        uses: actions/upload-artifact@v3
+        with:
+          name: performance-results-${{ matrix.scenario }}
+          path: results.json
+
+  # Security Scan on Deployed Application
+  security-scan:
+    name: Security Scan Deployed App
+    runs-on: ubuntu-latest
+    needs: [deploy-production]
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Run OWASP ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.7.0
+        with:
+          target: 'https://journalcraftcrew.com'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a'
+
+  # Update Documentation
+  update-docs:
+    name: Update Documentation
+    runs-on: ubuntu-latest
+    needs: [deploy-production]
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Generate API documentation
+        working-directory: ./journal-platform-backend
+        run: |
+          pip install -r requirements_final_secure.txt
+          python -c "from app.main import app; app.openapi()" > openapi.json
+
+      - name: Update deployment documentation
+        run: |
+          # Update version in docs
+          sed -i "s/Latest Version:.*/Latest Version: ${{ github.sha }}/" DEPLOYMENT.md
+
+          # Generate deployment status
+          cat >> DEPLOYMENT_STATUS.md << EOF
+          # Deployment Status
+
+          - **Last Deployed**: $(date)
+          - **Commit**: ${{ github.sha }}
+          - **Branch**: ${{ github.ref_name }}
+          - **Deployed By**: ${{ github.actor }}
+          - **Frontend Image**: ${{ needs.build-and-push.outputs.frontend-digest }}
+          - **Backend Image**: ${{ needs.build-and-push.outputs.backend-digest }}
+          EOF
+
+      - name: Commit and push documentation updates
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add DEPLOYMENT.md DEPLOYMENT_STATUS.md
+          git commit -m "docs: update deployment status [skip ci]"
+          git push

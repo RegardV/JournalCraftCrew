@@ -100,6 +100,45 @@ cd JournalCraftCrew
 - Dashboard: http://localhost:6771
 - Agent Overview: http://localhost:6771/agent-overview
 
+### 🌍 Platform Deployment
+
+**Universal Platform Setup Script**
+```bash
+# Clone repository
+git clone https://github.com/RegardV/JournalCraftCrew.git
+cd JournalCraftCrew
+
+# Universal setup for any platform
+./setup-platform.sh [environment] [options]
+
+# Examples:
+./setup-platform.sh codespaces          # GitHub Codespaces
+./setup-platform.sh production          # Production server
+./setup-platform.sh docker              # Docker container
+./setup-platform.sh development        # Local development
+```
+
+**Supported Environments:**
+- **🚀 GitHub Codespaces**: Instant cloud development environment
+- **🐳 Docker**: Containerized deployment with docker-compose
+- **🚀 Production**: Full production server with monitoring
+- **🧪 Staging**: Pre-production testing environment
+- **💻 Development**: Local development setup
+
+**Platform Features:**
+- ✅ **Auto-detection**: Automatically detects your deployment environment
+- ✅ **Zero configuration**: Works out of the box on all platforms
+- ✅ **Monitoring**: Optional Prometheus/Grafana integration
+- ✅ **Backups**: Automated database and file backups
+- ✅ **SSL**: Automatic SSL certificate generation
+- ✅ **CI/CD**: GitHub Actions pipeline for automated deployment
+
+**Platform-Specific Guides:**
+- 📖 **[Complete Deployment Guide](DEPLOYMENT.md)**: Comprehensive deployment documentation
+- 🚀 **[GitHub Codespaces](https://github.com/features/codespaces)**: One-click cloud development
+- 🐳 **[Docker Setup](docker-compose.prod.yml)**: Production container orchestration
+- ⚙️ **[CI/CD Pipeline](.github/workflows/ci-cd.yml)**: Automated testing and deployment
+
 **📋 What the Setup Script Does:**
 - ✅ Installs all system dependencies (Python, Node.js, UV, OpenSSL)
 - ✅ Creates secure virtual environments
