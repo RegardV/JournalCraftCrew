@@ -201,7 +201,7 @@ const ContentLibrary: React.FC<ContentLibraryProps> = ({ className = '' }) => {
               author: 'AI Content Team',
               tags: project.tags || [theme.toLowerCase(), 'ai-generated', titleStyle.toLowerCase()],
               filePath: project.main_file || project.file_path,
-              downloadUrl: project.main_file ? journalAPI.getDownloadUrl(project.id, project.main_file) : undefined,
+              downloadUrl: project.main_file ? `${getApiURL()}/api/journals/${project.id}/download/${project.main_file}` : undefined,
               wordCount: project.word_count,
               pageCount: project.page_count,
               size: project.file_size || 'Unknown',

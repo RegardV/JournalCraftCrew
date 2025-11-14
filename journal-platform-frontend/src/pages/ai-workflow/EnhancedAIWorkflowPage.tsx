@@ -16,14 +16,15 @@ import {
   Home,
   Download,
   Terminal,
-  Zap
+  Zap,
+  AlertCircle
 } from 'lucide-react';
 
 interface AgentProgress {
   id: string;
   name: string;
   role: string;
-  status: 'waiting' | 'active' | 'thinking' | 'completed';
+  status: 'waiting' | 'active' | 'thinking' | 'completed' | 'error';
   icon: React.ReactNode;
   progress: number;
   output?: string;
@@ -104,7 +105,7 @@ const EnhancedAIWorkflowPage: React.FC = () => {
   const [totalEstimatedTime] = useState(12); // Total minutes estimated
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<number | null>(null);
 
   // Save completed journal to library
   const saveCompletedJournal = async (completionData: any) => {
@@ -214,7 +215,7 @@ const EnhancedAIWorkflowPage: React.FC = () => {
             setOverallProgress(100);
             setAgents(prev => prev.map(agent => ({ ...agent, status: 'completed', progress: 100 })));
             // Automatically save completed workflow to journal library
-            await saveCompletedJournal(data);
+            saveCompletedJournal(data);
             break;
 
           case 'error':

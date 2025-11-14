@@ -70,7 +70,7 @@ const AIWorkflowModal: React.FC<AIWorkflowModalProps> = ({
   const [overallProgress, setOverallProgress] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<number | null>(null);
 
   // WebSocket connection
   useEffect(() => {

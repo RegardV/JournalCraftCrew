@@ -34,8 +34,10 @@ import {
   Activity
 } from 'lucide-react';
 import { Button } from '../ui/Button';
-import { Card } from '../ui/Card';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../ui/Card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/Tabs';
+import { Search } from '../ui/Search';
+import { Users } from '../ui/Users';
 import CrewAIWorkflowProgress from '../journal/CrewAIWorkflowProgress';
 
 interface Project {

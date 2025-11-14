@@ -839,7 +839,7 @@ class CrewAIWorkflowService:
         await self._execute_curation_step_enhanced(workflow_id, llm, preferences, run_dir)
 
         # Step 4: Execute editor agent
-        await self._execute_editor_step_enhanced(workflow_id, llm, preferences, run_dir)
+        await self._execute_editing_step_enhanced(workflow_id, llm, preferences, run_dir)
 
         # Step 5: Execute media agent
         await self._execute_media_step_enhanced(workflow_id, llm, preferences, run_dir)
@@ -950,7 +950,7 @@ class CrewAIWorkflowService:
         await self._execute_curation_step_enhanced(workflow_id, llm, preferences, run_dir)
 
         # Step 4: Execute editor agent
-        await self._execute_editor_step_enhanced(workflow_id, llm, preferences, run_dir)
+        await self._execute_editing_step_enhanced(workflow_id, llm, preferences, run_dir)
 
         # Step 5: Execute PDF builder agent
         await self._execute_pdf_step_enhanced(workflow_id, llm, preferences, run_dir)
