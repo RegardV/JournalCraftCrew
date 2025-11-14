@@ -1,0 +1,75 @@
+# =============================================================================
+# Journal Craft Crew - GitHub Dependabot Configuration
+# =============================================================================
+# Security monitoring for production dependencies only
+
+version: 2
+updates:
+  # Frontend NPM dependencies
+  - package-ecosystem: "npm"
+    directory: "/journal-platform-frontend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "RegardV"
+    assignees:
+      - "RegardV"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    ignore:
+      # Ignore development dependencies for security updates
+      dependency-types: ["devDependencies"]
+
+  # Backend Python dependencies (UV-managed)
+  - package-ecosystem: "pip"
+    directory: "/journal-platform-backend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "RegardV"
+    assignees:
+      - "RegardV"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    # Allow updates for our secure requirements file
+    allow:
+      - dependency-type: "direct"
+    ignore:
+      # UV manages dependencies securely, ignore minor security updates
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]
+
+  # Root Python dependencies
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "RegardV"
+    assignees:
+      - "RegardV"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+
+# Configuration for security alerts only
+registries:
+  - name: "npm-registry"
+    type: "npm-registry"
+    url: "https://registry.npmjs.org"
+    username: "${{ secrets.NPM_USERNAME }}"
+    password: "${{ secrets.NPM_PASSWORD }}"
+
+# Disable auto-merge for security
+assign-and-review: true
