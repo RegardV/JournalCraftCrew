@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, CheckCircle, Clock, AlertCircle, Loader2, FileText, Brain, Edit3, Download } from 'lucide-react';
+import { getApiURL } from '@/lib/apiConfig';
 
 interface JournalProgress {
   jobId: string;
@@ -35,7 +36,8 @@ const JournalProgress: React.FC<JournalProgressProps> = ({ jobId, onComplete, on
   useEffect(() => {
     if (!jobId) return;
 
-    const wsUrl = `ws://localhost:6770/ws/journal/${jobId}`;
+    const apiURL = getApiURL();
+    const wsUrl = `${apiURL.replace('http://', 'ws://').replace('https://', 'wss://')}/ws/journal/${jobId}`;
     const ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {

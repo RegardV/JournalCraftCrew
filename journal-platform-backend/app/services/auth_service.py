@@ -11,7 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, and_, delete, update
 from fastapi import HTTPException, status
 
-from app.models.user import User
+from app.models.user import User, UserSubscription
 from app.models.auth_tokens import RefreshToken, LoginAttempt, SecurityEvent
 from app.core.security import (
     jwt_manager,
@@ -91,9 +91,6 @@ class AuthService:
             )
             hashed_password = pwd_context.hash(password)
 
-            # Set AI credits based on profile type
-            ai_credits = 10 if profile_type == "personal_journaler" else 50
-
             # Create user
             db_user = User(
                 email=email,
@@ -103,7 +100,6 @@ class AuthService:
                 is_verified=False,
                 subscription=UserSubscription.FREE,
                 profile_type=profile_type,
-                ai_credits=ai_credits,
                 library_access=True,
                 preferences={
                     "theme_preference": "light",
@@ -133,7 +129,6 @@ class AuthService:
                 "user_id": db_user.id,
                 "email": db_user.email,
                 "profile_type": db_user.profile_type,
-                "ai_credits": db_user.ai_credits,
                 "verification_required": True
             }
 
@@ -215,7 +210,6 @@ class AuthService:
                 "full_name": user.full_name,
                 "subscription": user.subscription,
                 "profile_type": user.profile_type,
-                "ai_credits": user.ai_credits
             }
 
             access_token = jwt_manager.create_access_token(token_data)
@@ -248,9 +242,9 @@ class AuthService:
                     "full_name": user.full_name,
                     "subscription": user.subscription,
                     "profile_type": user.profile_type,
-                    "ai_credits": user.ai_credits,
                     "library_access": user.library_access,
-                    "is_verified": user.is_verified
+                    "is_verified": user.is_verified,
+                    "has_openai_key": bool(user.openai_api_key)  # Show if user has configured API key
                 }
             }
 
@@ -300,7 +294,8 @@ class AuthService:
                 "sub": str(user.id),
                 "email": user.email,
                 "full_name": user.full_name,
-                "subscription": user.subscription
+                "subscription": user.subscription,
+                "profile_type": user.profile_type
             }
 
             new_access_token = jwt_manager.create_access_token(token_data)

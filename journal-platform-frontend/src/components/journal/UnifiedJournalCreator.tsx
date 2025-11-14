@@ -34,6 +34,9 @@ import {
 // Types
 interface JournalCreatorProps {
   className?: string;
+  onComplete?: (preferences: any) => void;
+  onClose?: () => void;
+  initialPreferences?: any;
 }
 
 interface QuickStartOption {
@@ -91,12 +94,17 @@ const QUICK_START_OPTIONS: QuickStartOption[] = [
   }
 ];
 
-const UnifiedJournalCreator: React.FC<JournalCreatorProps> = ({ className }) => {
+const UnifiedJournalCreator: React.FC<JournalCreatorProps> = ({
+  className,
+  onComplete,
+  onClose,
+  initialPreferences: externalInitialPreferences
+}) => {
   const navigate = useNavigate();
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [activeWorkflow, setActiveWorkflow] = useState<string | null>(null);
   const [workflowType, setWorkflowType] = useState<'express' | 'standard' | 'comprehensive'>('standard');
-  const [initialPreferences, setInitialPreferences] = useState<any>(null);
+  const [initialPreferences, setInitialPreferences] = useState<any>(externalInitialPreferences || null);
 
   // Handle quick start option selection
   const handleQuickStart = useCallback((option: QuickStartOption) => {
@@ -122,24 +130,60 @@ const UnifiedJournalCreator: React.FC<JournalCreatorProps> = ({ className }) => 
   // Handle onboarding completion
   const handleOnboardingComplete = useCallback(async (preferences: any) => {
     try {
-      // Start CrewAI workflow
+      // If an external onComplete handler is provided, use it
+      if (onComplete) {
+        await onComplete(preferences);
+        return;
+      }
+
+      // Default behavior: navigate to workflow
       const token = localStorage.getItem('access_token');
-      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:6770'}/api/crewai/start-workflow`, {
+
+      // Step 1: Save onboarding preferences and create project
+      const saveResponse = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/onboarding/save-preferences`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-          user_preferences: preferences
+          theme: preferences.theme,
+          title: preferences.title,
+          title_style: preferences.title_style,
+          author_style: preferences.author_style,
+          research_depth: preferences.research_depth
         })
       });
 
-      if (!response.ok) {
-        throw new Error(`Failed to start workflow: ${response.status}`);
+      if (!saveResponse.ok) {
+        throw new Error(`Failed to save preferences: ${saveResponse.status}`);
       }
 
-      const workflowData = await response.json();
+      const saveData = await saveResponse.json();
+      const projectId = saveData.preferences.project_id;
+
+      if (!projectId) {
+        throw new Error('No project ID returned from onboarding save');
+      }
+
+      // Step 2: Start CrewAI workflow with the created project
+      const workflowResponse = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/crewai/start-workflow`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          project_id: projectId,
+          preferences: preferences
+        })
+      });
+
+      if (!workflowResponse.ok) {
+        throw new Error(`Failed to start workflow: ${workflowResponse.status}`);
+      }
+
+      const workflowData = await workflowResponse.json();
 
       // Close onboarding and show workflow progress
       setShowOnboarding(false);
@@ -147,14 +191,14 @@ const UnifiedJournalCreator: React.FC<JournalCreatorProps> = ({ className }) => 
 
       // Navigate to workflow progress page
       navigate(`/ai-workflow/${workflowData.workflow_id}`, {
-        state: { workflowData }
+        state: { workflowData, projectId }
       });
 
     } catch (error) {
       console.error('Failed to start CrewAI workflow:', error);
       // Handle error (show message to user)
     }
-  }, [navigate]);
+  }, [navigate, onComplete]);
 
   // Handle workflow completion
   const handleWorkflowComplete = useCallback((result: any) => {
@@ -225,8 +269,20 @@ const UnifiedJournalCreator: React.FC<JournalCreatorProps> = ({ className }) => 
                 >
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
-                      <div className={`w-12 h-12 bg-${option.color}-100 rounded-lg flex items-center justify-center`}>
-                        <Icon className={`w-6 h-6 text-${option.color}-600`} />
+                      <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                      option.color === 'blue' ? 'bg-blue-100' :
+                      option.color === 'green' ? 'bg-green-100' :
+                      option.color === 'purple' ? 'bg-purple-100' :
+                      option.color === 'yellow' ? 'bg-yellow-100' :
+                      'bg-gray-100'
+                    }`}>
+                        <Icon className={`w-6 h-6 ${
+                          option.color === 'blue' ? 'text-blue-600' :
+                          option.color === 'green' ? 'text-green-600' :
+                          option.color === 'purple' ? 'text-purple-600' :
+                          option.color === 'yellow' ? 'text-yellow-600' :
+                          'text-gray-600'
+                        }`} />
                       </div>
                       <div className="flex items-center space-x-1 text-sm text-gray-500">
                         <Clock className="w-3 h-3" />
@@ -238,7 +294,13 @@ const UnifiedJournalCreator: React.FC<JournalCreatorProps> = ({ className }) => 
                   <CardContent className="pt-0">
                     <p className="text-sm text-gray-600 mb-3">{option.description}</p>
                     <div className="flex items-center justify-between">
-                      <span className={`text-xs bg-${option.color}-50 text-${option.color}-700 px-2 py-1 rounded-full`}>
+                      <span className={`text-xs px-2 py-1 rounded-full ${
+                        option.color === 'blue' ? 'bg-blue-50 text-blue-700' :
+                        option.color === 'green' ? 'bg-green-50 text-green-700' :
+                        option.color === 'purple' ? 'bg-purple-50 text-purple-700' :
+                        option.color === 'yellow' ? 'bg-yellow-50 text-yellow-700' :
+                        'bg-gray-50 text-gray-700'
+                      }`}>
                         {option.workflowType}
                       </span>
                       <ChevronRight className="w-4 h-4 text-gray-400" />
@@ -307,6 +369,18 @@ const UnifiedJournalCreator: React.FC<JournalCreatorProps> = ({ className }) => 
             </div>
           </CardContent>
         </Card>
+      )}
+
+      {/* Header with close button */}
+      {onClose && (
+        <div className="flex justify-end mb-4">
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <ChevronRight className="w-5 h-5 text-gray-500 rotate-180" />
+          </button>
+        </div>
       )}
 
       {/* Enhanced Onboarding Modal */}

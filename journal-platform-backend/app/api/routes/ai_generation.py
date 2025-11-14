@@ -99,22 +99,32 @@ async def generate_journal(
 
     This endpoint has been refactored to use the real 9-agent CrewAI system instead of mock implementations.
     The request parameters are converted to CrewAI preferences and processed through the standard workflow.
+
+    Requires user to have configured their OpenAI API key.
     """
     try:
+        # Check if user has configured their OpenAI API key
+        if not current_user.openai_api_key:
+            raise HTTPException(
+                status_code=400,
+                detail="OpenAI API key required. Please configure your API key in account settings before generating content."
+            )
+
         # Convert legacy request to CrewAI preferences
         crewai_preferences = _convert_to_crewai_preferences(request)
 
         # Create a title for the project
         title = f"{request.title_style.title()} {request.theme.title()} Journal"
 
-        # Start CrewAI workflow
+        # Start CrewAI workflow with user's OpenAI API key
         workflow_response = await crewai_service.start_workflow(
             user_id=current_user.id,
             preferences={
                 **crewai_preferences,
                 "title": title
             },
-            db=db
+            db=db,
+            openai_api_key=current_user.openai_api_key
         )
 
         return AIGenerationResponse(

@@ -109,12 +109,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             if (!user) {
               const payload = JSON.parse(atob(token.split('.')[1]));
               user = {
-                id: payload.user_id,
-                email: payload.email || `user_${payload.user_id}@example.com`,
-                full_name: payload.full_name || payload.name || `User ${payload.user_id}`,
+                id: payload.sub || payload.user_id,
+                email: payload.email || `user_${payload.sub || payload.user_id}@example.com`,
+                full_name: payload.full_name || payload.name || `User ${payload.sub || payload.user_id}`,
                 profile_type: payload.profile_type || 'personal_journaler',
-                ai_credits: payload.ai_credits || 10,
                 subscription: payload.subscription || 'free',
+                library_access: payload.library_access !== false,
+                is_verified: payload.is_verified || false,
+                has_openai_key: payload.has_openai_key || false,
               };
 
               // Store the user data for future use
@@ -156,12 +158,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       // Extract user data from the JWT token payload
       const payload = JSON.parse(atob(response.access_token.split('.')[1]));
       const user = {
-        id: payload.user_id,
+        id: payload.sub || payload.user_id,
         email: payload.email || email,
         full_name: payload.full_name || payload.name || email.split('@')[0],
         profile_type: payload.profile_type || 'personal_journaler',
-        ai_credits: payload.ai_credits || 10,
         subscription: payload.subscription || 'free',
+        library_access: payload.library_access !== false,
+        is_verified: payload.is_verified || false,
+        has_openai_key: payload.has_openai_key || false,
       };
 
       // Store user data in localStorage to maintain session

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { getApiURL } from '@/lib/apiConfig';
 import {
   X,
   Loader2,
@@ -16,7 +17,8 @@ import {
   ChevronRight,
   Pause,
   Play,
-  Square
+  Square,
+  Activity
 } from 'lucide-react';
 
 interface WorkflowStep {
@@ -131,7 +133,7 @@ const CrewAIWorkflowProgress: React.FC<CrewAIWorkflowProgressProps> = ({
     try {
       const token = localStorage.getItem('access_token');
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL || 'http://localhost:6770'}/api/crewai/workflow-status/${workflowId}`,
+        `${getApiURL()}/api/crewai/workflow-status/${workflowId}`,
         {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -162,7 +164,8 @@ const CrewAIWorkflowProgress: React.FC<CrewAIWorkflowProgressProps> = ({
   const connectWebSocket = () => {
     try {
       const token = localStorage.getItem('access_token');
-      const wsUrl = `${process.env.REACT_APP_WS_URL || 'ws://localhost:6770'}/ws/${workflowId}?token=${token}`;
+      const apiURL = getApiURL();
+      const wsUrl = `${apiURL.replace('http://', 'ws://').replace('https://', 'wss://')}/ws/job/${workflowId}?token=${token}`;
 
       websocketRef.current = new WebSocket(wsUrl);
 
@@ -369,7 +372,7 @@ const CrewAIWorkflowProgress: React.FC<CrewAIWorkflowProgressProps> = ({
     try {
       const token = localStorage.getItem('access_token');
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL || 'http://localhost:6770'}/api/crewai/cancel-workflow/${workflowId}`,
+        `${getApiURL()}/api/crewai/cancel-workflow/${workflowId}`,
         {
           method: 'POST',
           headers: {

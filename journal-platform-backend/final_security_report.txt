@@ -1,0 +1,28 @@
+
+============================================================
+🛡️  SECURITY HEADERS REPORT
+============================================================
+📊 Overall Security Score: 36.6/100
+🔴 CRITICAL - Security headers not configured
+
+📋 Endpoint Details:
+⚠️ /: 63/100
+❌ /health: -3/100
+⚠️ /api/auth/login: 63/100
+⚠️ /api/projects: 63/100
+❌ /docs: -3/100
+
+⚠️  Common Issues:
+  • Server information leaked via Server header (appeared 5 times)
+  • Missing CSP header (appeared 2 times)
+  • Missing Clickjacking protection (appeared 2 times)
+  • Missing MIME sniffing protection (appeared 2 times)
+  • Missing XSS protection (legacy) (appeared 2 times)
+  • Missing Referrer policy (appeared 2 times)
+  • Missing Permissions policy (appeared 2 times)
+
+💡 Recommendations:
+  • Implement missing security headers
+  • Add Content Security Policy (CSP) header
+  • Add X-Frame-Options to prevent clickjacking
+  • Add HSTS for HTTPS sites only

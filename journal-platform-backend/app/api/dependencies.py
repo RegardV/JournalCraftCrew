@@ -27,21 +27,11 @@ class HTTPBearer(FastAPIHTTPBearer):
             description="Bearer token authentication"
         )
 
-async def __call__(self, request):
-        credentials = await super().__call__(request)
-        if not credentials or not credentials.scheme:
-            raise HTTPException(
-                status_code=403,
-                detail="Invalid authentication scheme"
-            )
-
-        # TODO: Validate token against database
-        return credentials
 
 # Dependency function to get current authenticated user
 async def get_current_user(
     credentials: Optional[HTTPAuthorizationCredentials] = Depends(HTTPBearer(auto_error=False)),
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_async_session)
 ) -> Optional[dict]:
     """Get current authenticated user from JWT token"""
     try:
@@ -97,7 +87,7 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
 # WebSocket authentication for real-time connections
 async def get_current_user_ws(
     token: str,
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_async_session)
 ) -> Optional[dict]:
     """Get current authenticated user from WebSocket token"""
     try:
@@ -143,7 +133,7 @@ async def get_current_user_ws(
 # Optional dependency function - doesn't raise exceptions for missing credentials
 async def get_current_user_optional(
     credentials: Optional[HTTPAuthorizationCredentials] = Depends(HTTPBearer(auto_error=False)),
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_async_session)
 ) -> Optional[dict]:
     """Get current authenticated user from JWT token (optional)"""
     try:

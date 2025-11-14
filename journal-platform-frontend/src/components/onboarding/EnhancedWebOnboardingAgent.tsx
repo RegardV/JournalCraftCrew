@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   X,
   Send,
@@ -27,6 +27,8 @@ import {
   Star,
   TrendingUp
 } from 'lucide-react';
+import AIWorkflowModal from '@/components/journal/AIWorkflowModal';
+import { getWritingStylesForTheme } from './WritingStyles';
 
 interface OnboardingStep {
   id: string;
@@ -38,6 +40,7 @@ interface OnboardingStep {
 interface AuthorStyle {
   name: string;
   style: string;
+  examples: string[];
 }
 
 interface WorkflowType {
@@ -64,6 +67,7 @@ interface CrewAIAgent {
 interface EnhancedWebOnboardingAgentProps {
   onComplete: (preferences: any) => void;
   onClose: () => void;
+  initialPreferences?: any;
 }
 
 // CrewAI Agent Information
@@ -176,7 +180,8 @@ const WORKFLOW_TYPES: WorkflowType[] = [
 
 const EnhancedWebOnboardingAgent: React.FC<EnhancedWebOnboardingAgentProps> = ({
   onComplete,
-  onClose
+  onClose,
+  initialPreferences
 }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -186,7 +191,8 @@ const EnhancedWebOnboardingAgent: React.FC<EnhancedWebOnboardingAgentProps> = ({
     title_style: '',
     author_style: '',
     research_depth: '',
-    workflow_type: 'standard' // Default to standard workflow
+    workflow_type: 'standard', // Default to standard workflow
+    ...initialPreferences // Merge with initial preferences if provided
   });
   const [availableOptions, setAvailableOptions] = useState({
     titleStyles: [],
@@ -195,52 +201,315 @@ const EnhancedWebOnboardingAgent: React.FC<EnhancedWebOnboardingAgentProps> = ({
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState<Record<string, boolean>>({});
+  const [generatingAuthorStyles, setGeneratingAuthorStyles] = useState(false);
+  const [authorStyleOptions, setAuthorStyleOptions] = useState<AuthorStyle[]>([]);
+  const [showAIWorkflow, setShowAIWorkflow] = useState(false);
+  const [workflowJobId, setWorkflowJobId] = useState<string>('');
 
-  // Enhanced onboarding steps with CrewAI agent showcase
-  const steps: OnboardingStep[] = [
-    {
-      id: 'workflow',
-      title: 'AI Workflow Selection',
-      description: 'Choose your AI-powered journal creation experience',
-      component: WorkflowTypeStep
-    },
-    {
-      id: 'agents',
-      title: 'Meet Your AI Team',
-      description: 'Discover the CrewAI agents that will create your journal',
-      component: AgentsShowcaseStep
-    },
-    {
-      id: 'theme',
-      title: 'Theme Selection',
-      description: 'Choose your journal focus area',
-      component: ThemeStep
-    },
-    {
-      id: 'title',
-      title: 'Title & Style',
-      description: 'Name your journal and choose style',
-      component: TitleStep
-    },
-    {
-      id: 'author',
-      title: 'Writing Style',
-      description: 'Select author voice and tone',
-      component: AuthorStyleStep
-    },
-    {
-      id: 'depth',
-      title: 'Research Depth',
-      description: 'Choose content depth level',
-      component: ResearchDepthStep
-    },
-    {
-      id: 'review',
-      title: 'Review & Start',
-      description: 'Review preferences and begin',
-      component: ReviewStep
+  // Refs for input fields to maintain focus
+  const themeInputRef = useRef<HTMLInputElement>(null);
+  const titleInputRef = useRef<HTMLInputElement>(null);
+
+  // Stable change handlers that maintain focus
+  const handleThemeChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setPreferences(prev => ({ ...prev, theme: value }));
+    // Keep focus on the input
+    setTimeout(() => {
+      if (themeInputRef.current) {
+        themeInputRef.current.focus();
+      }
+    }, 0);
+  }, []);
+
+  const handleTitleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setPreferences(prev => ({ ...prev, title: value }));
+    // Keep focus on the input
+    setTimeout(() => {
+      if (titleInputRef.current) {
+        titleInputRef.current.focus();
+      }
+    }, 0);
+  }, []);
+
+  // AI-powered author style generation function
+  const generateAuthorStyles = async () => {
+    if (!preferences.theme) return;
+
+    setGeneratingAuthorStyles(true);
+    setAuthorStyleOptions([]);
+
+    try {
+      // Simulate AI call with theme-based style generation
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // Generate styles based on theme
+      const themeBasedStyles = getWritingStylesForTheme(preferences.theme);
+      setAuthorStyleOptions(themeBasedStyles);
+    } catch (error) {
+      console.error('Failed to generate author styles:', error);
+      setErrors(prev => ({
+        ...prev,
+        author_style: 'Failed to generate writing styles. Please try again.'
+      }));
+    } finally {
+      setGeneratingAuthorStyles(false);
     }
-  ];
+  };
+
+  // Helper function to generate writing style classifications based on theme (returns 5 style types with examples)
+  const getAuthorStylesForTheme = (theme: string): AuthorStyle[] => {
+    const styleMap: Record<string, AuthorStyle[]> = {
+      'mindfulness': [
+        {
+          name: 'Zen Contemplative Style',
+          style: 'Gentle presence with mindful awareness and compassionate observation',
+          examples: ['Breathing in, I calm my body and mind...', 'Return to your true home in the present moment...', 'Walk as if you are kissing the Earth with each step...']
+        },
+        {
+          name: 'Jon Kabat-Zinn (2021)',
+          style: 'Scientific mindfulness with focus on present moment awareness and non-judgmental observation',
+          examples: ['Notice what\'s arising in this moment...', 'Bring curiosity to your experience...', 'There is more right with you than wrong...']
+        },
+        {
+          name: 'Tara Brach (2022)',
+          style: 'Buddhist psychology with radical compassion and acceptance of imperfection',
+          examples: ['Allow this moment to be exactly as it is...', 'Recognize the belonging that\'s here...', 'Trust in your basic goodness...']
+        },
+        {
+          name: 'Pema Chödrön (2020)',
+          style: 'Tibetan Buddhist wisdom with gentle encouragement to stay with difficult emotions',
+          examples: ['Stay with the discomfort...', 'Lean into the sharp points...', 'This very moment is the perfect teacher...']
+        },
+        {
+          name: 'Jack Kornfield (2023)',
+          style: 'Heart-centered Buddhist psychology with stories and practical wisdom',
+          examples: ['The heart knows the way...', 'Your troubles are blessings in disguise...', 'Compassion is our true nature...']
+        }
+      ],
+      'productivity': [
+        {
+          name: 'James Clear (2023)',
+          style: 'Atomic habits approach with focus on small improvements and systems thinking',
+          examples: ['What 1% improvement can you make today?', 'Build systems, not just goals...', 'Your habits shape your identity...']
+        },
+        {
+          name: 'Cal Newport (2022)',
+          style: 'Deep work philosophy with emphasis on focused concentration and digital minimalism',
+          examples: ['What deep work will you accomplish?', 'Eliminate shallow work...', 'Focus is the new IQ...']
+        },
+        {
+          name: 'Tim Ferriss (2021)',
+          style: 'Biohacking and efficiency with emphasis on lifestyle optimization and rapid learning',
+          examples: ['What\'s the 80/20 of this task?', 'Test assumptions and measure results...', 'Less is more...']
+        },
+        {
+          name: 'Stephen Covey (2020)',
+          style: 'Principle-centered leadership with focus on effectiveness and time management',
+          examples: ['Begin with the end in mind...', 'What are your highest priorities?', 'Sharpen the saw...']
+        },
+        {
+          name: 'David Allen (2022)',
+          style: 'Getting Things Done methodology with focus on externalizing commitments',
+          examples: ['What\'s your next action?', 'Capture everything in trusted system...', 'Your mind is for having ideas, not holding them...']
+        }
+      ],
+      'creativity': [
+        {
+          name: 'Elizabeth Gilbert (2023)',
+          style: 'Big Magic creativity with fearless curiosity and relationship with inspiration',
+          examples: ['What does your creative genius want?', 'Make things for the delight of making them...', 'Your creativity is a gift...']
+        },
+        {
+          name: 'Austin Kleon (2022)',
+          style: 'Steal like an artist approach with emphasis on remixing and sharing work',
+          examples: ['What can you remix today?', 'Share your process...', 'Creativity is subtraction...']
+        },
+        {
+          name: 'Twyla Tharp (2021)',
+          style: 'Creative habits and ritual with focus on discipline and artistic practice',
+          examples: ['What\'s your creative muscle?', 'Show up and do the work...', 'Creativity is a habit...']
+        },
+        {
+          name: 'Rick Rubin (2023)',
+          style: 'Mystical and minimal approach with focus on removing obstacles to creativity',
+          examples: ['What can you remove to reveal the essence?', 'The song already exists...', 'Become a conduit...']
+        },
+        {
+          name: 'Julia Cameron (2020)',
+          style: 'The Artist\'s Way method with focus on morning pages and creative recovery',
+          examples: ['What does your inner artist need today?', 'Take yourself on an artist date...', 'Creativity is a spiritual path...']
+        }
+      ],
+      'gratitude': [
+        {
+          name: 'Brené Brown (2023)',
+          style: 'Research-based gratitude with vulnerability and wholehearted living',
+          examples: ['What are you grateful for right now?', 'Practice gratitude even when it\'s hard...', 'Gratitude makes sense of our past...']
+        },
+        {
+          name: 'Oprah Winfrey (2022)',
+          style: 'Inspirational gratitude with storytelling and personal transformation',
+          examples: ['What\'s your gratitude list today?', 'Turn your wounds into wisdom...', 'Thank you is the best prayer...']
+        },
+        {
+          name: 'Louie Schwartzberg (2021)',
+          style: 'Photographic gratitude with focus on beauty and mindfulness of nature',
+          examples: ['Notice the beauty in this moment...', 'Gratitude unlocks the fullness of life...', 'Open your eyes to wonder...']
+        },
+        {
+          name: 'Deepak Chopra (2020)',
+          style: 'Spiritual gratitude with consciousness and awareness of abundance',
+          examples: ['What abundance surrounds you?', 'Gratitude opens the heart...', 'Be present in the miracle of life...']
+        },
+        {
+          name: 'Kristin Neff (2023)',
+          style: 'Self-compassion with gratitude and mindful acceptance of imperfection',
+          examples: ['How can you be kind to yourself today?', 'Embrace your humanity...', 'Self-compassion is a form of gratitude...']
+        }
+      ],
+      'fitness': [
+        {
+          name: 'Ben Bergeron (2023)',
+          style: 'CrossFit mindset with discipline, accountability, and embracing discomfort',
+          examples: ['What will make you 1% better today?', 'Fall in love with the process...', 'If you want what most people don\'t have...']
+        },
+        {
+          name: 'Dr. Andrew Huberman (2022)',
+          style: 'Neuroscience-based fitness with focus on protocols and biological optimization',
+          examples: ['How can you optimize your biology today?', 'Use morning sunlight...', 'Leverage your nervous system...']
+        },
+        {
+          name: 'Rich Roll (2021)',
+          style: 'Plant-powered endurance with holistic wellness and mental resilience',
+          examples: ['What limits can you push past today?', 'Fuel your greatness...', 'The journey begins with a single step...']
+        },
+        {
+          name: 'Kayla Itsines (2023)',
+          style: 'Empowering fitness with body confidence and consistent progress',
+          examples: ['What makes you feel strong today?', 'Your body can do amazing things...', 'Progress over perfection...']
+        },
+        {
+          name: 'Tony Horton (2020)',
+          style: 'Beach body motivation with variety and bringing your best self',
+          examples: ['Do your best and forget the rest...', 'How can you push play today?', 'Variety keeps things interesting...']
+        }
+      ],
+      'learning': [
+        {
+          name: 'Barbara Oakley (2023)',
+          style: 'Learning how to learn with focused and diffuse thinking modes',
+          examples: ['What can you learn in focused mode?', 'Take regular breaks for diffuse thinking...', 'Chunk your learning...']
+        },
+        {
+          name: 'Josh Kaufman (2022)',
+          style: 'Rapid skill acquisition with 20 hours to learn anything',
+          examples: ['What skill can you learn this month?', 'Deconstruct the skill...', 'Learn just enough to self-correct...']
+        },
+        {
+          name: 'Carol Dweck (2021)',
+          style: 'Growth mindset with focus on learning from challenges',
+          examples: ['What challenges help you grow?', 'Embrace the word "yet"...', 'Your brain can form new connections...']
+        },
+        {
+          name: 'Tim Ferriss (2020)',
+          style: 'Meta-learning with deconstruction and 80/20 application',
+          examples: ['What\'s the minimum effective dose?', 'Learn by doing...', 'Reduce learning friction...']
+        },
+        {
+          name: 'Cal Newport (2023)',
+          style: 'Deep learning with focused attention and deliberate practice',
+          examples: ['What can you master today?', 'Practice with intention...', 'Learning requires active engagement...']
+        }
+      ],
+      'relationships': [
+        {
+          name: 'Dr. John Gottman (2023)',
+          style: 'Research-based relationships with emotional connection and bidirectional influence',
+          examples: ['What small gesture can strengthen your bond today?', 'Turn toward each other...', 'Love is a verb...']
+        },
+        {
+          name: 'Brené Brown (2022)',
+          style: 'Vulnerability and courage with authentic connection',
+          examples: ['How can you show up vulnerably today?', 'Choose courage over comfort...', 'Connection is why we\'re here...']
+        },
+        {
+          name: 'Esther Perel (2021)',
+          style: 'Psychological perspective on desire, identity, and relational dynamics',
+          examples: ['What nourishes your connection?', 'Balance autonomy and togetherness...', 'Maintain curiosity about each other...']
+        },
+        {
+          name: 'Gary Chapman (2020)',
+          style: 'Five Love Languages with understanding and speaking partner\'s emotional language',
+          examples: ['How can you show love in your partner\'s language today?', 'Fill each other\'s love tank...', 'People give and receive love differently...']
+        },
+        {
+          name: 'Harville Hendrix (2023)',
+          style: 'Imago relationship therapy with conscious partnership and healing',
+          examples: ['How can you be more present with your partner?', 'Stretch for the other\'s growth...', 'Your relationship is your spiritual practice...']
+        }
+      ],
+      'finance': [
+        {
+          name: 'Robert Kiyosaki (2023)',
+          style: 'Financial education with asset-building and entrepreneurial mindset',
+          examples: ['How can you build assets today?', 'Mind your own business...', 'Play the cash flow game...']
+        },
+        {
+          name: 'Dave Ramsey (2022)',
+          style: 'Debt-free living with budgeting and wealth building principles',
+          examples: ['What debt can you eliminate today?', 'Live on less than you make...', 'Build wealth the old-fashioned way...']
+        },
+        {
+          name: 'Tony Robbins (2021)',
+          style: 'Financial freedom with psychology of wealth and strategic investing',
+          examples: ['What wealth blueprint are you following?', 'Model success...', 'Change your state to change your finances...']
+        },
+        {
+          name: 'Vicki Robin (2020)',
+          style: 'Financial independence with purpose and life energy alignment',
+          examples: ['Does this purchase align with your values?', 'Calculate your true hourly wage...', 'Life energy is your primary resource...']
+        },
+        {
+          name: 'Morgan Housel (2023)',
+          style: 'Psychological finance with understanding behavior vs. intelligence',
+          examples: ['What financial story are you telling yourself?', 'Optimize for happiness, not just returns...', 'Your time horizon determines your results...']
+        }
+      ]
+    };
+
+    // Default styles if theme not found
+    const defaultStyles: AuthorStyle[] = [
+      {
+        name: 'James Clear (2023)',
+        style: 'Atomic habits approach with focus on small improvements and systems thinking',
+        examples: ['What 1% improvement can you make today?', 'Build systems, not just goals...', 'Your habits shape your identity...']
+      },
+      {
+        name: 'Brené Brown (2022)',
+        style: 'Research-based vulnerability with courage and wholehearted living',
+        examples: ['What does courage look like today?', 'Embrace imperfection...', 'Vulnerability is courage...']
+      },
+      {
+        name: 'Elizabeth Gilbert (2021)',
+        style: 'Creative magic with fearless curiosity and relationship with inspiration',
+        examples: ['What does your creative genius want?', 'Make things for the delight of making them...', 'Your creativity is a gift...']
+      },
+      {
+        name: 'Thich Nhat Hanh (2020)',
+        style: 'Zen master mindfulness with gentle presence and compassionate awareness',
+        examples: ['Breathing in, I calm my body...', 'Return to your true home...', 'Walk as if you are kissing the Earth...']
+      },
+      {
+        name: 'Dr. Andrew Huberman (2023)',
+        style: 'Neuroscience-based optimization with focus on protocols and biological performance',
+        examples: ['How can you optimize your biology today?', 'Use morning sunlight...', 'Leverage your nervous system...']
+      }
+    ];
+
+    return styleMap[theme] || defaultStyles;
+  };
 
   // Workflow Type Selection Component
   const WorkflowTypeStep = () => {
@@ -401,41 +670,80 @@ const EnhancedWebOnboardingAgent: React.FC<EnhancedWebOnboardingAgentProps> = ({
     );
   };
 
-  // Theme Step Component (Enhanced with agent preview)
-  const ThemeStep = () => (
-    <div className="space-y-4">
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Journal Theme
-        </label>
-        <input
-          type="text"
-          value={preferences.theme}
-          onChange={(e) => setPreferences(prev => ({ ...prev, theme: e.target.value }))}
-          placeholder="e.g., mindfulness, productivity, creativity..."
-          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
-            errors.theme ? 'border-red-300' : 'border-gray-300'
-          }`}
-        />
-        {errors.theme && (
-          <p className="text-red-500 text-sm mt-1">{errors.theme}</p>
+  // Theme Step Component (Enhanced with suggestions and agent preview)
+  const ThemeStep = () => {
+    const popularThemes = [
+      { name: 'mindfulness', description: 'Cultivate awareness and inner peace' },
+      { name: 'productivity', description: 'Achieve goals and stay focused' },
+      { name: 'creativity', description: 'Unlock artistic potential' },
+      { name: 'gratitude', description: 'Practice daily thankfulness' },
+      { name: 'fitness', description: 'Track health and wellness' },
+      { name: 'learning', description: 'Document educational growth' },
+      { name: 'relationships', description: 'Explore personal connections' },
+      { name: 'finance', description: 'Manage money and wealth' }
+    ];
+
+    return (
+      <div className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Journal Theme
+          </label>
+          <div className="space-y-3">
+            <input
+              ref={themeInputRef}
+              type="text"
+              value={preferences.theme}
+              onChange={handleThemeChange}
+              placeholder="Enter your journal theme (e.g., mindfulness, productivity, creativity...)"
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                errors.theme ? 'border-red-300' : 'border-gray-300'
+              }`}
+            />
+
+            <div className="text-xs text-gray-500">
+              💡 Type any theme or choose from popular options below
+            </div>
+
+            {/* Popular Theme Suggestions */}
+            <div className="grid grid-cols-2 gap-2 mt-3">
+              {popularThemes.map((theme) => (
+                <button
+                  key={theme.name}
+                  onClick={() => setPreferences(prev => ({ ...prev, theme: theme.name }))}
+                  className={`text-left p-2 text-sm border rounded hover:bg-gray-50 transition-colors ${
+                    preferences.theme === theme.name
+                      ? 'border-purple-500 bg-purple-50 text-purple-700'
+                      : 'border-gray-200'
+                  }`}
+                >
+                  <div className="font-medium">{theme.name}</div>
+                  <div className="text-xs text-gray-500">{theme.description}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {errors.theme && (
+            <p className="text-red-500 text-sm mt-1">{errors.theme}</p>
+          )}
+        </div>
+
+        {preferences.theme && (
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="flex items-center space-x-2 mb-2">
+              <Bot className="w-4 h-4 text-blue-600" />
+              <span className="text-sm font-medium text-blue-900">AI Agent Preview</span>
+            </div>
+            <div className="text-sm text-blue-800">
+              <strong>Research Agent</strong> will gather evidence-based insights about "{preferences.theme}"
+              and <strong>Content Curator Agent</strong> will create themed daily entries.
+            </div>
+          </div>
         )}
       </div>
-
-      {preferences.theme && (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <div className="flex items-center space-x-2 mb-2">
-            <Bot className="w-4 h-4 text-blue-600" />
-            <span className="text-sm font-medium text-blue-900">AI Agent Preview</span>
-          </div>
-          <div className="text-sm text-blue-800">
-            <strong>Research Agent</strong> will gather evidence-based insights about "{preferences.theme}"
-            and <strong>Content Curator Agent</strong> will create themed daily entries.
-          </div>
-        </div>
-      )}
-    </div>
-  );
+    );
+  };
 
   // Other step components (simplified for brevity - would be enhanced similarly)
   const TitleStep = () => (
@@ -445,9 +753,10 @@ const EnhancedWebOnboardingAgent: React.FC<EnhancedWebOnboardingAgentProps> = ({
           Journal Title
         </label>
         <input
+          ref={titleInputRef}
           type="text"
           value={preferences.title}
-          onChange={(e) => setPreferences(prev => ({ ...prev, title: e.target.value }))}
+          onChange={handleTitleChange}
           placeholder="Enter your journal title..."
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
         />
@@ -478,17 +787,68 @@ const EnhancedWebOnboardingAgent: React.FC<EnhancedWebOnboardingAgentProps> = ({
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Writing Style
         </label>
-        <select
-          value={preferences.author_style}
-          onChange={(e) => setPreferences(prev => ({ ...prev, author_style: e.target.value }))}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-        >
-          <option value="">Select writing style...</option>
-          <option value="inspirational">Inspirational</option>
-          <option value="professional">Professional</option>
-          <option value="conversational">Conversational</option>
-          <option value="academic">Academic</option>
-        </select>
+        <div className="space-y-3">
+          <div className="flex items-center space-x-2 text-sm text-gray-600">
+            <Bot className="w-4 h-4" />
+            <span>Top 5 writing styles for {preferences.theme || 'your selected theme'} (most effective approaches)</span>
+          </div>
+
+          {generatingAuthorStyles ? (
+            <div className="flex items-center space-x-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+              <Loader2 className="w-4 h-4 text-blue-600 animate-spin" />
+              <span className="text-sm text-blue-800">Analyzing writing styles for {preferences.theme || 'your theme'}...</span>
+            </div>
+          ) : authorStyleOptions.length > 0 ? (
+            <div className="space-y-2">
+              <div className="text-xs text-gray-500">Top 5 writing styles for {preferences.theme} (most effective approaches):</div>
+              {authorStyleOptions.map((style, index) => (
+                <label key={index} className="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="author_style"
+                    value={style.name}
+                    checked={preferences.author_style === style.name}
+                    onChange={(e) => setPreferences(prev => ({ ...prev, author_style: e.target.value }))}
+                    className="text-purple-600 focus:ring-purple-500"
+                  />
+                  <div className="flex-1">
+                    <div className="font-medium text-gray-900">{style.name}</div>
+                    <div className="text-sm text-gray-600">{style.description}</div>
+                    <div className="text-xs text-gray-500">Examples: {style.examples.join(", ")}</div>
+                  </div>
+                </label>
+              ))}
+
+              <button
+                onClick={generateAuthorStyles}
+                className="text-sm text-purple-600 hover:text-purple-700 flex items-center space-x-1"
+              >
+                <Sparkles className="w-3 h-3" />
+                <span>Regenerate styles</span>
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={generateAuthorStyles}
+              disabled={!preferences.theme}
+              className="w-full px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+            >
+              <Search className="w-4 h-4" />
+              <span>Discover Writing Styles for This Theme</span>
+            </button>
+          )}
+        </div>
+
+        {preferences.author_style && (
+          <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+            <div className="flex items-center space-x-2">
+              <CheckCircle className="w-4 h-4 text-green-600" />
+              <span className="text-sm text-green-800">
+                Selected: <strong>{preferences.author_style}</strong>
+              </span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -580,6 +940,52 @@ const EnhancedWebOnboardingAgent: React.FC<EnhancedWebOnboardingAgentProps> = ({
     );
   };
 
+  // Enhanced onboarding steps with CrewAI agent showcase
+  const steps: OnboardingStep[] = [
+    {
+      id: 'workflow',
+      title: 'AI Workflow Selection',
+      description: 'Choose your AI-powered journal creation experience',
+      component: WorkflowTypeStep
+    },
+    {
+      id: 'agents',
+      title: 'Meet Your AI Team',
+      description: 'Discover the CrewAI agents that will create your journal',
+      component: AgentsShowcaseStep
+    },
+    {
+      id: 'theme',
+      title: 'Theme Selection',
+      description: 'Choose your journal focus area',
+      component: ThemeStep
+    },
+    {
+      id: 'title',
+      title: 'Title & Style',
+      description: 'Name your journal and choose style',
+      component: TitleStep
+    },
+    {
+      id: 'author',
+      title: 'Writing Style',
+      description: 'Select author voice and tone',
+      component: AuthorStyleStep
+    },
+    {
+      id: 'depth',
+      title: 'Research Depth',
+      description: 'Choose content depth level',
+      component: ResearchDepthStep
+    },
+    {
+      id: 'review',
+      title: 'Review & Start',
+      description: 'Review preferences and begin',
+      component: ReviewStep
+    }
+  ];
+
   const canProceed = () => {
     switch (steps[currentStep].id) {
       case 'workflow':
@@ -603,12 +1009,20 @@ const EnhancedWebOnboardingAgent: React.FC<EnhancedWebOnboardingAgentProps> = ({
 
   const handleNext = async () => {
     if (currentStep === steps.length - 1) {
-      // Complete onboarding
+      // Start AI workflow
       setIsProcessing(true);
       try {
+        // Generate a unique job ID for the workflow
+        const jobId = `workflow_${new Date().toISOString().replace(/[:.]/g, '_')}`;
+        setWorkflowJobId(jobId);
+
+        // Call the original onComplete to start the backend workflow
         await onComplete(preferences);
+
+        // Show the AI workflow modal
+        setShowAIWorkflow(true);
       } catch (error) {
-        console.error('Onboarding completion error:', error);
+        console.error('Workflow start error:', error);
       } finally {
         setIsProcessing(false);
       }
@@ -737,6 +1151,17 @@ const EnhancedWebOnboardingAgent: React.FC<EnhancedWebOnboardingAgentProps> = ({
           </button>
         </div>
       </div>
+
+      {/* AI Workflow Modal */}
+      <AIWorkflowModal
+        isOpen={showAIWorkflow}
+        onClose={() => {
+          setShowAIWorkflow(false);
+          onClose();
+        }}
+        workflowId={workflowJobId}
+        jobData={preferences}
+      />
     </div>
   );
 };

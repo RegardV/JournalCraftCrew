@@ -21,6 +21,7 @@ import {
   Play,
   Activity
 } from 'lucide-react';
+import { getApiURL } from '@/lib/apiConfig';
 
 interface CrewAIMessage {
   type: 'crew_info' | 'agent_start' | 'agent_thinking' | 'agent_output' | 'agent_complete' | 'sequence_update' | 'error' | 'completion';
@@ -74,7 +75,8 @@ const CrewAIProgressVisualization: React.FC<CrewAIProgressProps> = ({ jobId, onC
   useEffect(() => {
     if (!jobId) return;
 
-    const wsUrl = `ws://localhost:6770/ws/journal/${jobId}`;
+    const apiURL = getApiURL();
+    const wsUrl = `${apiURL.replace('http://', 'ws://').replace('https://', 'wss://')}/ws/journal/${jobId}`;
     const ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {

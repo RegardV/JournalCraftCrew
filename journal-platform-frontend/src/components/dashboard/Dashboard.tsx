@@ -18,7 +18,9 @@ import {
   Activity,
   LogIn,
   Home,
-  ArrowRight
+  ArrowRight,
+  Eye,
+  Trash2
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { projectAPI } from '@/lib/api';
@@ -111,7 +113,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
 
     const checkApiKeyStatus = async () => {
       try {
-        const response = await fetch('http://localhost:6770/api/settings/api-key', {
+        const response = await fetch('/api/settings/api-key', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -133,7 +135,16 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
   }, [isAuthenticated, token]);
 
   const handleCreateJournal = () => {
+    console.log('Create journal button clicked!');
+
+    // For testing: Skip authentication and directly show the creator modal
     setShowUnifiedCreator(true);
+
+    // Remove this authentication check for testing
+    if (false) { // Always false for now
+      alert('Create journal button clicked! About to show modal...');
+      setShowUnifiedCreator(true);
+    }
   };
 
   const handleJournalCreation = async (preferences: any) => {
@@ -163,7 +174,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
       setShowUnifiedCreator(false);
 
       // Start CrewAI workflow through new unified system
-      const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:6770'}/api/crewai/start-workflow`, {
+      const response = await fetch(`/api/crewai/start-workflow`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -254,7 +265,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
     setApiKeyMessage('');
 
     try {
-      const response = await fetch('http://localhost:6770/api/settings/api-key', {
+      const response = await fetch('/api/settings/api-key', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -302,7 +313,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
     setApiKeyMessage('Testing API key...');
 
     try {
-      const response = await fetch('http://localhost:6770/api/settings/test-api-key', {
+      const response = await fetch('/api/settings/test-api-key', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -332,7 +343,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
 
   const handleProjectStatus = async (projectId: string) => {
     try {
-      const response = await fetch(`http://localhost:6770/api/journals/status/${projectId}`, {
+      const response = await fetch(`/api/journals/status/${projectId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -354,7 +365,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
     if (window.confirm(`Are you sure you want to delete "${projectTitle}"? This action cannot be undone.`)) {
       try {
         // Use the universal delete endpoint that handles all project ID formats
-        const deleteUrl = `http://localhost:6770/api/library/projects/${projectId}`;
+        const deleteUrl = `/api/library/projects/${projectId}`;
 
         const response = await fetch(deleteUrl, {
           method: 'DELETE',
@@ -445,13 +456,13 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
         <div className="flex items-center justify-between">
           <button
             onClick={() => setActiveView('dashboard')}
-            className="btn btn-ghost"
+            className="text-gray-600 hover:text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors"
           >
             ← Back to Dashboard
           </button>
           <button
             onClick={() => handleCreateJournal()}
-            className="btn btn-primary flex items-center gap-2"
+            className="bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2 px-4 py-2 rounded-lg transition-colors"
           >
             <Plus className="w-4 h-4" />
             Create New Journal
@@ -950,7 +961,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
             {activeProjects.length > 0 && (
               <button
                 onClick={() => setActiveView('library')}
-                className="btn btn-ghost"
+                className="text-gray-600 hover:text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors"
               >
                 View All Projects
               </button>
@@ -1055,21 +1066,21 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
         <div className="flex flex-col sm:flex-row gap-3 lg:shrink-0">
           <button
             onClick={() => handleCreateJournal()}
-            className="btn btn-primary flex items-center justify-center gap-2 text-lg px-6 py-3 shadow-lg hover:shadow-xl hover-lift"
+            className="bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center gap-2 text-lg px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
           >
             <Plus className="w-5 h-5" />
             Create New Journal
           </button>
           <button
             onClick={() => setActiveView('library')}
-            className="btn btn-outline flex items-center justify-center gap-2 px-6 py-3"
+            className="border border-gray-300 hover:border-gray-400 flex items-center justify-center gap-2 px-6 py-3 rounded-lg transition-all duration-200"
           >
             <FileText className="w-5 h-5" />
             Content Library
           </button>
           <button
             onClick={() => setActiveView('settings')}
-            className="btn btn-outline flex items-center justify-center gap-2 px-6 py-3"
+            className="border border-gray-300 hover:border-gray-400 flex items-center justify-center gap-2 px-6 py-3 rounded-lg transition-all duration-200"
           >
             <Settings className="w-5 h-5" />
             Settings
@@ -1158,7 +1169,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
           <h3 className="text-subheading font-semibold">Recent Projects</h3>
           <button
             onClick={() => setActiveView('library')}
-            className="btn btn-ghost"
+            className="text-gray-600 hover:text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors"
           >
             View All
           </button>
@@ -1175,7 +1186,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
             </p>
             <button
               onClick={() => handleCreateJournal()}
-              className="btn btn-primary flex items-center gap-2 mx-auto text-lg px-8 py-3 shadow-lg hover:shadow-xl hover-lift"
+              className="bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2 mx-auto text-lg px-8 py-3 shadow-lg hover:shadow-xl hover-lift rounded-lg transition-all"
             >
               <Plus className="w-5 h-5" />
               Create New Journal
@@ -1260,10 +1271,14 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
 
       {/* Unified Journal Creator - Replaces all old creation modals */}
       {showUnifiedCreator && (
-        <UnifiedJournalCreator
-          onComplete={handleJournalCreation}
-          onClose={() => setShowUnifiedCreator(false)}
-        />
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <UnifiedJournalCreator
+              onComplete={handleJournalCreation}
+              onClose={() => setShowUnifiedCreator(false)}
+            />
+          </div>
+        </div>
       )}
     </div>
   );

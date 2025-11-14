@@ -104,9 +104,12 @@ class CrewAIWorkflowService:
             log_debug(f"Failed to initialize LLM: {e}")
             raise HTTPException(status_code=500, detail="Failed to initialize AI services")
 
-    async def start_workflow(self, request: WorkflowStartRequest, user_id: int) -> WorkflowResponse:
+    async def start_workflow(self, request: WorkflowStartRequest, user_id: int, openai_api_key: str = None, db: AsyncSession = None) -> WorkflowResponse:
         """Start a complete CrewAI workflow for journal creation"""
         workflow_id = f"workflow_{user_id}_{int(datetime.now().timestamp())}"
+
+        # Initialize LLM with user's OpenAI API key
+        user_llm = self._create_user_llm(openai_api_key)
 
         # Create workflow record
         self.active_workflows[workflow_id] = {
@@ -117,11 +120,12 @@ class CrewAIWorkflowService:
             "start_time": datetime.now(),
             "steps": self._initialize_workflow_steps(),
             "current_step": 0,
-            "llm": self.llm
+            "llm": user_llm,
+            "openai_api_key": openai_api_key
         }
 
         # Start background workflow execution
-        asyncio.create_task(self._execute_workflow(workflow_id, request.project_id, request.preferences))
+        asyncio.create_task(self._execute_workflow(workflow_id, request.project_id, request.preferences, db))
 
         return WorkflowResponse(
             workflow_id=workflow_id,

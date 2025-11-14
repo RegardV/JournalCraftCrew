@@ -4,6 +4,7 @@ Simple CrewAI Integration Test
 Tests the basic API integration without WebSocket complexity
 """
 
+import os
 import requests
 import json
 import time
@@ -33,7 +34,7 @@ def test_authentication():
     # Register user
     register_data = {
         "email": "testuser@example.com",
-        "password": "testpassword123",
+        "password": os.getenv("TEST_PASSWORD", "testpassword123"),
         "full_name": "Test User"
     }
 
@@ -53,7 +54,7 @@ def test_authentication():
     # Login user
     login_data = {
         "email": "testuser@example.com",
-        "password": "testpassword123"
+        "password": os.getenv("TEST_PASSWORD", "testpassword123")
     }
 
     try:

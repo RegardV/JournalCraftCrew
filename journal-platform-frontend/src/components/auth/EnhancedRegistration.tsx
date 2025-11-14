@@ -166,7 +166,7 @@ const EnhancedRegistration: React.FC = () => {
               </p>
               <ul className="text-sm text-gray-600 space-y-1">
                 <li>• Daily mindfulness and reflection exercises</li>
-                <li>• 10 AI credits per month</li>
+                <li>• Use your own OpenAI API key</li>
                 <li>• Personal journal library</li>
                 <li>• Basic export options</li>
               </ul>
@@ -210,7 +210,7 @@ const EnhancedRegistration: React.FC = () => {
                 Create and sell journaling content, courses, and templates.
               </p>
               <ul className="text-sm text-gray-600 space-y-1">
-                <li>• 50 AI credits per month</li>
+                <li>• Use your own OpenAI API key</li>
                 <li>• Advanced customization tools</li>
                 <li>• Commercial publishing options</li>
                 <li>• Template marketplace access</li>

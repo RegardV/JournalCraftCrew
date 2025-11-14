@@ -1,0 +1,23 @@
+
+============================================================
+🛡️  SECURITY HEADERS REPORT
+============================================================
+📊 Overall Security Score: 57.0/100
+🔴 CRITICAL - Security headers not configured
+
+📋 Endpoint Details:
+❌ /: 59/100
+❌ /health: 59/100
+❌ /api/auth/login: 54/100
+❌ /api/projects: 54/100
+❌ /docs: 59/100
+
+⚠️  Common Issues:
+  • CSP contains 'unsafe-inline' - consider removing for production (appeared 5 times)
+  • CSP contains 'unsafe-eval' - consider removing for production (appeared 5 times)
+  • Server information leaked via Server header (appeared 5 times)
+  • API endpoints should have Cache-Control headers (appeared 2 times)
+
+💡 Recommendations:
+  • Implement missing security headers
+  • Add HSTS for HTTPS sites only

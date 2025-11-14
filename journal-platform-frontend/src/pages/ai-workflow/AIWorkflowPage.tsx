@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useNavigate, useParams } from 'react-router-dom';
+import { getJobWebSocketURL } from '@/lib/apiConfig';
 import {
   X,
   CheckCircle,
@@ -203,8 +204,8 @@ const AIWorkflowPage: React.FC = () => {
       return;
     }
 
-    // Use CrewAI WebSocket endpoint for actual workflow tracking
-    const wsUrl = `${process.env.REACT_APP_API_URL?.replace('http', 'ws') || 'ws://localhost:8000'}/ws/${actualWorkflowId}`;
+    // Use port-agnostic WebSocket endpoint for workflow tracking
+    const wsUrl = getJobWebSocketURL(actualWorkflowId);
     console.log('Connecting to CrewAI WebSocket:', wsUrl);
     const ws = new WebSocket(wsUrl);
 
@@ -364,7 +365,7 @@ const AIWorkflowPage: React.FC = () => {
     };
 
     ws.onclose = () => {
-      console.log('WebSocket disconnected for job:', jobId);
+      console.log('WebSocket disconnected for workflow:', actualWorkflowId);
       setIsConnected(false);
     };
 
@@ -419,12 +420,12 @@ const AIWorkflowPage: React.FC = () => {
     return workflowPhases[phaseIndex] || workflowPhases[0];
   };
 
-  if (!jobId) {
+  if (!actualWorkflowId) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">🤖</div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">No Job ID Found</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">No Workflow ID Found</h1>
           <p className="text-gray-600 mb-4">Please start a journal creation process first.</p>
           <button
             onClick={handleBackToDashboard}
@@ -476,7 +477,7 @@ const AIWorkflowPage: React.FC = () => {
               </div>
 
               <div className="text-sm text-gray-400">
-                Job ID: {jobId.slice(0, 8)}...
+                Workflow ID: {actualWorkflowId?.slice(0, 8)}...
               </div>
             </div>
           </div>
@@ -699,7 +700,7 @@ const AIWorkflowPage: React.FC = () => {
       <div className="bg-gray-800 border-t border-gray-700 px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex items-center justify-between">
           <div className="text-sm text-gray-400">
-            Job ID: {jobId.slice(0, 8)}... | Messages: {messages.length} | Agents: {Object.keys(agentConfig).length}
+            Workflow ID: {actualWorkflowId?.slice(0, 8)}... | Messages: {messages.length} | Agents: {Object.keys(agentConfig).length}
           </div>
           <div className="flex items-center space-x-4">
             {isComplete && (

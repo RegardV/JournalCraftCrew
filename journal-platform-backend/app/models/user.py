@@ -7,8 +7,15 @@ from sqlalchemy import Column, Integer, String, Boolean, JSON, Text, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from datetime import datetime
+from enum import Enum
 
 from .base import BaseModel
+
+
+class UserSubscription(str, Enum):
+    """User subscription types"""
+    FREE = "free"
+    PREMIUM = "premium"
 
 
 class User(BaseModel):
@@ -37,7 +44,16 @@ class User(BaseModel):
     timezone = Column(String(50), default="UTC")
     language = Column(String(10), default="en")
 
-    # Subscription and billing
+    # User profile and subscription
+    profile_type = Column(String(50), default="personal_journaler")  # 'personal_journaler', 'content_creator'
+    subscription = Column(String(20), default=UserSubscription.FREE)  # Using UserSubscription enum
+    library_access = Column(Boolean, default=True)
+
+    # OpenAI API configuration (user brings their own key)
+    openai_api_key = Column(String(255), nullable=True)  # Encrypted user's OpenAI API key
+    ai_provider = Column(String(50), default="openai")  # AI provider choice
+
+    # Legacy billing fields (kept for backwards compatibility)
     is_premium = Column(Boolean, default=False)
     subscription_id = Column(String(255), nullable=True)
     subscription_expires = Column(DateTime(timezone=True), nullable=True)
@@ -89,7 +105,8 @@ class User(BaseModel):
             # Remove sensitive fields
             sensitive_fields = [
                 'password_hash', 'verification_token', 'reset_password_token',
-                'google_id', 'github_id', 'stripe_customer_id', 'ip_address'
+                'google_id', 'github_id', 'stripe_customer_id', 'ip_address',
+                'openai_api_key'  # Never expose API keys in API responses
             ]
             for field in sensitive_fields:
                 data.pop(field, None)

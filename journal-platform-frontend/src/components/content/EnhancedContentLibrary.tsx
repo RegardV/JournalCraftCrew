@@ -6,6 +6,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { getApiURL } from '@/lib/apiConfig';
 import {
   Search,
   Filter,
@@ -80,7 +81,7 @@ const EnhancedContentLibrary: React.FC<EnhancedContentLibraryProps> = ({ classNa
     try {
       setLoading(true);
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/projects/`,
+        `${getApiURL()}/api/library/llm-projects`,
         {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -94,7 +95,7 @@ const EnhancedContentLibrary: React.FC<EnhancedContentLibraryProps> = ({ classNa
           data.projects.map(async (project: JournalContent) => {
             try {
               const analysisResponse = await fetch(
-                `${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/journal-content/analyze-project/${project.id}`,
+                `${getApiURL()}/api/journal-content/analyze-project/${project.id}`,
                 {
                   headers: {
                     'Authorization': `Bearer ${token}`

@@ -7,6 +7,7 @@ import React, { useState, useCallback } from 'react'
 import { Card } from '../ui/Card'
 import { Button } from '../ui/Button'
 import { Input } from '../ui/Input'
+import { getApiURL } from '@/lib/apiConfig'
 
 // Types
 interface AIGenerationRequest {
@@ -141,7 +142,8 @@ export const JournalCreator: React.FC = () => {
 
   const startProgressTracking = useCallback((jobId: string) => {
     const token = localStorage.getItem('access_token')
-    const wsUrl = `ws://localhost:6770/ws/job/${jobId}?token=${token}`
+    const apiURL = getApiURL();
+    const wsUrl = `${apiURL.replace('http://', 'ws://').replace('https://', 'wss://')}/ws/job/${jobId}?token=${token}`
 
     try {
       const ws = new WebSocket(wsUrl)

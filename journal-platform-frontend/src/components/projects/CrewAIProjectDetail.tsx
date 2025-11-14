@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getApiURL } from '@/lib/apiConfig';
 import {
   ArrowLeft,
   Users,
@@ -181,7 +182,7 @@ const CrewAIProjectDetail: React.FC<CrewAIProjectDetailProps> = ({
 
         // First try to get project from the library API
         const libraryResponse = await fetch(
-          `${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/library/llm-projects`,
+          `${getApiURL()}/api/library/llm-projects`,
           {
             headers: {
               'Authorization': `Bearer ${token}`,
@@ -290,7 +291,7 @@ const CrewAIProjectDetail: React.FC<CrewAIProjectDetailProps> = ({
     try {
       const token = localStorage.getItem('access_token');
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/export/content/${projectId}`,
+        `${getApiURL()}/api/export/content/${projectId}`,
         {
           headers: {
             'Authorization': `Bearer ${token}`,

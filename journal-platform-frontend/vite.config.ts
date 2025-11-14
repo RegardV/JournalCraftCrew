@@ -11,19 +11,19 @@ export default defineConfig({
     },
   },
   server: {
-    port: 5173,
+    port: 5100,
     watch: {
       usePolling: true,
       interval: 1000,
     },
     proxy: {
       '/api': {
-        target: 'http://localhost:6770',
+        target: 'http://localhost:8000',
         changeOrigin: true,
         secure: false,
       },
       '/ws': {
-        target: 'ws://localhost:6770',
+        target: 'ws://localhost:8000',
         ws: true,
         changeOrigin: true,
       },

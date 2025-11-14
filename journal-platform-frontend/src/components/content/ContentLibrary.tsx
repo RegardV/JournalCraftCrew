@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import * as pdfjsLib from 'pdfjs-dist';
 import { journalAPI } from '@/lib/api';
+import { getApiURL } from '@/lib/apiConfig';
 import JournalCreationModal from '@/components/journal/JournalCreationModal';
 
 // Configure PDF.js worker
@@ -113,7 +114,7 @@ const ContentLibrary: React.FC<ContentLibraryProps> = ({ className = '' }) => {
         throw new Error('Authentication required. Please log in first.');
       }
 
-      const response = await fetch('http://localhost:6770/api/journals/create', {
+      const response = await fetch(`${getApiURL()}/api/journals/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -364,7 +365,7 @@ const ContentLibrary: React.FC<ContentLibraryProps> = ({ className = '' }) => {
     if (window.confirm(`Are you sure you want to delete "${contentTitle}"? This action cannot be undone.`)) {
       try {
         // Use the universal delete endpoint that handles all project ID formats
-        const deleteUrl = `http://localhost:6770/api/library/projects/${contentId}`;
+        const deleteUrl = `${getApiURL()}/api/library/projects/${contentId}`;
 
         const response = await fetch(deleteUrl, {
           method: 'DELETE',

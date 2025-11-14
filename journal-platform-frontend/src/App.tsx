@@ -19,7 +19,7 @@ import SubscriptionPage from '@/pages/subscription/SubscriptionPage';
 import ConnectionStatus from '@/components/ui/ConnectionStatus';
 import PerformanceMonitor from '@/components/ui/PerformanceMonitor';
 import ProjectDetail from '@/components/projects/ProjectDetail';
-import AIWorkflowPage from '@/pages/ai-workflow/AIWorkflowPage';
+import EnhancedAIWorkflowPage from '@/pages/ai-workflow/EnhancedAIWorkflowPage';
 import SettingsPage from '@/pages/settings/SettingsPage';
 
 // Authenticated routes component
@@ -204,7 +204,7 @@ function AIWorkflowPageWrapper() {
     return <Navigate to="/auth/login" replace />;
   }
 
-  return <AIWorkflowPage />;
+  return <EnhancedAIWorkflowPage />;
 }
 
 // Main App component with routing

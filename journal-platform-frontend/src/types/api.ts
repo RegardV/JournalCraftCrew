@@ -21,7 +21,10 @@ export interface AuthResponse {
     email: string;
     full_name: string;
     profile_type: string;
-    ai_credits: number;
+    subscription: string;
+    library_access: boolean;
+    is_verified: boolean;
+    has_openai_key: boolean;
   };
   access_token?: string;
   token_type?: string;
@@ -170,7 +173,10 @@ export interface AuthState {
     email: string;
     full_name: string;
     profile_type: string;
-    ai_credits: number;
+    subscription: string;
+    library_access: boolean;
+    is_verified: boolean;
+    has_openai_key: boolean;
     created_at?: string;
   } | null;
   token: string | null;

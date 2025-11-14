@@ -36,10 +36,11 @@ class UserResponse(BaseModel):
     full_name: Optional[str] = None
     subscription: str
     profile_type: str
-    ai_credits: int
     library_access: bool
     is_active: bool
     is_verified: bool
+    has_openai_key: bool
+    ai_provider: str
     created_at: str
     updated_at: str
 
@@ -60,6 +61,15 @@ class ResetPassword(BaseModel):
 
 class ForgotPassword(BaseModel):
     email: EmailStr = Field(..., description="Email address for password reset")
+
+class APIKeyUpdate(BaseModel):
+    openai_api_key: str = Field(..., description="OpenAI API key")
+    ai_provider: str = Field("openai", description="AI provider (currently only 'openai' supported)")
+
+class APIKeyResponse(BaseModel):
+    has_openai_key: bool
+    ai_provider: str
+    message: str
 
 @router.post("/register", response_model=dict, status_code=201)
 async def register(
@@ -146,8 +156,8 @@ async def get_current_user_info(
 
 @router.post("/logout")
 async def logout(
-    current_user: Dict[str, Any] = Depends(get_current_user),
-    request: Request
+    request: Request,
+    current_user: Dict[str, Any] = Depends(get_current_user)
 ):
     """Logout user (invalidate tokens)"""
     try:
@@ -279,6 +289,152 @@ async def change_password(
         raise HTTPException(
             status_code=500,
             detail="Password change failed due to internal error"
+        )
+
+# API Key Management endpoints
+@router.get("/api-keys", response_model=APIKeyResponse)
+async def get_api_keys(
+    current_user: dict = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Get user's API key status"""
+    try:
+        from app.models.user import User
+        from sqlalchemy import select
+
+        result = await db.execute(
+            select(User).where(User.id == current_user["id"])
+        )
+        user = result.scalar_one_or_none()
+
+        if not user:
+            raise HTTPException(
+                status_code=404,
+                detail="User not found"
+            )
+
+        return APIKeyResponse(
+            has_openai_key=bool(user.openai_api_key),
+            ai_provider=user.ai_provider or "openai",
+            message="API key status retrieved successfully"
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Get API keys error: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail="Failed to retrieve API key status"
+        )
+
+@router.put("/api-keys", response_model=APIKeyResponse)
+async def update_api_key(
+    api_key_data: APIKeyUpdate,
+    current_user: dict = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Update user's OpenAI API key"""
+    try:
+        from app.models.user import User
+        from sqlalchemy import select
+        from datetime import datetime
+        import re
+
+        # Validate OpenAI API key format
+        openai_key_pattern = r'^sk-[A-Za-z0-9]{48}$'
+        if not re.match(openai_key_pattern, api_key_data.openai_api_key):
+            raise HTTPException(
+                status_code=400,
+                detail="Invalid OpenAI API key format. OpenAI API keys start with 'sk-' followed by 48 characters."
+            )
+
+        # Validate AI provider
+        if api_key_data.ai_provider != "openai":
+            raise HTTPException(
+                status_code=400,
+                detail="Currently only 'openai' is supported as AI provider"
+            )
+
+        result = await db.execute(
+            select(User).where(User.id == current_user["id"])
+        )
+        user = result.scalar_one_or_none()
+
+        if not user:
+            raise HTTPException(
+                status_code=404,
+                detail="User not found"
+            )
+
+        # Update user's API key and provider
+        user.openai_api_key = api_key_data.openai_api_key
+        user.ai_provider = api_key_data.ai_provider
+        user.updated_at = datetime.utcnow()
+
+        await db.commit()
+        logger.info(f"OpenAI API key updated for user: {current_user['email']}")
+
+        return APIKeyResponse(
+            has_openai_key=True,
+            ai_provider=user.ai_provider,
+            message="OpenAI API key updated successfully"
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        await db.rollback()
+        logger.error(f"Update API key error: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail="Failed to update API key"
+        )
+
+@router.delete("/api-keys", response_model=APIKeyResponse)
+async def delete_api_key(
+    current_user: dict = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Delete user's OpenAI API key"""
+    try:
+        from app.models.user import User
+        from sqlalchemy import select
+        from datetime import datetime
+
+        result = await db.execute(
+            select(User).where(User.id == current_user["id"])
+        )
+        user = result.scalar_one_or_none()
+
+        if not user:
+            raise HTTPException(
+                status_code=404,
+                detail="User not found"
+            )
+
+        # Clear user's API key
+        user.openai_api_key = None
+        user.ai_provider = "openai"
+        user.updated_at = datetime.utcnow()
+
+        await db.commit()
+        logger.info(f"OpenAI API key deleted for user: {current_user['email']}")
+
+        return APIKeyResponse(
+            has_openai_key=False,
+            ai_provider=user.ai_provider,
+            message="OpenAI API key deleted successfully"
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        await db.rollback()
+        logger.error(f"Delete API key error: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail="Failed to delete API key"
         )
 
 # OAuth2 endpoints (placeholder for future implementation)

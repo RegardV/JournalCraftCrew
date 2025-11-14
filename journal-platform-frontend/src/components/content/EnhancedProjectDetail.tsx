@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { getApiURL } from '@/lib/apiConfig';
 import {
   ArrowLeft,
   BookOpen,
@@ -35,7 +36,7 @@ import {
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/Tabs';
-import CrewAIWorkflowProgress from '../projects/CrewAIWorkflowProgress';
+import CrewAIWorkflowProgress from '../journal/CrewAIWorkflowProgress';
 
 interface Project {
   id: number;
@@ -122,7 +123,7 @@ const EnhancedProjectDetail: React.FC<EnhancedProjectDetailProps> = ({
 
       // Fetch project details
       const projectResponse = await fetch(
-        `${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/projects/${projectId}`,
+        `${getApiURL()}/api/projects/${projectId}`,
         {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -151,7 +152,7 @@ const EnhancedProjectDetail: React.FC<EnhancedProjectDetailProps> = ({
       const token = localStorage.getItem('access_token');
 
       const analysisResponse = await fetch(
-        `${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/journal-content/analyze-project/${projectId}`,
+        `${getApiURL()}/api/journal-content/analyze-project/${projectId}`,
         {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -185,7 +186,7 @@ const EnhancedProjectDetail: React.FC<EnhancedProjectDetailProps> = ({
       }
 
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/journal-content/enhance-project`,
+        `${getApiURL()}/api/journal-content/enhance-project`,
         {
           method: 'POST',
           headers: {
@@ -223,7 +224,7 @@ const EnhancedProjectDetail: React.FC<EnhancedProjectDetailProps> = ({
       const token = localStorage.getItem('access_token');
 
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL || 'http://localhost:8000'}/api/journal-content/quick-enhance/${projectId}?enhancement_type=${enhancementType}`,
+        `${getApiURL()}/api/journal-content/quick-enhance/${projectId}?enhancement_type=${enhancementType}`,
         {
           method: 'POST',
           headers: {
