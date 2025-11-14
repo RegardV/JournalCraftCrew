@@ -860,6 +860,11 @@ def journal_frontend():
         "status": "Available" if check_server_status()["frontend"]["running"] else "Not Running"
     })
 
+@app.route('/agent-overview')
+def agent_overview():
+    """Agent System Overview page"""
+    return render_template('agent_overview.html')
+
 # Proposals Management Endpoints
 @app.route('/api/proposals')
 def get_proposals():

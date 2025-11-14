@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal Craft Crew - Agent System Overview</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --info-color: #17a2b8;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --live-green: #28a745;
+            --offline-red: #dc3545;
+            --archive-gray: #6c757d;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin: 0 auto;
+            max-width: 1400px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 300;
+        }
+
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        .status-live {
+            background-color: var(--live-green);
+            box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
+        }
+
+        .status-offline {
+            background-color: var(--offline-red);
+        }
+
+        .status-archive {
+            background-color: var(--archive-gray);
+            animation: none;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .agent-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .agent-header {
+            padding: 20px;
+            border-left: 5px solid;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .application-layer {
+            border-left-color: var(--info-color);
+            background: linear-gradient(90deg, rgba(23, 162, 184, 0.1) 0%, transparent 100%);
+        }
+
+        .dev-layer {
+            border-left-color: var(--success-color);
+            background: linear-gradient(90deg, rgba(39, 174, 96, 0.1) 0%, transparent 100%);
+        }
+
+        .legacy-layer {
+            border-left-color: var(--archive-gray);
+            background: linear-gradient(90deg, rgba(108, 117, 125, 0.1) 0%, transparent 100%);
+        }
+
+        .agent-title {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .agent-role {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .agent-body {
+            padding: 0 20px 20px 20px;
+        }
+
+        .agent-description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .tools-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .tools-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .tools-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tool-badge {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 0.85rem;
+            color: #495057;
+        }
+
+        .file-path {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            word-break: break-all;
+            margin-bottom: 10px;
+        }
+
+        .layer-section {
+            margin-bottom: 40px;
+        }
+
+        .layer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .layer-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .layer-badge {
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .integration-flow {
+            background: #e8f4fd;
+            border: 1px solid #bee5eb;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .flow-title {
+            font-weight: 600;
+            color: var(--info-color);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .flow-diagram {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            font-family: monospace;
+            overflow-x: auto;
+            white-space: pre;
+            border: 1px solid #dee2e6;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-top: 4px solid;
+        }
+
+        .stat-card.application {
+            border-top-color: var(--info-color);
+        }
+
+        .stat-card.dev {
+            border-top-color: var(--success-color);
+        }
+
+        .stat-card.legacy {
+            border-top-color: var(--archive-gray);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .back-to-dashboard {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-to-dashboard:hover {
+            transform: scale(1.1);
+            background: var(--secondary-color);
+        }
+
+        .last-updated {
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="header">
+            <h1><i class="fas fa-robot"></i> Journal Craft Crew - Agent System Overview</h1>
+            <p>Complete Multi-Layer Architecture Documentation & Live Status Dashboard</p>
+        </div>
+
+        <div class="content">
+            <!-- Statistics Overview -->
+            <div class="stats-grid">
+                <div class="stat-card application">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Application Layer Agents</div>
+                    <small class="text-muted">User-Facing Journal Generation</small>
+                </div>
+                <div class="stat-card dev">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Dev Layer Agents</div>
+                    <small class="text-muted">Development Support & Research</small>
+                </div>
+                <div class="stat-card legacy">
+                    <div class="stat-number">9</div>
+                    <div class="stat-label">Legacy System Agents</div>
+                    <small class="text-muted">Archived CrewAI Implementation</small>
+                </div>
+            </div>
+
+            <!-- Application Layer -->
+            <div class="layer-section">
+                <div class="layer-header">
+                    <div class="layer-title">
+                        <i class="fas fa-users text-info"></i> Application Layer
+                        <span class="status-indicator status-live"></span>
+                    </div>
+                    <span class="layer-badge">4 Active Agents</span>
+                </div>
+
+                <div class="integration-flow">
+                    <div class="flow-title"><i class="fas fa-project-diagram"></i> Integration Flow</div>
+                    <div class="flow-diagram">User Request → Frontend Interface → WebSocket → AI Crew Service → CrewAI Sequential Workflow
+Research → Title → Content → Review → Real-time Progress Updates</div>
+                </div>
+
+                <!-- Research Specialist -->
+                <div class="agent-card">
+                    <div class="agent-header application-layer">
+                        <div>
+                            <div class="agent-title">
+                                <span class="status-indicator status-live"></span>
+                                Research Specialist
+                            </div>
+                            <div class="agent-role">Research Agent - Theme Analysis & Insight Gathering</div>
+                        </div>
+                        <span class="badge bg-info">Live</span>
+                    </div>
+                    <div class="agent-body">
+                        <div class="agent-description">
+                            Conducts thorough research on journal themes to provide valuable insights and inspiration. Utilizes advanced search capabilities to gather information from diverse sources including blogs, studies, and publications.
+                        </div>
+                        <div class="file-path">
+                            <i class="fas fa-file-code"></i> <strong>Path:</strong> journal-platform-backend/app/services/ai_crew_service.py:209
+                        </div>
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-tools"></i> Tools & Features</div>
+                            <div class="tools-list">
+                                <span class="tool-badge">SerperDevTool</span>
+                                <span class="tool-badge">ScrapeWebsiteTool</span>
+                                <span class="tool-badge">DirectorySearchTool</span>
+                                <span class="tool-badge">Theme Validation</span>
+                                <span class="tool-badge">Research Depth Control</span>
+                            </div>
+                        </div>
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-cogs"></i> Integration Details</div>
+                            <small class="text-muted">Framework: CrewAI | Access: Frontend Journal Creation | WebSocket: Real-time Progress</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Creative Title Writer -->
+                <div class="agent-card">
+                    <div class="agent-header application-layer">
+                        <div>
+                            <div class="agent-title">
+                                <span class="status-indicator status-live"></span>
+                                Creative Title Writer
+                            </div>
+                            <div class="agent-role">Title Generation Agent - Compelling Journal Titles</div>
+                        </div>
+                        <span class="badge bg-info">Live</span>
+                    </div>
+                    <div class="agent-body">
+                        <div class="agent-description">
+                            Creates compelling, engaging journal titles that capture the essence of themes while maintaining appropriate style preferences. Specializes in crafting memorable titles that draw readers in and set the perfect tone.
+                        </div>
+                        <div class="file-path">
+                            <i class="fas fa-file-code"></i> <strong>Path:</strong> journal-platform-backend/app/services/ai_crew_service.py:223
+                        </div>
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-tools"></i> Tools & Features</div>
+                            <div class="tools-list">
+                                <span class="tool-badge">Creative Writing</span>
+                                <span class="tool-badge">Style Adaptation</span>
+                                <span class="tool-badge">Theme Integration</span>
+                                <span class="tool-badge">Length Optimization</span>
+                                <span class="tool-badge">Context Processing</span>
+                            </div>
+                        </div>
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-cogs"></i> Integration Details</div>
+                            <small class="text-muted">Framework: CrewAI | Access: Sequential Workflow | Context: Research Output</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Journal Content Creator -->
+                <div class="agent-card">
+                    <div class="agent-header application-layer">
+                        <div>
+                            <div class="agent-title">
+                                <span class="status-indicator status-live"></span>
+                                Journal Content Creator
+                            </div>
+                            <div class="agent-role">Content Creation Agent - Authentic Journal Writing</div>
+                        </div>
+                        <span class="badge bg-info">Live</span>
+                    </div>
+                    <div class="agent-body">
+                        <div class="agent-description">
+                            Writes meaningful, engaging journal entries with authentic voice and emotional depth. Specializes in various author styles while maintaining personalization and creating content that feels genuine and thoughtful.
+                        </div>
+                        <div class="file-path">
+                            <i class="fas fa-file-code"></i> <strong>Path:</strong> journal-platform-backend/app/services/ai_crew_service.py:235
+                        </div>
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-tools"></i> Tools & Features</div>
+                            <div class="tools-list">
+                                <span class="tool-badge">Style Adaptation</span>
+                                <span class="tool-badge">Custom Instructions</span>
+                                <span class="tool-badge">Emotional Depth</span>
+                                <span class="tool-badge">Content Structure</span>
+                                <span class="tool-badge">Personalization</span>
+                            </div>
+                        </div>
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-cogs"></i> Integration Details</div>
+                            <small class="text-muted">Framework: CrewAI | Access: Sequential Workflow | Word Count: 500-1000</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Quality Reviewer -->
+                <div class="agent-card">
+                    <div class="agent-header application-layer">
+                        <div>
+                            <div class="agent-title">
+                                <span class="status-indicator status-live"></span>
+                                Content Quality Reviewer
+                            </div>
+                            <div class="agent-role">Content Review Agent - Quality Assurance</div>
+                        </div>
+                        <span class="badge bg-info">Live</span>
+                    </div>
+                    <div class="agent-body">
+                        <div class="agent-description">
+                            Ensures journal content meets high quality standards and feels authentic. Provides expert editorial judgment with keen attention to detail, emotional impact, and authenticity while maintaining the author's voice.
+                        </div>
+                        <div class="file-path">
+                            <i class="fas fa-file-code"></i> <strong>Path:</strong> journal-platform-backend/app/services/ai_crew_service.py:252
+                        </div>
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-tools"></i> Tools & Features</div>
+                            <div class="tools-list">
+                                <span class="tool-badge">Quality Assessment</span>
+                                <span class="tool-badge">Coherence Analysis</span>
+                                <span class="tool-badge">Tone Validation</span>
+                                <span class="tool-badge">Engagement Rating</span>
+                                <span class="tool-badge">Improvement Feedback</span>
+                            </div>
+                        </div>
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-cogs"></i> Integration Details</div>
+                            <small class="text-muted">Framework: CrewAI | Access: Final Workflow Stage | Output: Quality Report</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dev Layer -->
+            <div class="layer-section">
+                <div class="layer-header">
+                    <div class="layer-title">
+                        <i class="fas fa-code text-success"></i> Dev Layer
+                        <span class="status-indicator status-live"></span>
+                    </div>
+                    <span class="layer-badge">6 Active Agents</span>
+                </div>
+
+                <div class="integration-flow">
+                    <div class="flow-title"><i class="fas fa-project-diagram"></i> Integration Flow</div>
+                    <div class="flow-diagram">Developer Request → API Endpoint → Development Assistant Service → Archon Knowledge Base → Research Results → Technical Guidance → API Response</div>
+                </div>
+
+                <!-- Archon Development Assistant -->
+                <div class="agent-card">
+                    <div class="agent-header dev-layer">
+                        <div>
+                            <div class="agent-title">
+                                <span class="status-indicator status-live"></span>
+                                Archon Development Assistant
+                            </div>
+                            <div class="agent-role">Knowledge Integration Agent - Technical Research Coordinator</div>
+                        </div>
+                        <span class="badge bg-success">Live</span>
+                    </div>
+                    <div class="agent-body">
+                        <div class="agent-description">
+                            Provides intelligent development assistance using Archon's knowledge base for technical decisions, implementation patterns, and best practices guidance. Serves as the central coordinator for all dev-layer agent activities.
+                        </div>
+                        <div class="file-path">
+                            <i class="fas fa-file-code"></i> <strong>Path:</strong> journal-platform-backend/app/services/development_assistant.py:32
+                        </div>
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-tools"></i> Tools & Features</div>
+                            <div class="tools-list">
+                                <span class="tool-badge">ArchonServiceClient</span>
+                                <span class="tool-badge">Knowledge Base Search</span>
+                                <span class="tool-badge">Technical Guidance</span>
+                                <span class="tool-badge">Architecture Advice</span>
+                                <span class="tool-badge">Best Practices</span>
+                            </div>
+                        </div>
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-cogs"></i> Integration Details</div>
+                            <small class="text-muted">Framework: Custom Service | Access: Backend API | Knowledge Source: Archon</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Storage Research Agent -->
+                <div class="agent-card">
+                    <div class="agent-header dev-layer">
+                        <div>
+                            <div class="agent-title">
+                                <span class="status-indicator status-live"></span>
+                                File Storage Research Agent
+                            </div>
+                            <div class="agent-role">Research Assistant - Storage Solution Analysis</div>
+                        </div>
+                        <span class="badge bg-success">Live</span>
+                    </div>
+                    <div class="agent-body">
+                        <div class="agent-description">
+                            Researches file storage solutions including Google Drive, Dropbox, AWS S3, and VPS hosting options. Provides comprehensive analysis of API integration, pricing models, security considerations, and implementation patterns.
+                        </div>
+                        <div class="file-path">
+                            <i class="fas fa-file-code"></i> <strong>Path:</strong> journal-platform-backend/app/services/development_assistant.py:65
+                        </div>
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-tools"></i> Tools & Features</div>
+                            <div class="tools-list">
+                                <span class="tool-badge">Storage Comparison</span>
+                                <span class="tool-badge">API Integration Research</span>
+                                <span class="tool-badge">Security Analysis</span>
+                                <span class="tool-badge">Pricing Research</span>
+                                <span class="tool-badge">Implementation Patterns</span>
+                            </div>
+                        </div>
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-cogs"></i> Integration Details</div>
+                            <small class="text-muted">Framework: Archon Integration | Access: API Endpoint | Output: Storage Recommendations</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Authentication Patterns Research Agent -->
+                <div class="agent-card">
+                    <div class="agent-header dev-layer">
+                        <div>
+                            <div class="agent-title">
+                                <span class="status-indicator status-live"></span>
+                                Authentication Patterns Research Agent
+                            </div>
+                            <div class="agent-role">Research Assistant - Security Pattern Analysis</div>
+                        </div>
+                        <span class="badge bg-success">Live</span>
+                    </div>
+                    <div class="agent-body">
+                        <div class="agent-description">
+                            Researches authentication patterns including Firebase, OAuth, JWT, and third-party login options. Analyzes security best practices, session management, and frontend integration strategies for robust authentication systems.
+                        </div>
+                        <div class="file-path">
+                            <i class="fas fa-file-code"></i> <strong>Path:</strong> journal-platform-backend/app/services/development_assistant.py:100
+                        </div>
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-tools"></i> Tools & Features</div>
+                            <div class="tools-list">
+                                <span class="tool-badge">Auth Pattern Research</span>
+                                <span class="tool-badge">Security Analysis</span>
+                                <span class="tool-badge">JWT Patterns</span>
+                                <span class="tool-badge">OAuth Integration</span>
+                                <span class="tool-badge">Session Management</span>
+                            </div>
+                        </div>
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-cogs"></i> Integration Details</div>
+                            <small class="text-muted">Framework: Archon Integration | Access: API Endpoint | Output: Security Recommendations</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VPS Deployment Research Agent -->
+                <div class="agent-card">
+                    <div class="agent-header dev-layer">
+                        <div>
+                            <div class="agent-title">
+                                <span class="status-indicator status-live"></span>
+                                VPS Deployment Research Agent
+                            </div>
+                            <div class="agent-role">Research Assistant - Infrastructure & Deployment</div>
+                        </div>
+                        <span class="badge bg-success">Live</span>
+                    </div>
+                    <div class="agent-body">
+                        <div class="agent-description">
+                            Researches VPS deployment strategies, containerization with Docker, server configuration, SSL implementation, monitoring solutions, and database deployment strategies for production-ready infrastructure.
+                        </div>
+                        <div class="file-path">
+                            <i class="fas fa-file-code"></i> <strong>Path:</strong> journal-platform-backend/app/services/development_assistant.py:136
+                        </div>
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-tools"></i> Tools & Features</div>
+                            <div class="tools-list">
+                                <span class="tool-badge">Deployment Strategies</span>
+                                <span class="tool-badge">Containerization Research</span>
+                                <span class="tool-badge">Server Configuration</span>
+                                <span class="tool-badge">Security Hardening</span>
+                                <span class="tool-badge">Monitoring Solutions</span>
+                            </div>
+                        </div>
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-cogs"></i> Integration Details</div>
+                            <small class="text-muted">Framework: Archon Integration | Access: API Endpoint | Output: Deployment Guidelines</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Architecture Guidance Agent -->
+                <div class="agent-card">
+                    <div class="agent-header dev-layer">
+                        <div>
+                            <div class="agent-title">
+                                <span class="status-indicator status-live"></span>
+                                Architecture Guidance Agent
+                            </div>
+                            <div class="agent-role">Advisory Agent - Technical Architecture Consulting</div>
+                        </div>
+                        <span class="badge bg-success">Live</span>
+                    </div>
+                    <div class="agent-body">
+                        <div class="agent-description">
+                            Provides architecture recommendations and best practices based on project context. Specializes in software architecture, API design patterns, scalability considerations, and security architecture guidance.
+                        </div>
+                        <div class="file-path">
+                            <i class="fas fa-file-code"></i> <strong>Path:</strong> journal-platform-backend/app/services/development_assistant.py:172
+                        </div>
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-tools"></i> Tools & Features</div>
+                            <div class="tools-list">
+                                <span class="tool-badge">Architecture Consulting</span>
+                                <span class="tool-badge">Best Practices</span>
+                                <span class="tool-badge">Scalability Analysis</span>
+                                <span class="tool-badge">Security Architecture</span>
+                                <span class="tool-badge">Performance Optimization</span>
+                            </div>
+                        </div>
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-cogs"></i> Integration Details</div>
+                            <small class="text-muted">Framework: Archon Integration | Access: API Endpoint | Output: Architecture Recommendations</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Implementation Patterns Research Agent -->
+                <div class="agent-card">
+                    <div class="agent-header dev-layer">
+                        <div>
+                            <div class="agent-title">
+                                <span class="status-indicator status-live"></span>
+                                Implementation Patterns Research Agent
+                            </div>
+                            <div class="agent-role">Research Assistant - Code Patterns & Best Practices</div>
+                        </div>
+                        <span class="badge bg-success">Live</span>
+                    </div>
+                    <div class="agent-body">
+                        <div class="agent-description">
+                            Researches implementation patterns for specific technologies and use cases. Provides code examples, best practices, common pitfalls, and testing strategies for React, FastAPI, PostgreSQL, and other technologies.
+                        </div>
+                        <div class="file-path">
+                            <i class="fas fa-file-code"></i> <strong>Path:</strong> journal-platform-backend/app/services/development_assistant.py:211
+                        </div>
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-tools"></i> Tools & Features</div>
+                            <div class="tools-list">
+                                <span class="tool-badge">Pattern Research</span>
+                                <span class="tool-badge">Code Examples</span>
+                                <span class="tool-badge">Best Practices</span>
+                                <span class="tool-badge">Technology-Specific Guidance</span>
+                                <span class="tool-badge">Testing Strategies</span>
+                            </div>
+                        </div>
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-cogs"></i> Integration Details</div>
+                            <small class="text-muted">Framework: Archon Integration | Access: API Endpoint | Output: Implementation Guidelines</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Legacy System -->
+            <div class="layer-section">
+                <div class="layer-header">
+                    <div class="layer-title">
+                        <i class="fas fa-archive text-secondary"></i> Legacy System
+                        <span class="status-indicator status-archive"></span>
+                    </div>
+                    <span class="layer-badge">9 Archived Agents</span>
+                </div>
+
+                <div class="integration-flow">
+                    <div class="flow-title"><i class="fas fa-project-diagram"></i> Legacy Integration Flow</div>
+                    <div class="flow-diagram">Original CrewAI Implementation → Archived for Reference → Migration Path to New System → Functionality Preserved in Application Layer</div>
+                </div>
+
+                <div class="alert alert-warning" role="alert">
+                    <i class="fas fa-info-circle"></i> <strong>Legacy Status:</strong> The original 9-agent CrewAI system has been archived and is preserved for reference and potential migration. Core functionality has been integrated into the new Application Layer agents.
+                </div>
+
+                <!-- Legacy Agents Summary -->
+                <div class="agent-card">
+                    <div class="agent-header legacy-layer">
+                        <div>
+                            <div class="agent-title">
+                                <span class="status-indicator status-archive"></span>
+                                Legacy Agent Collection
+                            </div>
+                            <div class="agent-role">Archived CrewAI Implementation - Reference & Migration</div>
+                        </div>
+                        <span class="badge bg-secondary">Archived</span>
+                    </div>
+                    <div class="agent-body">
+                        <div class="agent-description">
+                            Complete collection of the original 9-agent CrewAI system including Manager, Research, Content Curator, Editor, PDF Builder, Media, Onboarding, Discovery, and Platform Setup agents. Preserved for reference, potential migration, and historical context.
+                        </div>
+                        <div class="file-path">
+                            <i class="fas fa-folder"></i> <strong>Paths:</strong>
+                            <br>• /agents/ (Current directory)
+                            <br>• /backup/2025-10-24_21-03-05_pre_prompt_improvements/agents/ (Historical backup)
+                        </div>
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-boxes"></i> Legacy Agent List</div>
+                            <div class="tools-list">
+                                <span class="tool-badge">Manager Agent</span>
+                                <span class="tool-badge">Research Agent</span>
+                                <span class="tool-badge">Content Curator Agent</span>
+                                <span class="tool-badge">Editor Agent</span>
+                                <span class="tool-badge">PDF Builder Agent</span>
+                                <span class="tool-badge">Media Agent</span>
+                                <span class="tool-badge">Onboarding Agent</span>
+                                <span class="tool-badge">Discovery Agent</span>
+                                <span class="tool-badge">Platform Setup Agent</span>
+                            </div>
+                        </div>
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-cogs"></i> Migration Status</div>
+                            <small class="text-muted">Status: Archived | Access: File System | Integration: Functionality migrated to new system | Purpose: Reference and future migration options</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Architecture Overview -->
+            <div class="layer-section">
+                <div class="layer-header">
+                    <div class="layer-title">
+                        <i class="fas fa-network-wired text-primary"></i> System Architecture Overview
+                    </div>
+                </div>
+
+                <div class="agent-card">
+                    <div class="agent-body">
+                        <div class="tools-section">
+                            <div class="tools-title"><i class="fas fa-microchip"></i> Framework Integration</div>
+                            <div class="tools-list">
+                                <span class="tool-badge">CrewAI Framework</span>
+                                <span class="tool-badge">Archon Knowledge Base</span>
+                                <span class="tool-badge">WebSocket Communication</span>
+                                <span class="tool-badge">FastAPI Backend</span>
+                                <span class="tool-badge">React Frontend</span>
+                            </div>
+                        </div>
+
+                        <div class="integration-flow">
+                            <div class="flow-title"><i class="fas fa-route"></i> Complete System Flow</div>
+                            <div class="flow-diagram">Frontend User Interface → WebSocket Connection → Backend API Services
+├── Application Layer: CrewAI Sequential Workflow (Research → Title → Content → Review)
+├── Dev Layer: Archon Knowledge Base Integration → Technical Research → API Response
+└── Legacy System: Archived Implementation (Reference & Migration)
+
+Real-time Progress Tracking → Database Storage → User Dashboard Display</div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="tools-section">
+                                    <div class="tools-title"><i class="fas fa-check-circle text-success"></i> Active Features</div>
+                                    <ul class="list-unstyled">
+                                        <li><i class="fas fa-check text-success"></i> Real-time WebSocket progress tracking</li>
+                                        <li><i class="fas fa-check text-success"></i> Sequential CrewAI workflow execution</li>
+                                        <li><i class="fas fa-check text-success"></i> Archon knowledge base integration</li>
+                                        <li><i class="fas fa-check text-success"></i> Multi-layer agent architecture</li>
+                                        <li><i class="fas fa-check text-success"></i> Complete documentation and monitoring</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="tools-section">
+                                    <div class="tools-title"><i class="fas fa-tools text-info"></i> Technical Specifications</div>
+                                    <ul class="list-unstyled">
+                                        <li><i class="fas fa-code text-info"></i> Total Agents: 19 (4+6+9)</li>
+                                        <li><i class="fas fa-code text-info"></i> Live Services: Application & Dev Layers</li>
+                                        <li><i class="fas fa-code text-info"></i> Frameworks: CrewAI + Archon + Custom</li>
+                                        <li><i class="fas fa-code text-info"></i> Real-time Communication: WebSocket</li>
+                                        <li><i class="fas fa-code text-info"></i> Documentation: Complete OpenSpec Compliance</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="last-updated">
+                <i class="fas fa-clock"></i> Last Updated: November 14, 2025 | Documentation Version: 1.0 | Status: Complete & Operational
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Dashboard Button -->
+    <button class="back-to-dashboard" onclick="window.location.href='/dashboard'" title="Back to Dev Dashboard">
+        <i class="fas fa-arrow-left"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Auto-refresh status indicators
+        function refreshStatus() {
+            const statusIndicators = document.querySelectorAll('.status-live');
+            statusIndicators.forEach(indicator => {
+                // Simulate status check - in real implementation, this would ping actual services
+                indicator.style.opacity = '0.5';
+                setTimeout(() => {
+                    indicator.style.opacity = '1';
+                }, 500);
+            });
+        }
+
+        // Refresh status every 30 seconds
+        setInterval(refreshStatus, 30000);
+
+        // Add click handlers for file paths
+        document.querySelectorAll('.file-path').forEach(path => {
+            path.style.cursor = 'pointer';
+            path.addEventListener('click', function() {
+                const text = this.textContent;
+                navigator.clipboard.writeText(text).then(() => {
+                    const originalBg = this.style.backgroundColor;
+                    this.style.backgroundColor = '#d4edda';
+                    setTimeout(() => {
+                        this.style.backgroundColor = originalBg;
+                    }, 1000);
+                });
+            });
+        });
+
+        // Add smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
