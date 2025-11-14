@@ -28,6 +28,7 @@ interface AgentProgress {
   icon: React.ReactNode;
   progress: number;
   output?: string;
+  cliOutput?: string[];
   startTime?: Date;
   completionTime?: Date;
   estimatedTime: number;
@@ -105,6 +106,10 @@ const EnhancedAIWorkflowPage: React.FC = () => {
   const [totalEstimatedTime] = useState(12); // Total minutes estimated
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [showCliOutput, setShowCliOutput] = useState(false);
+  const [selectedAgentForCli, setSelectedAgentForCli] = useState<string | null>(null);
+  const [journalContent, setJournalContent] = useState<string>('');
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const intervalRef = useRef<number | null>(null);
 
   // Save completed journal to library
@@ -151,6 +156,70 @@ const EnhancedAIWorkflowPage: React.FC = () => {
     }
   };
 
+  // Generate PDF from journal content
+  const generatePDF = async () => {
+    if (!journalContent) {
+      console.error('No journal content available for PDF generation');
+      return;
+    }
+
+    try {
+      setIsGeneratingPdf(true);
+
+      // Create a temporary HTML content for PDF generation
+      const htmlContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <title>AI Generated Journal</title>
+          <style>
+            body { font-family: Georgia, serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+            h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+            h2 { color: #34495e; margin-top: 30px; }
+            .date { color: #7f8c8d; font-style: italic; margin-bottom: 30px; }
+            .content { white-space: pre-wrap; }
+          </style>
+        </head>
+        <body>
+          <h1>AI Generated Journal</h1>
+          <div class="date">Generated on ${new Date().toLocaleDateString()}</div>
+          <div class="content">${journalContent}</div>
+        </body>
+        </html>
+      `;
+
+      // Use browser's print functionality to generate PDF
+      const printWindow = window.open('', '_blank');
+      if (printWindow) {
+        printWindow.document.write(htmlContent);
+        printWindow.document.close();
+        printWindow.focus();
+
+        // Wait for the content to load before printing
+        setTimeout(() => {
+          printWindow.print();
+          printWindow.close();
+        }, 500);
+      }
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    } finally {
+      setIsGeneratingPdf(false);
+    }
+  };
+
+  // Toggle CLI output for specific agent
+  const toggleCliOutput = (agentId: string) => {
+    if (selectedAgentForCli === agentId) {
+      setShowCliOutput(false);
+      setSelectedAgentForCli(null);
+    } else {
+      setSelectedAgentForCli(agentId);
+      setShowCliOutput(true);
+    }
+  };
+
   // WebSocket connection
   useEffect(() => {
     if (!actualWorkflowId) return;
@@ -193,9 +262,19 @@ const EnhancedAIWorkflowPage: React.FC = () => {
           case 'agent_output':
             setAgents(prev => prev.map(agent =>
               agent.name === data.agent
-                ? { ...agent, status: 'active', progress: 75, output: data.output }
+                ? {
+                    ...agent,
+                    status: 'active',
+                    progress: 75,
+                    output: data.output,
+                    cliOutput: data.cli_output ? [...(agent.cliOutput || []), data.cli_output] : agent.cliOutput
+                  }
                 : agent
             ));
+            // Update journal content if available
+            if (data.journal_content) {
+              setJournalContent(data.journal_content);
+            }
             break;
 
           case 'agent_complete':
@@ -428,11 +507,41 @@ const EnhancedAIWorkflowPage: React.FC = () => {
                       />
                     </div>
 
+                    {/* Agent Actions */}
+                    <div className="flex items-center gap-2 mt-2">
+                      <button
+                        onClick={() => toggleCliOutput(agent.id)}
+                        className={`flex items-center gap-1 px-2 py-1 text-xs rounded-md transition-colors ${
+                          selectedAgentForCli === agent.id
+                            ? 'bg-purple-100 text-purple-700 hover:bg-purple-200'
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        }`}
+                      >
+                        <Terminal className="w-3 h-3" />
+                        {selectedAgentForCli === agent.id ? 'Hide CLI' : 'Show CLI'}
+                      </button>
+                    </div>
+
+                    {/* CLI Output */}
+                    {showCliOutput && selectedAgentForCli === agent.id && agent.cliOutput && (
+                      <div className="mt-3 p-3 bg-gray-900 text-green-400 rounded-lg text-xs font-mono border border-gray-700">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Terminal className="w-3 h-3 text-green-400" />
+                          <span className="text-xs font-medium text-green-300">CLI Output</span>
+                        </div>
+                        <div className="space-y-1 max-h-40 overflow-y-auto">
+                          {agent.cliOutput.map((line, idx) => (
+                            <div key={idx} className="text-green-400 whitespace-pre-wrap">{line}</div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
                     {/* Agent Output */}
                     {agent.output && (
                       <div className="mt-3 p-3 bg-white/50 rounded-lg text-sm text-gray-700 border border-gray-200">
                         <div className="flex items-center gap-2 mb-2">
-                          <Terminal className="w-3 h-3 text-gray-500" />
+                          <FileText className="w-3 h-3 text-gray-500" />
                           <span className="text-xs font-medium text-gray-600">Latest Output</span>
                         </div>
                         <p className="text-gray-700 leading-relaxed">{agent.output}</p>
@@ -547,6 +656,14 @@ const EnhancedAIWorkflowPage: React.FC = () => {
 
               {isCompleted && (
                 <div className="mt-4 flex flex-col space-y-2">
+                  <button
+                    onClick={generatePDF}
+                    disabled={isGeneratingPdf || !journalContent}
+                    className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  >
+                    <Download className="w-4 h-4" />
+                    {isGeneratingPdf ? 'Generating PDF...' : 'Download PDF'}
+                  </button>
                   <button
                     onClick={() => navigate('/dashboard?view=library')}
                     className="w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
