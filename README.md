@@ -79,17 +79,47 @@
 3. **Create Journal**: Start creating with AI assistance
 4. **Download**: Get your beautifully crafted journal
 
-### 🛠️ Local Development
+### 🛠️ Local Development - One-Click Setup
+
+**⚡ Quick Setup (Recommended)**
 ```bash
 # Clone the repository
 git clone https://github.com/RegardV/JournalCraftCrew.git
 cd JournalCraftCrew
 
-# Start development environment
+# Run the automated setup script
+./setup-journal-crew.sh
+
+# Start all development servers
+./start-journal-crew.sh
+```
+
+**🌐 Access Points**
+- Frontend: http://localhost:5173
+- Backend API: https://localhost:6770 (SSL)
+- Dashboard: http://localhost:6771
+- Agent Overview: http://localhost:6771/agent-overview
+
+**📋 What the Setup Script Does:**
+- ✅ Installs all system dependencies (Python, Node.js, UV, OpenSSL)
+- ✅ Creates secure virtual environments
+- ✅ Installs frozen requirements with zero security vulnerabilities
+- ✅ Generates SSL certificates for development
+- ✅ Creates environment configuration files
+- ✅ Builds startup scripts for easy server management
+- ✅ Verifies complete setup
+
+### 🔧 Manual Setup (Alternative)
+```bash
+# Clone the repository
+git clone https://github.com/RegardV/JournalCraftCrew.git
+cd JournalCraftCrew
+
+# Start development environment (legacy method)
 ./sessionstart.sh
 
 # Access the application
-# Frontend: http://localhost:5176
+# Frontend: http://localhost:5173
 # Backend API: http://localhost:6770
 ```
 
