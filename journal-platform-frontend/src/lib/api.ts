@@ -158,8 +158,8 @@ class UnifiedBackendAPI implements APIClient {
   }
 
   // Journal Library Methods
-  async getJournalLibrary(): Promise<{ projects: any[]; count: number; last_scan?: string; success: boolean }> {
-    return this.get<{ projects: any[]; count: number; last_scan?: string; success: boolean }>('/api/library/llm-projects');
+  async getJournalLibrary(): Promise<{ projects: any[] }> {
+    return this.get<{ projects: any[] }>('/api/library/llm-projects');
   }
 
   async getJournalFiles(projectId: string): Promise<{ project_id: string; files: any[]; success: boolean }> {

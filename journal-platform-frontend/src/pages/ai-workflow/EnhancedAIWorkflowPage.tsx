@@ -35,11 +35,17 @@ interface AgentProgress {
 }
 
 interface CrewAIMessage {
-  type: 'agent_start' | 'agent_thinking' | 'agent_output' | 'agent_complete' | 'sequence_update' | 'error' | 'completion';
+  type: 'agent_start' | 'agent_thinking' | 'agent_output' | 'agent_complete' | 'sequence_update' | 'error' | 'completion' | 'workflow_start' | 'agent_progress' | 'workflow_complete';
   agent?: string;
   output?: string;
   message?: string;
   progress?: number;
+  workflow_id?: string;
+  current_agent?: string;
+  current_step?: number;
+  total_steps?: number;
+  progress_percentage?: number;
+  result_data?: any;
 }
 
 const EnhancedAIWorkflowPage: React.FC = () => {
@@ -237,25 +243,90 @@ const EnhancedAIWorkflowPage: React.FC = () => {
       setErrorMessage('');
     };
 
-    ws.onmessage = (event) => {
+    ws.onmessage = async (event) => {
       try {
         const data: CrewAIMessage = JSON.parse(event.data);
         console.log('Enhanced Workflow message:', data);
 
         switch (data.type) {
+          case 'workflow_start':
+            console.log('🚀 Workflow started:', data);
+            break;
+
+          case 'agent_progress':
+            // Handle real backend agent progress messages
+            if (data.current_agent && data.current_step !== undefined) {
+              const stepIndex = data.current_step - 1; // Convert to 0-based index
+
+              setAgents(prev => prev.map((agent, index) => {
+                if (index < stepIndex) {
+                  // Previous agents should be completed
+                  return { ...agent, status: 'completed', progress: 100, completionTime: agent.completionTime || new Date() };
+                } else if (index === stepIndex) {
+                  // Current agent is active with real progress
+                  return {
+                    ...agent,
+                    status: 'active',
+                    progress: data.progress_percentage || 50,
+                    startTime: agent.startTime || new Date(),
+                    output: data.message || `Processing ${data.current_agent}...`
+                  };
+                } else {
+                  // Future agents remain waiting
+                  return { ...agent, status: 'waiting', progress: 0 };
+                }
+              }));
+
+              // Update overall progress based on real backend data
+              if (data.progress_percentage) {
+                setOverallProgress(Math.round(data.progress_percentage));
+              }
+            }
+            break;
+
+          case 'workflow_complete':
+            console.log('🎉 Workflow completed:', data);
+            setIsCompleted(true);
+            setOverallProgress(100);
+            setAgents(prev => prev.map(agent => ({
+              ...agent,
+              status: 'completed',
+              progress: 100,
+              completionTime: agent.completionTime || new Date(),
+              output: 'Workflow completed successfully'
+            })));
+
+            // Extract and display final journal content if available
+            if (data.result_data) {
+              setJournalContent(`Journal created successfully!\n\nWord count: ${data.result_data.word_count || 'N/A'}\nPages: ${data.result_data.pages || 'N/A'}\n\nFiles generated:\n- ${data.result_data.file_path || 'journal.md'}\n- ${data.result_data.pdf_path || 'journal.pdf'}`);
+            }
+            break;
+
           case 'agent_start':
-            setAgents(prev => prev.map(agent =>
-              agent.name === data.agent
-                ? { ...agent, status: 'active', progress: 10, startTime: new Date() }
-                : agent
-            ));
+            setAgents(prev => {
+              const agentIndex = prev.findIndex(agent => agent.name === data.agent);
+              if (agentIndex === -1) return prev;
+
+              return prev.map((agent, index) => {
+                if (index < agentIndex) {
+                  // Previous agents should be completed
+                  return { ...agent, status: 'completed', progress: 100, completionTime: agent.completionTime || new Date() };
+                } else if (index === agentIndex) {
+                  // Current agent is starting
+                  return { ...agent, status: 'active', progress: 10, startTime: new Date() };
+                } else {
+                  // Future agents remain waiting
+                  return { ...agent, status: 'waiting', progress: 0 };
+                }
+              });
+            });
             break;
 
           case 'agent_thinking':
             setAgents(prev => prev.map(agent =>
               agent.name === data.agent
                 ? { ...agent, status: 'thinking', progress: 50 }
-                : agent
+                : agent.status === 'active' ? { ...agent, status: 'waiting' } : agent
             ));
             break;
 
@@ -267,9 +338,8 @@ const EnhancedAIWorkflowPage: React.FC = () => {
                     status: 'active',
                     progress: 75,
                     output: data.output,
-                    cliOutput: data.cli_output ? [...(agent.cliOutput || []), data.cli_output] : agent.cliOutput
                   }
-                : agent
+                : agent.status === 'thinking' ? { ...agent, status: 'waiting' } : agent
             ));
             // Update journal content if available
             if (data.journal_content) {
@@ -278,11 +348,23 @@ const EnhancedAIWorkflowPage: React.FC = () => {
             break;
 
           case 'agent_complete':
-            setAgents(prev => prev.map(agent =>
-              agent.name === data.agent
-                ? { ...agent, status: 'completed', progress: 100, completionTime: new Date() }
-                : agent
-            ));
+            setAgents(prev => {
+              const agentIndex = prev.findIndex(agent => agent.name === data.agent);
+              if (agentIndex === -1) return prev;
+
+              return prev.map((agent, index) => {
+                if (index <= agentIndex) {
+                  // Current and previous agents are completed
+                  return { ...agent, status: 'completed', progress: 100, completionTime: index === agentIndex ? new Date() : agent.completionTime || new Date() };
+                } else if (index === agentIndex + 1) {
+                  // Next agent becomes active
+                  return { ...agent, status: 'active', progress: 0, startTime: new Date() };
+                } else {
+                  // Future agents remain waiting
+                  return { ...agent, status: 'waiting', progress: 0 };
+                }
+              });
+            });
             break;
 
           case 'sequence_update':
@@ -303,11 +385,14 @@ const EnhancedAIWorkflowPage: React.FC = () => {
             break;
         }
 
-        // Update overall progress based on completed agents
+        // Update overall progress based on current sequential execution
         setAgents(prev => {
           const completedAgents = prev.filter(a => a.status === 'completed').length;
+          const activeAgents = prev.filter(a => a.status === 'active' || a.status === 'thinking').length;
           const totalAgents = prev.length;
-          const progress = Math.round((completedAgents / totalAgents) * 100);
+
+          // Calculate progress: 100% for completed, 50% for active, 0% for waiting
+          const progress = Math.round(((completedAgents * 100) + (activeAgents * 50)) / (totalAgents * 100) * 100);
           setOverallProgress(progress);
           return prev;
         });
@@ -443,7 +528,10 @@ const EnhancedAIWorkflowPage: React.FC = () => {
           <div className="lg:col-span-2 space-y-6">
             <div className="bg-white rounded-2xl shadow-lg p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-bold text-gray-900">Agent Team Progress</h2>
+                <div>
+                  <h2 className="text-lg font-bold text-gray-900">Sequential Agent Workflow</h2>
+                  <p className="text-sm text-gray-600 mt-1">Each agent processes the output from the previous agent</p>
+                </div>
                 <div className="flex items-center space-x-2">
                   <span className="text-sm font-medium text-gray-600">
                     {activeAgents.length} active
@@ -454,12 +542,21 @@ const EnhancedAIWorkflowPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="space-y-4">
-                {agents.map((agent, index) => (
-                  <div
-                    key={agent.id}
-                    className={`border rounded-xl p-4 transition-all duration-300 ${getStatusColor(agent.status)}`}
-                  >
+              <>
+                <div className="space-y-4">
+                  {agents.map((agent, index) => (
+                  <div key={agent.id} className="relative">
+                    {/* Sequential flow connector */}
+                    {index < agents.length - 1 && (
+                      <div className={`absolute left-6 top-12 w-0.5 h-8 transition-colors duration-300 ${
+                        agent.status === 'completed' ? 'bg-green-500' :
+                        agent.status === 'active' || agent.status === 'thinking' ? 'bg-blue-500' : 'bg-gray-300'
+                      }`} />
+                    )}
+
+                    <div
+                      className={`border rounded-xl p-4 transition-all duration-300 relative ${getStatusColor(agent.status)}`}
+                    >
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-3">
                         <div className={`p-2 rounded-lg ${
@@ -523,16 +620,18 @@ const EnhancedAIWorkflowPage: React.FC = () => {
                     </div>
 
                     {/* CLI Output */}
-                    {showCliOutput && selectedAgentForCli === agent.id && agent.cliOutput && (
+                    {showCliOutput && selectedAgentForCli === agent.id && (
                       <div className="mt-3 p-3 bg-gray-900 text-green-400 rounded-lg text-xs font-mono border border-gray-700">
                         <div className="flex items-center gap-2 mb-2">
                           <Terminal className="w-3 h-3 text-green-400" />
                           <span className="text-xs font-medium text-green-300">CLI Output</span>
                         </div>
                         <div className="space-y-1 max-h-40 overflow-y-auto">
-                          {agent.cliOutput.map((line, idx) => (
-                            <div key={idx} className="text-green-400 whitespace-pre-wrap">{line}</div>
-                          ))}
+                          {agent.output ? (
+                            <div className="text-green-400 whitespace-pre-wrap">{agent.output}</div>
+                          ) : (
+                            <div className="text-green-400 opacity-60">Waiting for agent output...</div>
+                          )}
                         </div>
                       </div>
                     )}
@@ -580,6 +679,7 @@ const EnhancedAIWorkflowPage: React.FC = () => {
                 </div>
               </div>
             )}
+                </>
           </div>
 
           {/* Progress Summary Sidebar */}

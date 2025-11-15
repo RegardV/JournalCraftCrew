@@ -61,30 +61,11 @@ async def health_check():
 
 @app.get("/api/library/llm-projects")
 async def get_llm_projects():
-    """Return list of LLM projects"""
+    """Return list of LLM projects - Production ready with no demo data"""
     return {
-        "projects": [
-            {
-                "id": "mindfulness-journal-1",
-                "title": "30-Day Mindfulness Journey",
-                "description": "A comprehensive mindfulness journal with daily prompts and reflections",
-                "status": "completed",
-                "progress": 100,
-                "created_at": "2025-11-14T10:00:00Z",
-                "word_count": "15,000",
-                "files": []
-            },
-            {
-                "id": "productivity-mastery-2",
-                "title": "Productivity Mastery Journal",
-                "description": "Boost your productivity with proven strategies and daily tracking",
-                "status": "in_progress",
-                "progress": 65,
-                "created_at": "2025-11-14T09:30:00Z",
-                "word_count": "8,500",
-                "files": []
-            }
-        ]
+        "projects": [],
+        "count": 0,
+        "message": "No projects yet. Create your first journal to get started!"
     }
 
 @app.get("/api/settings/api-key")

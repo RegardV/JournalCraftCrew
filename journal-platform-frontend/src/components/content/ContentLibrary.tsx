@@ -30,7 +30,7 @@ import {
 import * as pdfjsLib from 'pdfjs-dist';
 import { journalAPI } from '@/lib/api';
 import { getApiURL } from '@/lib/apiConfig';
-import JournalCreationModal from '@/components/journal/JournalCreationModal';
+import UnifiedJournalCreator from '@/components/journal/UnifiedJournalCreator';
 
 // Configure PDF.js worker
 pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
@@ -164,7 +164,7 @@ const ContentLibrary: React.FC<ContentLibraryProps> = ({ className = '' }) => {
 
       const response = await journalAPI.getLibrary();
 
-      if (response.success && response.projects) {
+      if (response.projects) {
         // Transform backend projects to ContentItem format
         const transformedContents: ContentItem[] = response.projects
           .filter((project: any) => {
@@ -919,11 +919,25 @@ const ContentLibrary: React.FC<ContentLibraryProps> = ({ className = '' }) => {
       )}
 
       {/* Journal Creation Modal */}
-      <JournalCreationModal
-        isOpen={isJournalModalOpen}
-        onClose={() => setIsJournalModalOpen(false)}
-        onComplete={handleJournalCreation}
-      />
+      {isJournalModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-gray-900">Create New Journal</h2>
+              <button
+                onClick={() => setIsJournalModalOpen(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <UnifiedJournalCreator
+              onComplete={handleJournalCreation}
+              onClose={() => setIsJournalModalOpen(false)}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
